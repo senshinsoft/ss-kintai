@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 214eed7095a88b71ebf4bf8180ae4743405afaca
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -31,3 +35,8 @@ build/
 
 ### VS Code ###
 .vscode/
+<<<<<<< HEAD
+=======
+>>>>>>> branch 'develop' of https://github.com/senshinsoft/ss-kintai.git
+=======
+>>>>>>> 214eed7095a88b71ebf4bf8180ae4743405afaca
