@@ -15,16 +15,16 @@ Create database KintaiKanri\
 user\'83\'65\'81\'5b\'83\'75\'83\'8b\
 CREATE TABLE user(\
 user_id VARCHAR(4) PRIMARY KEY\
-, mail_address VARCHAR(50) \
-, password VARCHAR(100) \
-, sei VARCHAR(20) \
-, mei VARCHAR(20)\
-, admin_flg TINYINT \
-, pass_upd_date TIMESTAMP \
-, ins_user VARCHAR(50) \
-, ins_date TIMESTAMP\
-, upd_user VARCHAR(50)\
-, upd_date TIMESTAMP  \
+, mail_address VARCHAR(50) NOT NULL\
+, password VARCHAR(100)  NOT NULL\
+, sei VARCHAR(20)  NOT NULL\
+, mei VARCHAR(20) NOT NULL\
+, admin_flg TINYINT  NOT NULL\
+, pass_upd_date TIMESTAMP  NOT NULL\
+, ins_user VARCHAR(50)  NOT NULL\
+, ins_date TIMESTAMP NOT NULL\
+, upd_user VARCHAR(50) NOT NULL\
+, upd_date TIMESTAMP   NOT NULL\
 );\
 \
 \pard\pardeftab720\partightenfactor0
@@ -37,20 +37,20 @@ user_id VARCHAR(4) PRIMARY KEY\
 \f0\fs24 \cf0 CREATE TABLE 
 \f1\fs22 \cf2 work_report_daily
 \f0\fs24 \cf0 (\
-user_id VARCHAR(4) \
-, year VARCHAR(4) \
-, month VARCHAR(2) \
-, day VARCHAR(2) \
-, ss_jkn VARCHAR(5) NOT NULL\
-, ts_jkn VARCHAR(5) NOT NULL \
-, kk_jkn VARCHAR(5) NOT NULL\
-, kd_jkn VARCHAR(5) NOT NULL\
-, jkngi VARCHAR(5) NOT NULL\
-, biko VARCHAR(50) NOT NULL \
-, ins_user VARCHAR(50) \
-, ins_date TIMESTAMP\
-, upd_user VARCHAR(50)\
-, upd_date TIMESTAMP  \
+user_id VARCHAR(4)  \
+, year VARCHAR(4)  \
+, month VARCHAR(2)  \
+, day VARCHAR(2)  \
+, ss_jkn VARCHAR(5) \
+, ts_jkn VARCHAR(5)  \
+, kk_jkn VARCHAR(5) \
+, kd_jkn VARCHAR(5) \
+, jkngi VARCHAR(5) \
+, biko VARCHAR(50) \
+, ins_user VARCHAR(50) NOT NULL \
+, ins_date TIMESTAMP NOT NULL\
+, upd_user VARCHAR(50) NOT NULL\
+, upd_date TIMESTAMP   NOT NULL\
 \pard\pardeftab720\partightenfactor0
 
 \f2\fs26 \cf3 \expnd0\expndtw0\kerning0
@@ -72,18 +72,18 @@ user_id VARCHAR(4) \
 user_id VARCHAR(4)\
 , year VARCHAR(4) \
 , month VARCHAR(2) \
-, teiji VARCHAR(5) \
-, kd_jkn_kei VARCHAR(6) \
-, jkngi_kei VARCHAR(6)\
-, pj_mei VARCHAR(50) NOT NULL\
-, tokkijiko VARCHAR(200) NOT NULL\
-, auth_flg TINYINT \
+, teiji VARCHAR(5)  NOT NULL\
+, kd_jkn_kei VARCHAR(6)  NOT NULL\
+, jkngi_kei VARCHAR(6) NOT NULL\
+, pj_mei VARCHAR(50) \
+, tokkijiko VARCHAR(200) \
+, auth_flg TINYINT  NOT NULL\
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
-\cf0 , ins_user VARCHAR(50) \
+\cf0 , ins_user VARCHAR(50)  NOT NULL\
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\pardirnatural\partightenfactor0
-\cf0 , ins_date TIMESTAMP\
-, upd_user VARCHAR(50)\
-, upd_date TIMESTAMP \
+\cf0 , ins_date TIMESTAMP NOT NULL\
+, upd_user VARCHAR(50) NOT NULL\
+, upd_date TIMESTAMP  NOT NULL\
 \pard\pardeftab720\partightenfactor0
 
 \f2\fs26 \cf3 \expnd0\expndtw0\kerning0
