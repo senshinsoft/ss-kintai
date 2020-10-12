@@ -7,8 +7,7 @@ import jp.co.senshinsoft.domain.WorkReportDaily;
 
 public interface UserMapper {
 	/**
-	 * @return 社員の姓と名
+	 * @return 該当社員の姓と名
 	 */
-	public List<User> findEmployeeName();
-
+	public List<User> findEmployeeName(String userId);
 }

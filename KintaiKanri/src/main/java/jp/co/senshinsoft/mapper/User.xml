@@ -6,8 +6,8 @@
 <mapper namespace="jp.co.senshinsoft.persistence.UserMapper">
     <select id="findEmployeeName" resultType="jp.co.senshinsoft.domain.User">
         SELECT 
-       	   sei
-      	  ,mei
+      	 sei
+      	 ,mei
         FROM 
         	user
         WHERE

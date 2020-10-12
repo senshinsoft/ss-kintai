@@ -12,7 +12,6 @@ public class WorkReportMonthly {
 	private String authFlg;
 	private String insUser;
 	private String updUser;
-	
 	public String getUserId() {
 		return userId;
 	}
