@@ -1,9 +1,8 @@
-package jp.co.senshinsoft.mapper;
+package jp.co.senshinsoft.persistence;
 
 import java.util.List;
 
 import jp.co.senshinsoft.domain.User;
-import jp.co.senshinsoft.domain.WorkReportDaily;
 
 public interface UserMapper {
 	/**

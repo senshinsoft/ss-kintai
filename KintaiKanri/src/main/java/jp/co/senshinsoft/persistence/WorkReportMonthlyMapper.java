@@ -1,8 +1,8 @@
-package jp.co.senshinsoft.mapper;
+package jp.co.senshinsoft.persistence;
 
 import java.util.List;
 
-import jp.co.senshinsoft.domain.WorkReportDaily;
+import jp.co.senshinsoft.domain.WorkReportMonthly;
 
 public interface WorkReportMonthlyMapper {
 	/**
@@ -13,5 +13,5 @@ public interface WorkReportMonthlyMapper {
 	 * @param month 月別一覧でクリックされたリンクの月
 	 * @return 定時間(tieji)、稼働時間合計(kd_jkn_kei)、時間外合計(jkngi_kei)、プロジェクト名(pj_mei)、特記事項(tokkijiko)
 	 */
-	public List<WorkReportDaily> findEmployeeWorkRecordMonthly(String userId,String year,String month);
+	public List<WorkReportMonthly> findEmployeeWorkRecordMonthly(String userId,String year,String month);
 }

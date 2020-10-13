@@ -1,4 +1,4 @@
-package jp.co.senshinsoft.mapper;
+package jp.co.senshinsoft.persistence;
 
 import java.util.List;
 
