@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.co.senshinsoft.persistence.WorkReportDailyMapper">
+    <select id="findEmployeeWorkRecordDaily" resultType="jp.co.senshinsoft.domain.WorkReportDaily">
+        SELECT 
+      	  ,day
+      	  ,ss_jkn
+      	  ,ts_jkn
+     	  ,kk_jkn	
+     	  ,kd_jkn
+		  ,jkngi
+      	  ,biko
+        FROM 
+        	work_report_daily
+        WHERE
+        	user_id=#{userId}
+        AND
+        	year=#{year}
+        AND
+        	month=#{month}
+        ORDER BY
+        	(day+0)
+    </select>
+</mapper>
