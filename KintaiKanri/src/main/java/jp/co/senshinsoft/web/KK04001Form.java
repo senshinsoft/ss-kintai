@@ -12,11 +12,9 @@ public class KK04001Form implements Serializable {
 	private static final long serialVersionUID = 1L;
 	// --------------userテーブル--------------
 	private String userId;
-	private String sei;
-	private String mei;
+	private String userName;
 	// ---------------------------------------
-	// --------------work_report_dailyテーブル--------------
-	private String day;
+	// --------------work_report_dailyテーブル-------------------
 	private String ssJkn;
 	private String tsJkn;
 	private String kkJkn;
@@ -25,8 +23,7 @@ public class KK04001Form implements Serializable {
 	private String biko;
 	// ---------------------------------------------------
 	// --------------work_report_monthlyテーブル--------------
-	private String year;
-	private String month;
+	private String workingDate;
 	private String teiji;
 	private String kdJknKei;
 	private String jkngiKei;
@@ -34,7 +31,6 @@ public class KK04001Form implements Serializable {
 	private String tokkijiko;
 	// ---------------------------------------------------
 	// --------------該当月の1ヶ月のカレンダー----------------
-	private List<String> targetMonth;
 	private List<String> targetMonthDayOfTheWeek;
 	// ---------------------------------------------------
 
@@ -46,30 +42,14 @@ public class KK04001Form implements Serializable {
 		this.userId = userId;
 	}
 
-	public String getSei() {
-		return sei;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setSei(String sei) {
-		this.sei = sei;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
-
-	public String getMei() {
-		return mei;
-	}
-
-	public void setMei(String mei) {
-		this.mei = mei;
-	}
-
-	public String getDay() {
-		return day;
-	}
-
-	public void setDay(String day) {
-		this.day = day;
-	}
-
+	
 	public String getSsJkn() {
 		return ssJkn;
 	}
@@ -118,21 +98,6 @@ public class KK04001Form implements Serializable {
 		this.biko = biko;
 	}
 
-	public String getYear() {
-		return year;
-	}
-
-	public void setYear(String year) {
-		this.year = year;
-	}
-
-	public String getMonth() {
-		return month;
-	}
-
-	public void setMonth(String month) {
-		this.month = month;
-	}
 
 	public String getTeiji() {
 		return teiji;
@@ -206,5 +171,13 @@ public class KK04001Form implements Serializable {
 
 	public void setTargetMonthDayOfTheWeek(List<String> targetMonthDayOfTheWeek) {
 		this.targetMonthDayOfTheWeek = targetMonthDayOfTheWeek;
+	}
+
+	public String getWorkingDate() {
+		return workingDate;
+	}
+
+	public void setWorkingDate(String workingDate) {
+		this.workingDate = workingDate;
 	}
 }

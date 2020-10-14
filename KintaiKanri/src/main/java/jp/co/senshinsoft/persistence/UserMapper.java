@@ -11,5 +11,5 @@ public interface UserMapper {
 	 * @param userId ログインしている社員の社員ID
 	 * @return 姓(sei)、名(mei)
 	 */
-	public List<User> findEmployeeName(String userId);
+	public List<String> findEmployeeName(String userId);
 }

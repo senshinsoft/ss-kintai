@@ -21,8 +21,9 @@ public class WorkReportDailyService {
 	 * @param userId ログインしている社員の社員ID
 	 * @param year 月別一覧でクリックされたリンクの年
 	 * @param month 月別一覧でクリックされたリンクの月
+	 * * @return 出社時間(ss_jkn)、退社時間(ts_jkn)、休憩時間(kk_jkn)、稼働時間(k_djkn)、時間外労働時間(jikangi)、備考(biko)
 	 */
-	public void findEmployeeWorkRecordDaily(String userId,String year, String month){
-		List<WorkReportDaily> dailyList = mapper.findEmployeeWorkRecordDaily(userId,year,month);
+	public List<WorkReportDaily>  findEmployeeWorkRecordDaily(String userId,String year, String month){
+		return  mapper.findEmployeeWorkRecordDaily(userId,year,month);
 	}
 }

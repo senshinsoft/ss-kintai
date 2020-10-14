@@ -11,11 +11,11 @@
 			<h1>勤務報告書</h1>
 			<br>
 			<p>
-				<span th:text></span>
+				<span th:text="*{workingDate}"></span>
 			</p>
-			<p>氏名： サンプル太郎</p>
+			<p>氏名；<span th:text="*{userName}"></span></p>
 			<p>
-				定時間 <input type="text" name="onTime">
+				定時間 <input type="text" name="onTime" th:value="*{teiji}">
 			</p>
 			<table>
 				<tr>
@@ -32,19 +32,19 @@
 				</tr>
 				<tr th:each="day : *{TargetMonth}">
 					<td th:text="${day}"></td>
-					<td>9:00</td>
-					<td>19:30</td>
-					<td>1:30</td>
-					<td>9:00</td>
-					<td>1.00</td>
-					<td>在宅勤務</td>
+					<td th:field="*{ssJkn}"></td>
+					<td th:field="*{tsJkn}"></td>
+					<td th:field="*{kkJkn}"></td>
+					<td th:field="*{kdJkn}"></td>
+					<td th:field="*{Jkngi}"></td>
+					<td th:field="*{biko}"></td>
 				</tr>
 
 				<tr>
 					<td colspan="5">合計時間</td>
-					<td>160.30</td>
-					<td>5.30</td>
-					<td>プロジェクト名：<input type="text" name="projectName"></td>
+					<td th:text="*{kdJknKei}"></td>
+					<td th:text="*{jkngiKei}"></td>
+					<td>プロジェクト名：<input type="text" name="projectName" th:value="*{pjMei}"></td>
 				</tr>
 
 				<tr>
