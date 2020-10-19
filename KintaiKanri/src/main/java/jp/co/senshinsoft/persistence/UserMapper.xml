@@ -13,4 +13,19 @@
         WHERE
         	user_id=#{userId}
     </select>
+
+	<select id="findAccountByUserId" resultType="jp.co.senshinsoft.domain.User">
+		SELECT 
+         user_id
+		 ,mail_address
+		 ,password
+		 ,sei
+		 ,mei
+		 ,admin_flg
+		 ,pass_upd_date
+		FROM 
+			user
+		WHERE
+			user_id=#{userId}
+	</select>
 </mapper>

@@ -12,4 +12,12 @@ public interface UserMapper {
 	 * @return 姓(sei)、名(mei)
 	 */
 	public List<String> findEmployeeName(String userId);
+		
+	/**
+	 * 社員番号に該当するユーザ情報を取得するインタフェース
+	 * @param userId 社員番号
+	 * @return 社員番号に該当するユーザ情報
+	 */
+	public User findAccountByUserId(String userId);
+
 }
