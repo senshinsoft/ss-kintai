@@ -10,6 +10,7 @@ public class User {
 	private String passUpdDate;
 	private String insUser;
 	private String updUser;
+	
 	public String getUserId() {
 		return userId;
 	}

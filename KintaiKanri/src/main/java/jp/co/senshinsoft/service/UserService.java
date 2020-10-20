@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.senshinsoft.domain.User;
 import jp.co.senshinsoft.persistence.UserMapper;
@@ -30,4 +29,17 @@ public class UserService {
 		}
 		return userName;
 	}
+	
+	
+	/**
+	 * mapperを呼び出して、社員番号に該当するユーザ情報を取得する。
+	 * @param userId
+	 * @return 社員番号に該当するユーザ情報
+	 */
+	public User findAccountByUserId(String userId) {
+		User user = mapper.findAccountByUserId(userId);
+
+		return user;
+	}
+	
 }

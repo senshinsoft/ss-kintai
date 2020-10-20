@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>ログイン</title>
+	</head>
+
+	<body>
+		<header></header>
+
+		<h1>ログイン</h1>
+
+		<form th:action="@{/loginConf}" th:object="${KK01001Form}" method="post">
+			<p th:if="${param.error}">
+				ログインに失敗しました。<br>
+				再度入力してください。
+			</p>
+
+			社員番号
+			<input type="text" th:field="*{userId}">
+<!-- 			<span th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}">userId Error</span> -->
+			<br>
+			パスワード
+			<input type="password" th:field="*{password}">
+<!-- 			<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password Error</span> -->
+			<br>
+			<br>
+			<input type="submit" value="ログイン">
+		</form>
+		
+		<footer></footer>
+	</body>
+</html>
