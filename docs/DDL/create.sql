@@ -9,12 +9,12 @@ create table user(
 	password varchar(100) NOT NULL comment 'パスワード',
 	sei varchar(20) NOT NULL comment '氏名（姓）',
 	mei varchar(20) NOT NULL comment '氏名（名）',
-	admin_flg tinyint NOT NULL default 0 comment '管理者フラグ',
+	admin_flg int NOT NULL default 0 comment '管理者フラグ',
 	pass_upd_date TIMESTAMP NOT NULL comment 'パスワード更新日時',
 	ins_user varchar(50) NOT NULL comment '作成者',
 	ins_date TIMESTAMP NOT NULL comment '作成日時',
 	upd_user varchar(50) NOT NULL comment '更新者',
-	upd_date TIMESTAMP NOT NULL comment '更新日時',
+	upd_date TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL comment '更新日時',
 	primary key(user_id)
 ) comment 'ユーザ';
 
@@ -33,7 +33,7 @@ create table work_report_daily(
 	ins_user varchar(50) NOT NULL comment '作成者',
 	ins_date TIMESTAMP NOT NULL comment '作成日時',
 	upd_user varchar(50) NOT NULL comment '更新者',
-	upd_date TIMESTAMP NOT NULL comment '更新日時',
+	upd_date TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL comment '更新日時',
 	primary key(user_id,year,month,day)
 )comment '勤務表報告書_日次情報';
 
@@ -47,10 +47,10 @@ create table work_report_monthly(
 	jkngi_kei varchar(6) NOT NULL comment '時間外合計',
 	pj_mei varchar(50) comment 'プロジェクト名',
 	tokkijiko varchar(200) comment '特記事項',
-	auth_flg tinyint NOT NULL default 0 comment '承認済みフラグ',
+	auth_flg int NOT NULL default 0 comment '承認済みフラグ',
 	ins_user varchar(50) NOT NULL comment '作成者',
 	ins_date TIMESTAMP NOT NULL comment '作成日時',
 	upd_user varchar(50) NOT NULL comment '更新者',
-	upd_date TIMESTAMP NOT NULL comment '更新日時',
+	upd_date TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL comment '更新日時',
 	primary key(user_id,year,month)
 )comment '勤務表報告書_日次情報';
