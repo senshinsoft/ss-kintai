@@ -14,7 +14,7 @@ create table user(
 	ins_user varchar(50) NOT NULL comment '作成者',
 	ins_date TIMESTAMP NOT NULL comment '作成日時',
 	upd_user varchar(50) NOT NULL comment '更新者',
-	upd_date TIMESTAMP NOT NULL comment '更新日時',
+	upd_date TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL comment '更新日時',
 	primary key(user_id)
 ) comment 'ユーザ';
 
@@ -33,7 +33,7 @@ create table work_report_daily(
 	ins_user varchar(50) NOT NULL comment '作成者',
 	ins_date TIMESTAMP NOT NULL comment '作成日時',
 	upd_user varchar(50) NOT NULL comment '更新者',
-	upd_date TIMESTAMP NOT NULL comment '更新日時',
+	upd_date TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL comment '更新日時',
 	primary key(user_id,year,month,day)
 )comment '勤務表報告書_日次情報';
 
@@ -51,6 +51,6 @@ create table work_report_monthly(
 	ins_user varchar(50) NOT NULL comment '作成者',
 	ins_date TIMESTAMP NOT NULL comment '作成日時',
 	upd_user varchar(50) NOT NULL comment '更新者',
-	upd_date TIMESTAMP NOT NULL comment '更新日時',
+	upd_date TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL comment '更新日時',
 	primary key(user_id,year,month)
 )comment '勤務表報告書_日次情報';
