@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					.formLogin()
 					.loginPage("/login")
 					.loginProcessingUrl("/loginConf")
-					.defaultSuccessUrl("/mothlyList", true)
+					.defaultSuccessUrl("/monthlyList", true)
 					.failureUrl("/login?error").permitAll()
 					.usernameParameter("userId")
 					.passwordParameter("password")

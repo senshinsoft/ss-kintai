@@ -7,13 +7,23 @@
 <body>
 <h1>月別一覧</h1>
 
-
-<form th:action="next">
+<th:if="{}">
+<form th:action="@{/0employeeList}" th:object="${KK02001Form}" method="post">
 
 <ul th:each="wc : ${list}">
 	<li><button  th:text="${wc}"></button></li></ul>
 	
 <input type="hidden" th:value="${id}" name="id">
 </form>
+
+<form th:action="@{/workReport}" th:object="${KK02001Form}" method="post">
+
+
+<ul th:each="wc : ${list}">
+	<li><button  th:text="${wc}"></button></li></ul>
+	
+<input type="hidden" th:value="${id}" name="id">
+</form>
+
 </body>
 </html>

@@ -49,7 +49,7 @@ public class KK01001Controller {
 		}
 		
 //		return "KK01002";
-		return "KK02001";
+		return "monthlyList";
 
 	}
 	
