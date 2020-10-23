@@ -3,7 +3,7 @@ create database KintaiKanri;
 
 -- テーブル作成
 -- userテーブル
-create table user(
+create table KintaiKanri.user(
 	user_id varchar(4) NOT NULL comment '社員番号',
 	mail_address varchar(50) NOT NULL comment 'メールアドレス',
 	password varchar(100) NOT NULL comment 'パスワード',
@@ -19,7 +19,7 @@ create table user(
 ) comment 'ユーザ';
 
 -- work_report_dailyテーブル
-create table work_report_daily(
+create table KintaiKanri.work_report_daily(
 	user_id varchar(4) NOT NULL comment '社員番号',
 	year varchar(4) NOT NULL comment '年',
 	month varchar(2) NOT NULL comment '月',
@@ -38,7 +38,7 @@ create table work_report_daily(
 )comment '勤務表報告書_日次情報';
 
 -- work_report_monthlyテーブル
-create table work_report_monthly(
+create table KintaiKanri.work_report_monthly(
 	user_id varchar(4) NOT NULL comment '社員番号',
 	year varchar(4) NOT NULL comment '年',
 	month varchar(2) NOT NULL comment '月',
