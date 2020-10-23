@@ -4,16 +4,16 @@ import java.util.List;
 
 public class KK02001Form {
 
-	private int id;
+	private String year;
 	private List<String> workCalendar;
 	
 	
-	public int getId() {
-		return id;
+	public String getYear() {
+		return year;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setYear(String year) {
+		this.year = year;
 	}
 
 	public List<String> getWorkCalendar() {

@@ -18,7 +18,7 @@ import jp.co.senshinsoft.auth.LoginUserDetails;
 import jp.co.senshinsoft.domain.User;
 
 @Controller
-public class KK02001Contoroller {
+public class KK02001Controller {
 
 private GetLoginUserDetails userInfo = new GetLoginUserDetails();
 
@@ -31,7 +31,7 @@ private GetLoginUserDetails userInfo = new GetLoginUserDetails();
 	@RequestMapping(value = "/monthlyList", method = RequestMethod.GET)
 	public String workCalendar(@ModelAttribute("KK02001Form") KK02001Form form, Model model) {
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年M月");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月");
 		List<String> oneYearCalendarList = new ArrayList<String>();
 		for (int i = 0; i <= 11; i++) {
 			Calendar cal = Calendar.getInstance();
@@ -39,36 +39,14 @@ private GetLoginUserDetails userInfo = new GetLoginUserDetails();
 			Date date = cal.getTime();
 			oneYearCalendarList.add(sdf.format(date));
 			model.addAttribute("oneYearCalendarList", oneYearCalendarList);
+			model.addAttribute("userInfo", userInfo.getLoginUser());
 		}
 		return "KK02001";
 	}
-
-//	//月別一覧から社員一覧または勤務表に遷移
-//	@RequestMapping("/next")
-//	public String next(@ModelAttribute("GetLoginUserDetails") GetLoginUserDetails getdb,Model model) {
-//		User user = getdb.getLoginUser();
-//		
-//		if(user.getAdminFlg().equals("1")) {
-//			//社員一覧（管理者）
-//			return "KK03001";
-//		}else if(user.getAdminFlg().equals("0")) {
-//			//勤務表（	一般社員）
-//			return "KK04001";
-//		}else {
-//		return null;
-//		}
-//	}
 
 	// 社員一覧へ遷移（管理者）
 	@RequestMapping("/employeeList")
 	public String EmplyeeList() {
 		return "KK03001";
 	}
-
-	// 勤務報告書へ遷移（一般社員）
-	@RequestMapping("/workReport")
-	public String WorkReport() {
-		return "KK04001";
-	}
-
 }
