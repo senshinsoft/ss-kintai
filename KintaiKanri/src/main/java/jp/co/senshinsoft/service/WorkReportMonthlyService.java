@@ -27,4 +27,42 @@ public class WorkReportMonthlyService {
 	public List<WorkReportMonthly> findEmployeeWorkRecordMonthly(String userId, String year, String month) {
 		return mapper.findEmployeeWorkRecordMonthly(userId, year, month);
 	}
+
+	/**
+	 * 入力した勤務情報をwork_report_monthlyテーブルへ登録する。
+	 * 
+	 * @param workReportMonthly KK040001で入力された値
+	 */
+	public void registWorkReportMonthly(WorkReportMonthly workReportMonthly) {
+		mapper.registWorkReportMonthly(workReportMonthly);
+	}
+
+	/**
+	 * 入力した勤務情報をwork_report_monthlyテーブルへ更新する。
+	 * 
+	 * @param workReportMonthly KK040001で入力された値
+	 */
+	public void updateWorkReportMonthly(WorkReportMonthly workReportMonthly) {
+		mapper.updateWorkReportMonthly(workReportMonthly);
+	}
+	
+	/**
+	 * 管理者が勤務報告の確定を行うメソッド。work_report_monthlyテーブルのauth_flg="1"に変更する
+	 * 
+	 * @param workReportMonthly
+	 */
+	public void determineWorkReport(WorkReportMonthly workReportMonthly) {
+		int i = mapper.changeAuthFlg(workReportMonthly);
+		System.out.println("更新件数："+i);
+	}
+
+	/**
+	 * 管理者が勤務報告の確定を行うメソッド。work_report_monthlyテーブルのauth_flg="0"に変更する
+	 * 
+	 * @param workReportMonthly
+	 */
+	@Transactional
+	public void editWorkReport(WorkReportMonthly workReportMonthly) {
+		mapper.changeAuthFlg(workReportMonthly);
+	}
 }

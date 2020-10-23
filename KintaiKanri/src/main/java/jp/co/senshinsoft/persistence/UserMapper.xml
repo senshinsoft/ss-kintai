@@ -13,8 +13,7 @@
         WHERE
         	user_id=#{userId}
     </select>
-
-	<select id="findAccountByUserId" resultType="jp.co.senshinsoft.domain.User">
+    <select id="findAccountByUserId" resultType="jp.co.senshinsoft.domain.User">
 		SELECT 
          user_id
 		 ,mail_address
@@ -28,4 +27,5 @@
 		WHERE
 			user_id=#{userId}
 	</select>
-</mapper>
+    </mapper>
+   

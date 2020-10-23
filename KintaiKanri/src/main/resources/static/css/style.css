@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+
+.error-input {
+	background-color: #FFB6C1;
+}
+
+.error-message {
+	color: #FF0000;
+}
+
+table {
+	 margin: 0px auto;
+}

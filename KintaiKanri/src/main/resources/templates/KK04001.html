@@ -3,58 +3,111 @@
 <head>
 <meta charset="UTF-8">
 <title>勤務報告書</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+ <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+<script type="text/javascript" th:src="@{js/script.js}"></script>
 </head>
 <body>
-	<form th:action="@{/atode-settei}" th:object="${KK04001Form}"
+	<form th:action="@{/operateWorkReport}" th:object="${KK04001Form}"
 		method="post">
-		<div>
-			<h1>勤務報告書</h1>
-			<br>
-			<p>
-				<span th:text="*{workingDate}"></span>
-			</p>
-			<p>氏名；<span th:text="*{userName}"></span></p>
-			<p>
-				定時間 <input type="text" name="onTime" th:value="*{teiji}">
-			</p>
-			<table>
-				<tr>
-					<th rowspan="2">日付</th>
-					<th colspan="2">勤務時間</th>
-					<th rowspan="2">休憩時間</th>
-					<th rowspan="2">稼働時間</th>
-					<th rowspan="2">時間外</th>
-					<th rowspan="2">備考</th>
-				</tr>
-				<tr>
-					<th>出社</th>
-					<th>退社</th>
-				</tr>
-				<tr th:each="day : *{TargetMonth}">
-					<td th:text="${day}"></td>
-					<td th:field="*{ssJkn}"></td>
-					<td th:field="*{tsJkn}"></td>
-					<td th:field="*{kkJkn}"></td>
-					<td th:field="*{kdJkn}"></td>
-					<td th:field="*{Jkngi}"></td>
-					<td th:field="*{biko}"></td>
-				</tr>
 
+		 <div class="width">
+			<h1 class="mx-auto mt-5" style="width: 200px;" >勤務報告書</h1>
+			<p th:if="${workDailyList.size()} != 0" th:text="*{workingDate}" class="ml-5 pl-5"></p>
+			<p th:if="${workDailyList.size()} == 0" th:text="*{year} + *{month}" class="ml-5 pl-5">
+			</p>
+			<p class="ml-5 pl-5"> 
+				氏名：<span th:text="*{userName}" ></span>
+			</p>
+			<p class="ml-5 pl-5">
+				定時間 <input type="text" name="teiji" th:value="*{teiji}" th:errorclass="error-input" >
+			</p>
+			<p class="ml-5 pl-5">入力例：9時→0900</p>
+			<p th:if="${#fields.hasErrors('all')}"></p>
+			<p th:errors="*{teiji}" class="error-message ml-5 pl-5">error！</p>
+			<p th:errors="*{ssJkn}" class="error-message ml-5 pl-5">error！</p>
+			<table border="1">
+			<thead class="thead-lignt">
 				<tr>
-					<td colspan="5">合計時間</td>
-					<td th:text="*{kdJknKei}"></td>
-					<td th:text="*{jkngiKei}"></td>
-					<td>プロジェクト名：<input type="text" name="projectName" th:value="*{pjMei}"></td>
+					<th rowspan="2" class="text-center bg-info">日付</th>
+					<th colspan="2" class="text-center bg-info">勤務時間</th>
+					<th rowspan="2" class="text-center bg-info">休憩時間</th>
+					<th rowspan="2" class="text-center bg-info">稼働時間</th>
+					<th rowspan="2" class="text-center bg-info">時間外</th>
+					<th rowspan="2" class="text-center bg-info">備考</th>
+				</tr>
+				<tr>
+					<th class="text-center bg-info">出社</th>
+					<th class="text-center bg-info">退社</th>
+				</tr>
+				</thead>
+				<tr th:each="workRepo : ${workDailyList}"
+					th:if="${workDailyList.size()} != 0">
+					<td><input type="text" th:value="${workRepo.day}"
+						readonly="readonly" name="day" ></td>
+					<td><input type="text" th:value="${workRepo.ssJkn}"
+						name="ssJkn" maxlength="5" onfocus="offColon(this);"
+						onblur="toColon(this)" th:errorclass="error-input"></td>
+					<td><input type="text" th:value="${workRepo.tsJkn}"
+						name="tsJkn" maxlength="5" onfocus="offColon(this);"
+						onblur="toColon(this)" th:errorclass="error-input"></td>
+					<td><input type="text" th:value="${workRepo.kkJkn}"
+						name="kkJkn" th:errorclass="error-input"></td>
+					<td><input type="text" th:value="${workRepo.kdJkn}"
+						name="kdJkn" OnBlur="calcKdJknKei()" th:errorclass="error-input"></td>
+					<td><input type="text" th:value="${workRepo.jkngi}"
+						name="jkngi" OnBlur="calcJkngiKei()" th:errorclass="error-input"></td>
+					<td><input type="text" th:value="${workRepo.biko}" name="biko"></td>
+				</tr>
+				<tr th:each="day : ${onlyDailyList}" 
+					th:if="${workDailyList.size()} == 0">
+					<td><input type="text" th:value="${day}" readonly="readonly"
+						name="day"></td>
+					<td><input type="text" th:field="*{ssJkn}"
+						onfocus="offColon(this);" onblur="toColon(this)" name="ssJkn" th:errorclass="error-input"></td>
+					<td><input type="text" th:field="*{tsJkn}"
+						onfocus="offColon(this);" onblur="toColon(this)" name="tsJkn" th:errorclass="error-input"></td>
+					<td><input type="text" th:field="*{kkJkn}" th:errorclass="error-input"></td>
+					<td><input type="text" th:value="*{kdJkn}" OnBlur="calcKdJknKei()"
+						name="kdJkn" th:errorclass="error-input"></td>
+					<td><input type="text" th:value="*{jkngi}" OnBlur="calcJkngiKei()" name="jkngi" th:errorclass="error-input"></td>
+					<td><input type="text" th:field="*{biko}"></td>
+				</tr>
+				<tr>
+					<td colspan="4">合計時間</td>
+					<td><input type="text" name="kdJknKei" th:value="*{kdJknKei}" readonly="readonly"></td>
+					<td><input type="text" th:value="*{jkngiKei}" name="jkngiKei" readonly="readonly"></td>
+					<td><input type="text" name="pjMei"
+						th:value="*{pjMei}" placeholder="プロジェクト名"></td>
 				</tr>
 
 				<tr>
 					<td colspan="2">特記事項</td>
-					<td colspan="5"><textarea rows="3" cols="50"></textarea></td>
+					<td colspan="5"><textarea rows="2" cols="105"
+							th:value="*{tokkijiko}" name="tokkijiko"></textarea></td>
 			</table>
 		</div>
-		<input type="button" value="月別一覧へ戻る"> <input type="button"
-			value="登録"> <input type="button" value="確定"> <input
-			type="button" value="取消">
+		<div class="mx-auto pt-4 pb-5" style="width: 450px;">
+		<input type="submit" value="　戻る　" name="back" class="btn btn-outline-danger .w-50 mr-2"> <input
+			type="submit" value="　登録　" name="registRecord" class="btn btn-outline-primary .w-50 mr-2"> <span
+			th:if="*{authFlg}!=1"> <input type="button" value="　取消　"
+			disabled="disabled" class="btn btn-dark .w-50 mr-2"> 
+			<input type="submit" value="　確定　"
+			name="admin-regist" class="btn btn-outline-primary .w-50 mr-2">
+		</span> <span th:if="*{authFlg}==1"> 
+		<input type="submit" value="　取消　"
+			name="admin-edit" class="btn btn-outline-danger .w-50 mr-2"> 
+			<input type="button" value="　確定　"
+			disabled="disabled" class="btn btn-dark .w-50 mr-2">
+		</span>
+</div >
+		<!-- hiddenで送信する値 -->
+		<input type="hidden" th:field="*{year}" name="year"> 
+		<input type="hidden" th:field="*{month}" name="month"> 
+		<input type="hidden" th:field="*{workingDate}" name="workingDate">
 	</form>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -1,5 +1,11 @@
 package jp.co.senshinsoft.domain;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 public class WorkReportDaily {
 	private String userId;
 	private String year;
@@ -13,6 +19,11 @@ public class WorkReportDaily {
 	private String biko;
 	private String insUser;
 	private String updUser;
+	//------------------勤務報告書画面に出力する日時情報--------------------
+		private String dayOfTheWeek ;
+	//---------------------------------------------------------------------------------------
+
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -86,4 +97,12 @@ public class WorkReportDaily {
 		this.updUser = updUser;
 	}
 	
+	public String getDayOfTheWeek() {		
+		return dayOfTheWeek;
+	}
+
+	public void setDayOfTheWeek(String dayOfTheWeek) {
+		
+		this.dayOfTheWeek = dayOfTheWeek;
+	}
 }

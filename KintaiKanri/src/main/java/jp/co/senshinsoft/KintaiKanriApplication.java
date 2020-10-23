@@ -18,7 +18,7 @@ public class KintaiKanriApplication {
 		SpringApplication.run(KintaiKanriApplication.class, args);
 	}
 	
-	 // MyBatisの設定
+	  // MyBatisの設定
     @Bean
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();

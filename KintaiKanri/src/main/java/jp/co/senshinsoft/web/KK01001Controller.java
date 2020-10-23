@@ -44,13 +44,10 @@ public class KK01001Controller {
 		if(result.hasErrors()) {
 //			List<ObjectError> errorList = result.getAllErrors();
 //			model.addAttribute("errorList", errorList);
-
 			return "KK01001";
 		}
-		
 //		return "KK01002";
 		return "monthlyList";
-
 	}
 	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.senshinsoft.domain.User;
 import jp.co.senshinsoft.persistence.UserMapper;
@@ -22,15 +23,14 @@ public class UserService {
 	 * @return ログインしている社員の名前
 	 */
 	public String findEmployeeName(String userId){
-		String userName = null;
-		List<String> list = mapper.findEmployeeName(userId);
-		for(String s : list) {
-			userName+=s;
+		String userName = "";
+		List<User> list = mapper.findEmployeeName(userId);
+		for(User s : list) {
+			userName+=s.getSei();
+			userName+=s.getMei();
 		}
 		return userName;
 	}
-	
-	
 	/**
 	 * mapperを呼び出して、社員番号に該当するユーザ情報を取得する。
 	 * @param userId

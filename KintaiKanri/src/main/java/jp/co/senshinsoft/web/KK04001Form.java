@@ -1,10 +1,6 @@
 package jp.co.senshinsoft.web;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class KK04001Form implements Serializable {
@@ -15,6 +11,9 @@ public class KK04001Form implements Serializable {
 	private String userName;
 	// ---------------------------------------
 	// --------------work_report_dailyテーブル-------------------
+	private String year;
+	private String month;
+	private String day;
 	private String ssJkn;
 	private String tsJkn;
 	private String kkJkn;
@@ -29,10 +28,35 @@ public class KK04001Form implements Serializable {
 	private String jkngiKei;
 	private String pjMei;
 	private String tokkijiko;
+	private String authFlg;
 	// ---------------------------------------------------
 	// --------------該当月の1ヶ月のカレンダー----------------
 	private List<String> targetMonthDayOfTheWeek;
 	// ---------------------------------------------------
+
+	public KK04001Form() {
+		// --------------userテーブル--------------
+		userId = "";
+		userName = "";
+		// ---------------------------------------
+		// --------------work_report_dailyテーブル-------------------
+		ssJkn = "";
+		tsJkn = "";
+		kkJkn = "";
+		kdJkn = "";
+		jkngi = "";
+		biko = "";
+		// ---------------------------------------------------
+		// --------------work_report_monthlyテーブル--------------
+		workingDate = "";
+		teiji = "";
+		kdJknKei = "";
+		jkngiKei = "";
+		pjMei = "";
+		tokkijiko = "";
+		authFlg="";
+		// ---------------------------------------------------
+	}
 
 	public String getUserId() {
 		return userId;
@@ -49,7 +73,7 @@ public class KK04001Form implements Serializable {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
+
 	public String getSsJkn() {
 		return ssJkn;
 	}
@@ -98,7 +122,6 @@ public class KK04001Form implements Serializable {
 		this.biko = biko;
 	}
 
-
 	public String getTeiji() {
 		return teiji;
 	}
@@ -139,31 +162,6 @@ public class KK04001Form implements Serializable {
 		this.tokkijiko = tokkijiko;
 	}
 
-	public List<String> getTargetMonth() {
-		List<String> dateList = new ArrayList<>();
-		List<String> dayOfTheWeekList = new ArrayList<>();
-		Date date = new Date();
-		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd　E");
-		calendar.setTime(date);
-		// 該当月の最後の日付の取得
-		int last = calendar.getActualMaximum(Calendar.DATE);
-		// 該当月の最初の日付を取得
-		int first = calendar.getActualMinimum(Calendar.DATE);
-		
-		//該当月の初日から月末日までを取得して、リストに加える。
-		do {
-			calendar.set(Calendar.DATE, first);
-			dateList.add(sdf.format(calendar.getTime()).substring(8, 12));
-			//dateList.add(sdf.format(calendar.getTime()).substring(11, 12));
-			first++;
-		} while (first <= last);
-		
-		//曜日リストに該当月の曜日を加える
-		setTargetMonthDayOfTheWeek(dayOfTheWeekList);
-		return dateList;
-	}
-
 	public List<String> getTargetMonthDayOfTheWeek() {
 
 		return targetMonthDayOfTheWeek;
@@ -179,5 +177,37 @@ public class KK04001Form implements Serializable {
 
 	public void setWorkingDate(String workingDate) {
 		this.workingDate = workingDate;
+	}
+
+	public String getDay() {
+		return day;
+	}
+
+	public void setDay(String day) {
+		this.day = day;
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public String getMonth() {
+		return month;
+	}
+
+	public void setMonth(String month) {
+		this.month = month;
+	}
+
+	public String getAuthFlg() {
+		return authFlg;
+	}
+
+	public void setAuthFlg(String authFlg) {
+		this.authFlg = authFlg;
 	}
 }
