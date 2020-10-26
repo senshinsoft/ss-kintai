@@ -6,6 +6,7 @@ public class KK02001Form {
 
 	private String year;
 	private List<String> workCalendar;
+	private String month;
 	
 	
 	public String getYear() {
@@ -22,5 +23,13 @@ public class KK02001Form {
 	
 	public void setWorkCalendar(List<String> workCalendar) {
 		this.workCalendar = workCalendar;
+	}
+
+	public String getMonth() {
+		return month;
+	}
+
+	public void setMonth(String month) {
+		this.month = month;
 	}
 }

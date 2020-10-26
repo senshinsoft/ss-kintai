@@ -20,4 +20,16 @@ public interface UserMapper {
 	 */
 	public User findAccountByUserId(String userId);
 
+	/**
+	 * 在籍している社員一覧の姓と名をリストで取得する
+	 * @return 在籍社員一覧の姓と名のリスト
+	 */
+	public List<User> findEmployeeCatalog();
+	
+	/**
+	 * 社員一覧で選択した社員の名前をもとにuserIdを取得する
+	 * @return userテーブルのuserId
+	 */
+	public String findSelectEmployeeId(String sei,String mei);
+
 }

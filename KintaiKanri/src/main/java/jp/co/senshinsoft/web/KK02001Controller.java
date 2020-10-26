@@ -16,11 +16,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import jp.co.senshinsoft.auth.GetLoginUserDetails;
 import jp.co.senshinsoft.auth.LoginUserDetails;
 import jp.co.senshinsoft.domain.User;
+import jp.co.senshinsoft.service.UserService;
 
 @Controller
 public class KK02001Controller {
 
-private GetLoginUserDetails userInfo = new GetLoginUserDetails();
+	
+
+	private GetLoginUserDetails userInfo = new GetLoginUserDetails();
 
 	@ModelAttribute("KK02001Form")
 	public KK02001Form setForm() {
@@ -39,14 +42,8 @@ private GetLoginUserDetails userInfo = new GetLoginUserDetails();
 			Date date = cal.getTime();
 			oneYearCalendarList.add(sdf.format(date));
 			model.addAttribute("oneYearCalendarList", oneYearCalendarList);
-			model.addAttribute("userInfo", userInfo.getLoginUser());
 		}
+		model.addAttribute("userInfo", userInfo.getLoginUser());
 		return "KK02001";
-	}
-
-	// 社員一覧へ遷移（管理者）
-	@RequestMapping("/employeeList")
-	public String EmplyeeList() {
-		return "KK03001";
 	}
 }

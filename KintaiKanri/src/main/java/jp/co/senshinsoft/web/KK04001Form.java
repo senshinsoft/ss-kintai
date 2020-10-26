@@ -9,6 +9,7 @@ public class KK04001Form implements Serializable {
 	// --------------userテーブル--------------
 	private String userId;
 	private String userName;
+	private String adminFlg;
 	// ---------------------------------------
 	// --------------work_report_dailyテーブル-------------------
 	private String year;
@@ -209,5 +210,13 @@ public class KK04001Form implements Serializable {
 
 	public void setAuthFlg(String authFlg) {
 		this.authFlg = authFlg;
+	}
+
+	public String getAdminFlg() {
+		return adminFlg;
+	}
+
+	public void setAdminFlg(String adminFlg) {
+		this.adminFlg = adminFlg;
 	}
 }

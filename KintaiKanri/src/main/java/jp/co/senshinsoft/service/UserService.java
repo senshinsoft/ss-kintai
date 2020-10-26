@@ -38,8 +38,14 @@ public class UserService {
 	 */
 	public User findAccountByUserId(String userId) {
 		User user = mapper.findAccountByUserId(userId);
-
 		return user;
 	}
 	
+	public List<User> findEmployeeCatalog(){
+		return mapper.findEmployeeCatalog();
+	}
+	
+	public String findEmployeeUserId(String sei,String mei) {
+		return mapper.findSelectEmployeeId(sei, mei);
+	}
 }

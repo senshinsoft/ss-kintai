@@ -6,7 +6,7 @@
 </head>
 <body>
 	<h1>月別一覧</h1>
-	<div th:if="${userInfo.adminFlg} == 0">
+	<div th:if="${userInfo.adminFlg} == 1">
 		<p>管理者</p>
 		<form th:action="@{/employeeList}" th:object="${KK02001Form}"
 			method="post">
@@ -15,7 +15,7 @@
 			</ul>
 		</form>
 	</div>
-	<div th:if="${userInfo.adminFlg} == 1">
+	<div th:if="${userInfo.adminFlg} == 0">
 		<p>一般社員</p>
 		<form th:action="@{/inputWorkReport}" th:object="${KK02001Form}"
 			method="post">

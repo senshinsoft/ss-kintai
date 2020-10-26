@@ -15,9 +15,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import jp.co.senshinsoft.auth.GetLoginUserDetails;
+import jp.co.senshinsoft.domain.User;
 import jp.co.senshinsoft.domain.WorkReportDaily;
 import jp.co.senshinsoft.domain.WorkReportMonthly;
 import jp.co.senshinsoft.service.UserService;
@@ -33,30 +36,34 @@ public class KK04001Controller {
 	private WorkReportDailyService dailyService;
 	@Autowired
 	private WorkReportMonthlyService monthlyService;
-	private List<WorkReportDaily> workDailyList = new ArrayList<>();
+	List<WorkReportDaily> workDailyList = new ArrayList<>();
 	private List<String> onlyDailyList = new ArrayList<>();
 	private GetLoginUserDetails userInfo = new GetLoginUserDetails();
+	private Calendar calendar = Calendar.getInstance();
+	private String userId = "";
+	private String year = "";
+	private String month = "";
 
-	@ModelAttribute(value = "KK04001Form")
+	@ModelAttribute(value = "KK04001form")
 	public KK04001Form workReportForm() {
 		return new KK04001Form();
 	}
 
-	@RequestMapping(value = "KK03001")
-	public String enterKK03001() {
-		return "KK03001";
-	}
-
 	@RequestMapping(value = "inputWorkReport")
-	public String enterKK04001(KK04001Form KK04001form, Model model, KK02001Form KK02001form) {
-		Calendar calendar = Calendar.getInstance();
-		// Serviceクラスの実行に必要な値の取得
-		String userId = userInfo.getLoginUser().getUserId();
-		String year =KK02001form.getYear().substring(0,4);
-		String  month = KK02001form.getYear().substring(5,7);
+	public String enterKK04001(KK04001Form KK04001Form, Model model, KK02001Form KK02001form, KK03001Form KK03001form) {
+
+		if (userInfo.getLoginUser().getAdminFlg().equals("1")) {
+			String[] name = KK03001form.getEmployeeName().split(" ");
+			userId = userService.findEmployeeUserId(name[0], name[1]);
+			year = KK03001form.getYear();
+			month = KK03001form.getMonth();
+		} else if (userInfo.getLoginUser().getAdminFlg().equals("0")) {
+			userId = userInfo.getLoginUser().getUserId();
+			year = KK02001form.getYear().substring(0, 4);
+			month = KK02001form.getYear().substring(5, 7);
+		}
 		// Serviceクラスを呼び出して、KK04001に必要な値を取得する。
-		// ユーザーの名前をformに格納
-		KK04001form.setUserName(userService.findEmployeeName(userId));
+		KK04001Form.setUserName(userService.findEmployeeName(userId));
 		// ユーザーの日次勤務情報のリスト取得してmodelオブジェクトへ格納する。
 		workDailyList = dailyService.findEmployeeWorkRecordDaily(userId, year, month);
 		// DBに勤務情報がない場合、日付のリストのみを作成しKK04001へ遷移する。
@@ -70,10 +77,10 @@ public class KK04001Controller {
 			do {
 				calendar.set(Calendar.DATE, first);
 				onlyDailyList.add((sdf.format(calendar.getTime()).substring(8, 12)));
-				KK04001form.setYear(sdf.format(calendar.getTime()).substring(0, 4) + "年");
-				KK04001form.setMonth(sdf.format(calendar.getTime()).substring(5, 7) + "月度");
+				KK04001Form.setYear(sdf.format(calendar.getTime()).substring(0, 4) + "年");
+				KK04001Form.setMonth(sdf.format(calendar.getTime()).substring(5, 7) + "月度");
 				first++;
-			} while (first <= last - 1);
+			} while (first <= last);
 			model.addAttribute("onlyDailyList", onlyDailyList);
 			model.addAttribute("workDailyList", workDailyList);
 		} else {
@@ -100,27 +107,28 @@ public class KK04001Controller {
 				first++;
 			} while (first <= last - 1);
 			model.addAttribute("workDailyList", workDailyList);
-		}
-		// 勤務月次情報テーブルからKK04001に必要な値を取得して、modelオブジェクトへ格納する
-		List<WorkReportMonthly> workMonthlyList = monthlyService.findEmployeeWorkRecordMonthly(userId, year, month); // ユーザーの月次勤務情報
-		for (WorkReportMonthly wrm : workMonthlyList) {
-			KK04001form.setKdJknKei(wrm.getKdJknKei());
-			KK04001form.setWorkingDate(wrm.getYear() + "年" + wrm.getMonth() + "月度");
-			KK04001form.setTeiji(wrm.getTeiji());
-			KK04001form.setJkngiKei(wrm.getJkngiKei());
-			KK04001form.setPjMei(wrm.getPjMei());
-			KK04001form.setTokkijiko(wrm.getTokkijiko());
-			KK04001form.setYear(wrm.getYear());
-			KK04001form.setMonth(wrm.getMonth());
-			KK04001form.setAuthFlg(wrm.getAuthFlg());
 
+			// 勤務月次情報テーブルからKK04001に必要な値を取得して、modelオブジェクトへ格納する
+			List<WorkReportMonthly> workMonthlyList = monthlyService.findEmployeeWorkRecordMonthly(userId, year, month); // ユーザーの月次勤務情報
+			for (WorkReportMonthly wrm : workMonthlyList) {
+				KK04001Form.setKdJknKei(wrm.getKdJknKei());
+				KK04001Form.setWorkingDate(wrm.getYear() + "年" + wrm.getMonth() + "月度");
+				KK04001Form.setTeiji(wrm.getTeiji());
+				KK04001Form.setJkngiKei(wrm.getJkngiKei());
+				KK04001Form.setPjMei(wrm.getPjMei());
+				KK04001Form.setTokkijiko(wrm.getTokkijiko());
+				KK04001Form.setYear(wrm.getYear());
+				KK04001Form.setMonth(wrm.getMonth());
+				KK04001Form.setAuthFlg(wrm.getAuthFlg());
+			}
 		}
+		KK04001Form.setAdminFlg(userInfo.getLoginUser().getAdminFlg());
 		return "KK04001";
 	}
 
 	@RequestMapping(value = "operateWorkReport", params = "registRecord")
 	public String insertWorkDailyReport(@Validated @ModelAttribute("KK04001Form") KK04001Form form,
-			BindingResult result, Model model) {
+			BindingResult result, Model model, SessionStatus sessionStatus) {
 		// データ登録に利用するドメインクラスのインスタンス化
 		WorkReportDaily workReportDaily = new WorkReportDaily();
 		WorkReportMonthly workReportMonthly = new WorkReportMonthly();
@@ -137,11 +145,11 @@ public class KK04001Controller {
 		String[] biko = workReportDaily.getBiko().split(",", -1);
 
 		for (int i = 0; i < dayList.length; i++) {
-			// ログイン情報ないため、ユーザーの情報を直打ち実装
-			workReportDaily.setInsUser("78");
-			workReportDaily.setUpdUser("78");
-			workReportDaily.setUserId("78");
-			workReportMonthly.setMonth("09");
+			// ログイン情報の取得
+			workReportDaily.setInsUser(userInfo.getLoginUser().getUserId());
+			workReportDaily.setUpdUser(userInfo.getLoginUser().getUserId());
+			workReportDaily.setUserId(userInfo.getLoginUser().getUserId());
+
 			// 年と月の文字を削除する。
 			workReportDaily.setYear(workReportDaily.getYear().substring(0, 4));
 			workReportDaily.setMonth(workReportDaily.getMonth().substring(0, 2));
@@ -170,6 +178,7 @@ public class KK04001Controller {
 				result.rejectValue("kkJkn", "errors.workTime");
 				result.rejectValue("jkngi", "errors.workTime");
 			}
+			// 出社時間と退社時間がどちらかが入力されている場合に、出社時間よりも退社時間が遅いかをチェック
 			String removeColonSsJkn = workReportDaily.getSsJkn();
 			String removeColonTsJkn = workReportDaily.getTsJkn();
 			if (!removeColonSsJkn.isBlank() && !removeColonTsJkn.isBlank()) {
@@ -179,26 +188,57 @@ public class KK04001Controller {
 					result.rejectValue("tsJkn", "format.errors.workTime");
 				}
 			}
-
 			// 定時間が未入力の場合
 			if (workReportMonthly.getTeiji().equals("")) {
 				result.rejectValue("teiji", "errors.teiji");
 			}
-			// エラーがあったら警告を出して処理を停止
-			if (result.hasErrors()) {
-				for (int j = 0; j < dayList.length; j++) {
-					workDailyList.get(j).setDay(dayList[j]);
-					workDailyList.get(j).setSsJkn(ssJknList[j]);
-					workDailyList.get(j).setTsJkn(tsJknList[j]);
-					workDailyList.get(j).setKkJkn(kkJknList[j]);
-					workDailyList.get(j).setKdJkn(kdJknList[j]);
-					workDailyList.get(j).setJkngi(jkngiList[j]);
-					workDailyList.get(j).setBiko(biko[j]);
+			// 新規登録か更新によってカレンダーをもう一度取得するか判定をする。workDailyList.size==0なら新規登録
+			if (workDailyList.size() == 0) {
+				onlyDailyList = new ArrayList<>();
+				if (result.hasErrors()) {
+					// 該当月の最後の日付の取得
+					int last = calendar.getActualMaximum(Calendar.DATE);
+					// 該当月の最初の日付を取得
+					int first = calendar.getActualMinimum(Calendar.DATE);
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd　E");
+					// 該当月の初日から月末日までを取得して、リストに加える。
+					do {
+						calendar.set(Calendar.DATE, first);
+						onlyDailyList.add((sdf.format(calendar.getTime()).substring(8, 12)));
+						form.setYear(sdf.format(calendar.getTime()).substring(0, 4) + "年");
+						form.setMonth(sdf.format(calendar.getTime()).substring(5, 7) + "月度");
+						first++;
+					} while (first <= last);
+					model.addAttribute("onlyDailyList", onlyDailyList);
+					model.addAttribute("workDailyList", workDailyList);
+					// 新規登録の場合、フィールドにカンマ区切りの処理をした際のカンマが残ってしまうのでformに空文字をセットして値を消す
+					form.setSsJkn("");
+					form.setTsJkn("");
+					form.setKdJkn("");
+					form.setKkJkn("");
+					form.setJkngi("");
+					form.setBiko("");
+					// 名前を再取得する
+					form.setUserName(userService.findEmployeeName(userId));
+					return "KK04001";
 				}
-				model.addAttribute("onlyDailyList", onlyDailyList);
-				model.addAttribute("workDailyList", workDailyList);
-				return "KK04001";
 			} else {
+				// エラーがあったら警告を出して処理を停止
+				if (result.hasErrors()) {
+					for (int j = 0; j < dayList.length; j++) {
+						workDailyList.get(j).setDay(dayList[j]);
+						workDailyList.get(j).setSsJkn(ssJknList[j]);
+						workDailyList.get(j).setTsJkn(tsJknList[j]);
+						workDailyList.get(j).setKkJkn(kkJknList[j]);
+						workDailyList.get(j).setKdJkn(kdJknList[j]);
+						workDailyList.get(j).setJkngi(jkngiList[j]);
+						workDailyList.get(j).setBiko(biko[j]);
+					}
+					// 新規登録の場合、フィールドにカンマ区切りの処理をした際のカンマが残ってしまうのでformに空文字をセットして値を消す
+					model.addAttribute("onlyDailyList", onlyDailyList);
+					model.addAttribute("workDailyList", workDailyList);
+					return "KK04001";
+				}
 				if (workDailyList.size() == 0) {// ない場合は登録・更新処理に進む
 					// DBへ勤務情報を登録する
 					dailyService.registWorkReportDaily(workReportDaily);
@@ -219,11 +259,10 @@ public class KK04001Controller {
 			workReportMonthly.setMonth(workReportMonthly.getMonth().substring(0, 1));
 		}
 		workReportMonthly.setAuthFlg("0");
-		// 直打ち項目。あとで削除
-		workReportMonthly.setInsUser("78");
-		workReportMonthly.setUpdUser("78");
-		workReportMonthly.setUserId("78");
-		workReportMonthly.setMonth("09");
+		// ログイン情報の取得
+		workReportMonthly.setInsUser(userInfo.getLoginUser().getUserId());
+		workReportMonthly.setUpdUser(userInfo.getLoginUser().getUserId());
+		workReportMonthly.setUserId(userInfo.getLoginUser().getUserId());
 		if (workDailyList.size() == 0) {
 			monthlyService.registWorkReportMonthly(workReportMonthly);
 			System.out.println("初めての月次情報登録完了");
@@ -231,13 +270,14 @@ public class KK04001Controller {
 			monthlyService.updateWorkReportMonthly(workReportMonthly);
 			System.out.println("既存の月次情報更新完了");
 		}
-		return "KK02001";
+		sessionStatus.setComplete();
+		return "KK04001";
 
 	}
 
 	// 管理者が確定ボタンを押した時の処理
 	@RequestMapping(value = "operateWorkReport", params = "admin-regist")
-	public String determin(KK04001Form form, Model model) {
+	public String determin(KK04001Form form, Model model, SessionStatus sessionStatus) {
 		WorkReportMonthly workReportMonthly = new WorkReportMonthly();
 		// Formクラスの値をドメインクラスにコピー
 		BeanUtils.copyProperties(form, workReportMonthly);
@@ -249,15 +289,16 @@ public class KK04001Controller {
 		}
 		workReportMonthly.setAuthFlg("1");
 		// 今は直打ち
-		workReportMonthly.setInsUser("78");
+		workReportMonthly.setInsUser(userInfo.getLoginUser().getUserId());
 		monthlyService.determineWorkReport(workReportMonthly);
 		System.out.println("管理者の確定処理完了");
+		sessionStatus.setComplete();
 		return "KK03001";
 	}
 
 	// 管理者が取消ボタンを押した時の処理
 	@RequestMapping(value = "operateWorkReport", params = "admin-edit")
-	public String edit(KK04001Form form, Model model) {
+	public String edit(KK04001Form form, Model model, SessionStatus sessionStatus) {
 		WorkReportMonthly workReportMonthly = new WorkReportMonthly();
 		// Formクラスの値をドメインクラスにコピー
 		BeanUtils.copyProperties(form, workReportMonthly);
@@ -269,10 +310,29 @@ public class KK04001Controller {
 			workReportMonthly.setMonth(workReportMonthly.getMonth().substring(0, 2));
 		}
 		workReportMonthly.setAuthFlg("0");
-		// 今は直打ち
-		workReportMonthly.setInsUser("78");
+		workReportMonthly.setInsUser(userInfo.getLoginUser().getUserId());
 		monthlyService.editWorkReport(workReportMonthly);
 		System.out.println("管理者の取消処理完了");
+		sessionStatus.setComplete();
 		return "KK04001";
+	}
+
+	@RequestMapping(value = "operateWorkReport", params = "back")
+	public String getoutFromKK04001(KK04001Form KK04001Form, Model model, SessionStatus sessionStatus,KK03001Form KK03001Form) {
+		if (KK04001Form.getAdminFlg().equals("1")) {
+			List<String> employeeNameList = new ArrayList<>();
+			List<User> user = userService.findEmployeeCatalog();
+			KK03001Form.setYear(KK03001Form.getYear().substring(0,4));
+			KK03001Form.setMonth(KK03001Form.getMonth().substring(0,2));
+			for(int i=0;  i <user.size(); i++) {
+				employeeNameList.add(user.get(i).getSei()+" "+user.get(i).getMei());
+			}
+			model.addAttribute("employeeNameList", employeeNameList);
+			sessionStatus.setComplete();
+			return "KK03001";
+		} else {
+			sessionStatus.setComplete();
+			return "redirect:/monthlyList";
+		}
 	}
 }
