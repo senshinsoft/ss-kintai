@@ -47,12 +47,4 @@ public class KK03001Controller {
 		return "redirect:/monthlyList";
 	}
 	
-	/**
-	 * ログアウトしてKK01001(ログイン画面)に戻る
-	 * @return KK01001のパス
-	 */
-	@RequestMapping(value="/logout",  params = "logout", method = RequestMethod.GET)
-	public String logout() {
-		return "redirect:/login?logout";
-	}
 }
