@@ -20,9 +20,6 @@ import jp.co.senshinsoft.service.UserService;
 
 @Controller
 public class KK02001Controller {
-
-	
-
 	private GetLoginUserDetails userInfo = new GetLoginUserDetails();
 
 	@ModelAttribute("KK02001Form")
@@ -30,7 +27,10 @@ public class KK02001Controller {
 		return new KK02001Form();
 	}
 
-	// 12か月分の年月を取得
+	/**
+	 * 現在月から過去12ヶ月のリストをYYYY年MM月の形で表示する
+	 * @return KK02001のパス
+	 */
 	@RequestMapping(value = "/monthlyList", method = RequestMethod.GET)
 	public String workCalendar(@ModelAttribute("KK02001Form") KK02001Form form, Model model) {
 

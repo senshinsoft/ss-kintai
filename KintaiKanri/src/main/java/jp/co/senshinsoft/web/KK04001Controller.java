@@ -123,6 +123,7 @@ public class KK04001Controller {
 			}
 		}
 		KK04001Form.setAdminFlg(userInfo.getLoginUser().getAdminFlg());
+		System.out.println("権限フラグ"+userInfo.getLoginUser().getAdminFlg());
 		return "KK04001";
 	}
 
