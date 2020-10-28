@@ -68,6 +68,7 @@ public class KK04001Controller {
 		workDailyList = dailyService.findEmployeeWorkRecordDaily(userId, year, month);
 		// DBに勤務情報がない場合、日付のリストのみを作成しKK04001へ遷移する。
 		if (workDailyList.size() == 0) { // 勤務表の登録記録が0
+			onlyDailyList = new ArrayList<>();
 			// 該当月の最後の日付の取得
 			int last = calendar.getActualMaximum(Calendar.DATE);
 			// 該当月の最初の日付を取得
