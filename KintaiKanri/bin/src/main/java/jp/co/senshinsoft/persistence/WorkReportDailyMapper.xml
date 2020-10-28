@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="jp.co.senshinsoft.persistence.WorkReportDailyMapper">
+	<select id="findEmployeeWorkRecordDaily"
+		resultType="jp.co.senshinsoft.domain.WorkReportDaily">
+		SELECT
+		year
+		,month
+		,day
+		,ss_jkn
+		,ts_jkn
+		,kk_jkn
+		,kd_jkn
+		,jkngi
+		,biko
+		FROM
+		work_report_daily
+		WHERE
+		user_id=#{userId}
+		AND
+		year=#{year}
+		AND
+		month=#{month}
+		ORDER BY
+		(day+0)
+	</select>
+
+	<insert id="registWorkReportDaily">
+		INSERT INTO
+		work_report_daily (user_id, year, month,
+		day, ss_jkn, ts_jkn,
+		kk_jkn, kd_jkn, jkngi, biko,ins_user,
+		ins_date,upd_user,upd_date)
+		VALUES(#{userId} ,#{year} ,#{month} ,#{day}
+		,#{ssJkn} ,#{tsJkn}
+		,#{kkJkn} ,#{kdJkn} ,#{jkngi} ,#{biko} ,#{userId}
+		,CURRENT_TIMESTAMP,
+		#{userId}, CURRENT_TIMESTAMP
+		);
+	</insert>
+
+	<update id="updateWorkReportDaily">
+		UPDATE work_report_daily SET 
+		ss_jkn=#{ssJkn}
+		,ts_jkn=#{tsJkn}
+		,kk_jkn=#{kkJkn}
+		,kd_jkn=#{kdJkn}
+		,jkngi=#{jkngi}
+		,biko=#{biko}
+		, upd_user=#{userId}
+		 WHERE year=#{year} AND month=#{month} AND day=#{day} AND user_id=#{userId}
+	</update>
+</mapper>
