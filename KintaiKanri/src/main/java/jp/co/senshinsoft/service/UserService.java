@@ -27,6 +27,7 @@ public class UserService {
 		List<User> list = mapper.findEmployeeName(userId);
 		for(User s : list) {
 			userName+=s.getSei();
+			userName+=" ";
 			userName+=s.getMei();
 		}
 		return userName;

@@ -17,8 +17,8 @@
 
 	<form th:action="@{/loginConf}" th:object="${KK01001Form}"
 		method="post">
-		<p th:if="${param.error}">
-			ログインに失敗しました。<br> 再度入力してください。
+		<p th:if="${param.error}" class="error-message ml-5 pl-5">
+			ログインに失敗しました。再度入力してください。
 		</p>
 		<div class="mx-auto" style="width: 200px;">
 			社員番号 <input type="text" th:field="*{userId}">

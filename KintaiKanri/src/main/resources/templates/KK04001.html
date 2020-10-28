@@ -32,7 +32,7 @@
 			<p th:errors="*{teiji}" class="error-message ml-5 pl-5">error！</p>
 			<p th:errors="*{ssJkn}" class="error-message ml-5 pl-5">error！</p>
 			<table border="1">
-				<thead class="thead-lignt">
+				<thead class="thead-dark">
 					<tr>
 						<th rowspan="2" class="text-center bg-info">日付</th>
 						<th colspan="2" class="text-center bg-info">勤務時間</th>
@@ -49,7 +49,7 @@
 				<tr th:each="workRepo : ${workDailyList}"
 					th:if="${workDailyList.size()} != 0">
 					<td><input type="text" th:value="${workRepo.day}"
-						readonly="readonly" name="day"></td>
+						readonly="readonly" name="day" ></td>
 					<td><input type="text" th:value="${workRepo.ssJkn}"
 						name="ssJkn" maxlength="5" onfocus="offColon(this);"
 						onblur="toColon(this)" th:errorclass="error-input"></td>
@@ -94,8 +94,7 @@
 
 				<tr>
 					<td colspan="2">特記事項</td>
-					<td colspan="5"><textarea rows="2" cols="105"
-							th:value="*{tokkijiko}" name="tokkijiko"></textarea></td>
+					<td colspan="5"><textarea rows="2" cols="105" th:field="*{tokkijiko}" name="tokkijiko"></textarea></td>
 			</table>
 		</div>
 		<div class="mx-auto pt-4 pb-5" style="width: 200px;">
@@ -104,25 +103,16 @@
 <!-- 承認済みフラグが0(ユーザー編集可能)の場合はユーザー編集を可能にする -->
 		<input type="submit"  value="　登録　" name="registRecord" class="btn btn-outline-primary .w-25 mr-2 mb-3">		
 <!-- ユーザーの権限が1(管理者)の場合は以下のボタンを表示する -->
-			<div th:if="*{adminFlg}==1"> 
-<!-- 承認済みフラグが0の場合 -->
-				<div th:if="*{authFlg}==0"> 
-					<input type="button" value="　取消　" disabled="disabled" class="btn btn-dark .w-25 mr-2"> 
-						<input type="submit" value="　確定　" name="admin-regist" class="btn btn-outline-primary .w-25 mr-2">
-				</div>
-			</div>
-<!-- 承認済みフラグが1の場合 -->
-			<div th:if="*{adminFlg}==1"> 
-					<div th:if="*{authFlg}==1"> 
-						<input type="submit" value="　取消　" name="admin-edit" class="btn btn-outline-danger .w-25 mr-2"> 
-						<input type="button" value="　確定　" disabled="disabled" class="btn btn-dark .w-25 mr-2">
-					</div>
+			<div th:if="${userRole} == 1"> 
+				<input type="button" value="　取消　"  name="admin-edit" th:disabled="*{authFlg}==0" class="btn btn-outline-warning .w-25 mr-2"> 
+				<input type="submit" value="　確定　" name="admin-regist" th:disabled="*{authFlg}==1" class="btn btn-outline-primary .w-25 mr-2">
 			</div>
 		</div>
 <!-- hiddenで送信する値 -->
 		<input type="hidden" th:field="*{year}" name="year"> <input
 			type="hidden" th:field="*{month}" name="month"> <input
 			type="hidden" th:field="*{workingDate}" name="workingDate">
+			<input type="hidden" th:field="*{userName}" name="userName">
 	</form>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
