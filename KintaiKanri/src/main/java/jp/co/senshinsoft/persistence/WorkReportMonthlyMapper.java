@@ -2,8 +2,6 @@ package jp.co.senshinsoft.persistence;
 
 import java.util.List;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import jp.co.senshinsoft.domain.WorkReportMonthly;
 
 public interface WorkReportMonthlyMapper {
