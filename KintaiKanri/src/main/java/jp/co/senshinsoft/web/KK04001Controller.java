@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,7 +45,8 @@ public class KK04001Controller {
 	private String userId = "";
 	private String year = "";
 	private String month = "";
-
+	private static final Logger logger = LoggerFactory.getLogger(KK04001Controller.class);
+	
 	@ModelAttribute(value = "KK04001form")
 	public KK04001Form workReportForm() {
 		return new KK04001Form();
@@ -51,20 +54,25 @@ public class KK04001Controller {
 
 	@RequestMapping(value = "inputWorkReport")
 	public String enterKK04001(KK04001Form KK04001Form, Model model, KK02001Form KK02001form, KK03001Form KK03001Form) {
-
+		logger.info("-----------------------------------------------------KK04001(勤務表報告書画面)初期表示開始-------------------------------------------------------------------------------");
 		if (userInfo.getLoginUser().getAdminFlg().equals("1")) {
 			String[] name = KK03001Form.getEmployeeName().split(" ");
 			userId = userService.findEmployeeUserId(name[0], name[1]);
 			year = KK03001Form.getYear();
-			KK04001Form.setUseUserId(userId);
 			month = KK03001Form.getMonth();
+			if (userId!=userInfo.getLoginUser().getUserId()) {
+				KK04001Form.setUseUserId(userId);
+			}
 		} else if (userInfo.getLoginUser().getAdminFlg().equals("0")) {
 			userId = userInfo.getLoginUser().getUserId();
 			year = KK02001form.getYear().substring(0, 4);
 			month = KK02001form.getYear().substring(5, 7);
 		}
+		logger.info("参照する勤務表のユーザーID："+userId);
+		
 		// Serviceクラスを呼び出して、KK04001に必要な値を取得する。
 		KK04001Form.setUserName(userService.findEmployeeName(userId));
+		logger.info("参照する勤務表のユーザー名："+KK04001Form.getUserName());
 		// ユーザーの日次勤務情報のリスト取得してmodelオブジェクトへ格納する。
 		workDailyList = dailyService.findEmployeeWorkRecordDaily(userId, year, month);
 		// DBに勤務情報がない場合、日付のリストのみを作成しKK04001へ遷移する。
@@ -83,6 +91,7 @@ public class KK04001Controller {
 				KK04001Form.setMonth(sdf.format(calendar.getTime()).substring(5, 7) + "月度");
 				first++;
 			} while (first <= last);
+			logger.info("参照する勤務表の日時："+KK04001Form.getYear()+KK04001Form.getMonth());
 			// 新規登録なので承認済みフラグを0(未承認)に設定する。
 			KK04001Form.setAuthFlg("0");
 			KK04001Form.setAdminFlg(userInfo.getLoginUser().getAdminFlg());
@@ -126,21 +135,24 @@ public class KK04001Controller {
 				KK04001Form.setMonth(wrm.getMonth());
 				KK04001Form.setAuthFlg(wrm.getAuthFlg());
 			}
+			logger.info("参照する勤務表の日時："+KK04001Form.getWorkingDate());
 		}
 		model.addAttribute("userRole", userInfo.getLoginUser().getAdminFlg());
 		KK04001Form.setAdminFlg(userInfo.getLoginUser().getAdminFlg());
+		logger.info("-----------------------------------------------------KK04001(勤務表報告書画面)初期表示完了-------------------------------------------------------------------------------");
 		return "KK04001";
 	}
 
 	@RequestMapping(value = "operateWorkReport", params = "registRecord")
-	public String insertWorkDailyReport(@Validated @ModelAttribute("KK04001Form") KK04001Form form,
+	public String insertWorkDailyReport(@Validated @ModelAttribute("KK04001Form") KK04001Form KK04001Form,
 			BindingResult result, Model model, RedirectAttributes redirectAttribute) {
+		logger.info("---------------------------------------------------------------------勤務表登録登録開始----------------------------------------------------------------------------------------------");
 		// データ登録に利用するドメインクラスのインスタンス化
 		WorkReportDaily workReportDaily = new WorkReportDaily();
 		WorkReportMonthly workReportMonthly = new WorkReportMonthly();
 		// Formクラスの値をドメインクラスにコピー
-		BeanUtils.copyProperties(form, workReportDaily);
-		BeanUtils.copyProperties(form, workReportMonthly);
+		BeanUtils.copyProperties(KK04001Form, workReportDaily);
+		BeanUtils.copyProperties(KK04001Form, workReportMonthly);
 		// 勤務表の値を一つずつ登録するため、日にち、出社時間、退社時間、休憩時間、稼働時間、時間外労働時間、備考を一つずつに区切って登録を行う。
 		String[] dayList = workReportDaily.getDay().split(",", -1);
 		String[] ssJknList = workReportDaily.getSsJkn().split(",", -1);
@@ -156,8 +168,8 @@ public class KK04001Controller {
 			workReportDaily.setUpdUser(userInfo.getLoginUser().getUserId());
 			workReportDaily.setUserId(userInfo.getLoginUser().getUserId());
 			// 参照している勤務表が自分のものかそうでないかを確認する
-			if (form.getUseUserId() != workReportDaily.getUserId()) {
-				workReportDaily.setUserId(form.getUseUserId());
+			if (KK04001Form.getUseUserId() != workReportDaily.getUserId()) {
+				workReportDaily.setUserId(KK04001Form.getUseUserId());
 			}
 			// 年と月の文字を削除する。
 			workReportDaily.setYear(workReportDaily.getYear().substring(0, 4));
@@ -183,9 +195,7 @@ public class KK04001Controller {
 					|| workReportDaily.getJkngi().equals("")) {
 				result.rejectValue("ssJkn", "errors.workTime");
 				result.rejectValue("tsJkn", "errors.workTime");
-				result.rejectValue("kdJkn", "errors.workTime");
 				result.rejectValue("kkJkn", "errors.workTime");
-				result.rejectValue("jkngi", "errors.workTime");
 			}
 			// 出社時間と退社時間がどちらかが入力されている場合に、出社時間よりも退社時間が遅いかをチェック
 			String removeColonSsJkn = workReportDaily.getSsJkn();
@@ -210,6 +220,8 @@ public class KK04001Controller {
 				if (workReportDaily.getSsJkn().length() < 3 || workReportDaily.getTsJkn().length() < 3
 						|| workReportDaily.getKkJkn().length() < 3) {
 					result.rejectValue("ssJkn", "errors.length.workTime");
+					result.rejectValue("tsJkn", "errors.length.workTime");
+					result.rejectValue("kkJkn", "errors.length.workTime");
 				}
 			}
 			if (result.hasErrors()) {
@@ -225,8 +237,8 @@ public class KK04001Controller {
 					do {
 						calendar.set(Calendar.DATE, first);
 						onlyDailyList.add((sdf.format(calendar.getTime()).substring(8, 12)));
-						form.setYear(sdf.format(calendar.getTime()).substring(0, 4) + "年");
-						form.setMonth(sdf.format(calendar.getTime()).substring(5, 7) + "月度");
+						KK04001Form.setYear(sdf.format(calendar.getTime()).substring(0, 4) + "年");
+						KK04001Form.setMonth(sdf.format(calendar.getTime()).substring(5, 7) + "月度");
 						first++;
 					} while (first <= last);
 					model.addAttribute("onlyDailyList", onlyDailyList);
@@ -234,14 +246,15 @@ public class KK04001Controller {
 					model.addAttribute("workDailyList", workDailyList);
 
 					// 名前を再取得する
-					form.setUserName(userService.findEmployeeName(userId));
+					KK04001Form.setUserName(userService.findEmployeeName(userId));
 					// フィールドの値を空にする
-					form.setSsJkn("");
-					form.setTsJkn("");
-					form.setKkJkn("");
-					form.setKdJkn("");
-					form.setJkngi("");
-					form.setBiko("");
+					KK04001Form.setSsJkn("");
+					KK04001Form.setTsJkn("");
+					KK04001Form.setKkJkn("");
+					KK04001Form.setKdJkn("");
+					KK04001Form.setJkngi("");
+					KK04001Form.setBiko("");
+					logger.info("---------------------------------------------------------------------入力項目についてエラーあり-----------------------------------------------------------------------------------------");
 					return "KK04001";
 				} else {
 					for (int j = 0; j < dayList.length; j++) {
@@ -255,19 +268,19 @@ public class KK04001Controller {
 					}
 					model.addAttribute("onlyDailyList", onlyDailyList);
 					model.addAttribute("workDailyList", workDailyList);
+					logger.info("---------------------------------------------------------------------入力項目についてエラーあり-----------------------------------------------------------------------------------------");
 					return "KK04001";
 				}
 			}
 			if (workDailyList.size() == 0) {// ない場合は登録・更新処理に進む
 				// DBへ勤務情報を登録する
-				dailyService.registWorkReportDaily(workReportDaily);
-				System.out.println("初めての日次情報登録完了");
+				dailyService.registWorkReportDaily(workReportDaily);	
 			} else {
 				// DBへ勤務情報の更新を行う
 				dailyService.updateWorkReportDaily(workReportDaily);
-				System.out.println("既存の日次情報更新完了");
 			}
 		}
+		logger.info("---------------------------------------------------------------------日次勤務表登録・更新完了-------------------------------------------------------------------------------------------");
 		// work_report_monthlyの登録
 		workReportMonthly.setYear(workReportMonthly.getYear().substring(0, 4));
 		workReportMonthly.setMonth(workReportMonthly.getMonth().substring(0, 2));
@@ -280,16 +293,17 @@ public class KK04001Controller {
 		workReportMonthly.setUpdUser(userInfo.getLoginUser().getUserId());
 		workReportMonthly.setUserId(userInfo.getLoginUser().getUserId());
 		// 参照している勤務表が自分のものかそうでないかを確認する
-		if (form.getUseUserId() != workReportMonthly.getUserId()) {
-			workReportMonthly.setUserId(form.getUseUserId());
+		if (KK04001Form.getUseUserId() != workReportMonthly.getUserId()) {
+			workReportMonthly.setUserId(KK04001Form.getUseUserId());
 		}
 		if (workDailyList.size() == 0) {
 			monthlyService.registWorkReportMonthly(workReportMonthly);
-			System.out.println("初めての月次情報登録完了");
+			
 		} else {
 			monthlyService.updateWorkReportMonthly(workReportMonthly);
-			System.out.println("既存の月次情報更新完了");
+			
 		}
+		logger.info("---------------------------------------------------------------------月次勤務表登録・更新完了----------------------------------------------------------------------------------------------");
 		// redirectのパラメータ使用
 		return "forward:/reroadKK04001";
 
@@ -317,7 +331,7 @@ public class KK04001Controller {
 			workReportMonthly.setUserId(KK04001Form.getUseUserId());
 		}
 		monthlyService.determineWorkReport(workReportMonthly);
-		System.out.println("管理者の確定処理完了");
+		logger.info("---------------------------------------------------------------------勤務表の確定処理完了----------------------------------------------------------------------------------------------");
 		return "forward:/reroadKK04001";
 	}
 
@@ -342,7 +356,7 @@ public class KK04001Controller {
 			workReportMonthly.setUserId(KK04001Form.getUseUserId());
 		}
 		monthlyService.editWorkReport(workReportMonthly);
-		System.out.println("管理者の取消処理完了");
+		logger.info("---------------------------------------------------------------------勤務表の取消処理完了----------------------------------------------------------------------------------------------");
 		// KK04001の初期表示で使用するパラメータをフォームに入れてfowardする
 		KK03001Form.setEmployeeName(KK04001Form.getUserName());
 		KK03001Form.setYear(KK04001Form.getYear());
@@ -353,6 +367,7 @@ public class KK04001Controller {
 	@RequestMapping(value = "operateWorkReport", params = "back")
 	public String getoutFromKK04001(KK04001Form KK04001Form, Model model, SessionStatus sessionStatus,
 			KK03001Form KK03001Form) {
+		logger.info("---------------------------------------------------------------------KK03001(社員一覧画面)またはKK02001(月別一覧画面)への遷移開始----------------------------------------------------------------------------------------------");
 		if (KK04001Form.getAdminFlg().equals("1")) {
 			List<String> employeeNameList = new ArrayList<>();
 			List<User> user = userService.findEmployeeCatalog();
@@ -363,9 +378,11 @@ public class KK04001Controller {
 			}
 			model.addAttribute("employeeNameList", employeeNameList);
 			sessionStatus.setComplete();
+			logger.info("---------------------------------------------------------------------KK03001(社員一覧画面)への遷移処理完了----------------------------------------------------------------------------------------------");
 			return "KK03001";
 		} else {
 			sessionStatus.setComplete();
+			logger.info("---------------------------------------------------------------------KK02001(月別一覧画面)への遷移処理完了----------------------------------------------------------------------------------------------");
 			return "redirect:/monthlyList";
 		}
 	}

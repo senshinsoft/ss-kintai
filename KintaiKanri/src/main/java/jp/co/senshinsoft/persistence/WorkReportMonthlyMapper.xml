@@ -32,7 +32,7 @@
 		pj_mei, tokkijiko, auth_flg ,ins_user ,ins_date,
 		upd_user, upd_date)
 		 VALUES (#{userId}, #{year}, #{month}, #{teiji}, #{kdJknKei}, #{jkngiKei}, #{pjMei}, #{tokkijiko}
-		 , #{authFlg}, #{userId}, CURRENT_TIMESTAMP, #{userId}, CURRENT_TIMESTAMP
+		 , #{authFlg}, #{insUser}, CURRENT_TIMESTAMP, #{updUser}, CURRENT_TIMESTAMP
 		)
 	</insert>
 	
@@ -43,6 +43,7 @@
 		kd_jkn_kei=#{kdJknKei}
 		,jkngi_kei=#{jkngiKei}
 		,pj_mei=#{pjMei}
+		,teiji=#{teiji}
 		,tokkijiko=#{tokkijiko}
 		,upd_user=#{updUser}
 		,upd_date=CURRENT_TIMESTAMP
@@ -56,7 +57,7 @@
 		work_report_monthly 
 	SET 
 		auth_flg = #{authFlg}, 
-		upd_user=#{userId},
+		upd_user=#{updUser},
 		upd_date=CURRENT_TIMESTAMP  
 	WHERE 
 		user_id=#{userId}
