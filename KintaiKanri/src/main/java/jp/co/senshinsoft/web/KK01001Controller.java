@@ -1,8 +1,11 @@
 package jp.co.senshinsoft.web;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,8 +42,11 @@ public class KK01001Controller {
 	@RequestMapping(value = "/loginConf", method = RequestMethod.POST)
 	public String loginConf(@Validated @ModelAttribute("KK01001Form") KK01001Form form, BindingResult result, Model model) {
 		if(result.hasErrors()) {
+//			List<ObjectError> errorList = result.getAllErrors();
+//			model.addAttribute("errorList", errorList);
 			return "KK01001";
 		}
+//		return "KK01002";
 		return "monthlyList";
 	}
 	

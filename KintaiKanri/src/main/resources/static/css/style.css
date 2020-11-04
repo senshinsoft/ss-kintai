@@ -15,12 +15,3 @@ table {
 li{
 	list-style:none;	
 }
-.position{
-	position:relative;
-}
-
-.move{
-	position:absolute;
-	top:163px;
-	left:80px;
-}

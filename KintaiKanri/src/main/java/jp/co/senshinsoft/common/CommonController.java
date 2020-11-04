@@ -29,7 +29,7 @@ public class CommonController {
 	private WorkReportDailyService dailyService;
 	@Autowired
 	private WorkReportMonthlyService monthlyService;
-	private List<WorkReportDaily> workDailyList = new ArrayList<>();
+
 	private GetLoginUserDetails userInfo = new GetLoginUserDetails();
 	private Calendar calendar = Calendar.getInstance();
 
@@ -50,16 +50,20 @@ public class CommonController {
 	 */
 	@RequestMapping(value = "reroadKK04001")
 	public String reroadKK04001(KK04001Form KK04001Form, Model model) {
+		 List<WorkReportDaily> workDailyList = new ArrayList<>();
 		String[] name = KK04001Form.getUserName().split(" ");
 		String userId = userService.findEmployeeUserId(name[0], name[1]);
-		String year = KK04001Form.getYear();
-		String month = KK04001Form.getMonth();
+		String year = KK04001Form.getYear().substring(0,4);
+		String month = KK04001Form.getMonth().substring(0,2);
+		if (KK04001Form.getUseUserId() != userInfo.getLoginUser().getUserId()) {
+			userId = KK04001Form.getUseUserId();
+		}
 		// Serviceクラスを呼び出して、KK04001に必要な値を取得する。
 		KK04001Form.setUserName(userService.findEmployeeName(userId));
 		// ユーザーの日次勤務情報のリスト取得してmodelオブジェクトへ格納する。
 		workDailyList = dailyService.findEmployeeWorkRecordDaily(userId, year, month);
 		Date date = new Date();
-		String day = workDailyList.get(0).getYear() + "/" + workDailyList.get(0).getMonth() + "/"
+		String day = year+ "/" + month + "/"
 				+ workDailyList.get(0).getDay();
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
@@ -79,7 +83,7 @@ public class CommonController {
 			calendar.set(Calendar.DATE, first);
 			workDailyList.get(first - 1).setDay((sdf.format(calendar.getTime()).substring(8, 12)));
 			first++;
-		} while (first <= last - 1);
+		} while (first <= last );
 		model.addAttribute("workDailyList", workDailyList);
 
 		// 勤務月次情報テーブルからKK04001に必要な値を取得して、modelオブジェクトへ格納する

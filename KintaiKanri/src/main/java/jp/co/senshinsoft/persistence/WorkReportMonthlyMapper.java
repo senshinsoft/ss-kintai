@@ -2,6 +2,8 @@ package jp.co.senshinsoft.persistence;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import jp.co.senshinsoft.domain.WorkReportMonthly;
 
 public interface WorkReportMonthlyMapper {
@@ -30,7 +32,6 @@ public interface WorkReportMonthlyMapper {
 	 * 管理者が社員の勤務報告を確定・取消にする際に使用する
 	 * @param workReportMonthly
 	 */
-	
 	public int changeAuthFlg(WorkReportMonthly workReportMonthly);
 
 }

@@ -13,19 +13,17 @@
 	<h1 class="mx-auto mt-5 mb-4" style="width: 200px;">社員一覧</h1>
 	<div class="mx-auto position" style="width: 200px;">
 		<form th:action="@{/inputWorkReport}" method="post"
-			th:object="${KK03001Form}" class=”form-inline”>
-
+			th:object="${KK03001Form}" class="mx-auto">
+		
 			<ul th:each="employeeName : ${employeeNameList}">
 				<li><input type="submit" th:value="${employeeName}" name="employeeName" class="btn btn-link"></li>
 			</ul>
-			<div class="">
-				<input type="submit" value=戻る name="back" class="btn btn-outline-secondary" style='display: inline-block;'>
-			</div>
+				<input type="submit" value=" 戻る " name="back" class="btn btn-outline-secondary" style="width: 150px;">
 			<input type="hidden" th:field="*{year}" name="year"> 
 			<input type="hidden" th:field="*{month}" name="month">
 		</form>
-		<form th:action="@{/logout}" class=”form-inline”>
-			<input type="submit" value=ログアウト name="logout" class="btn btn-outline-danger move">
+		<form th:action="@{/logout}" class="form-row">
+			<input type="submit" value=ログアウト name="logout" class="btn btn-outline-danger mt-3 ml-1" style="width: 154px;">
 		</form>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

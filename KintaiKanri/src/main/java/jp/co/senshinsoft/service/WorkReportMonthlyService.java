@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import jp.co.senshinsoft.domain.WorkReportDaily;
 import jp.co.senshinsoft.domain.WorkReportMonthly;
 import jp.co.senshinsoft.persistence.WorkReportMonthlyMapper;
 
@@ -60,7 +61,7 @@ public class WorkReportMonthlyService {
 	 * 
 	 * @param workReportMonthly
 	 */
-	@Transactional
+
 	public void editWorkReport(WorkReportMonthly workReportMonthly) {
 		mapper.changeAuthFlg(workReportMonthly);
 	}

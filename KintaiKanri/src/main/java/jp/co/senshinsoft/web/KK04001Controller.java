@@ -56,6 +56,7 @@ public class KK04001Controller {
 			String[] name = KK03001Form.getEmployeeName().split(" ");
 			userId = userService.findEmployeeUserId(name[0], name[1]);
 			year = KK03001Form.getYear();
+			KK04001Form.setUseUserId(userId);
 			month = KK03001Form.getMonth();
 		} else if (userInfo.getLoginUser().getAdminFlg().equals("0")) {
 			userId = userInfo.getLoginUser().getUserId();
@@ -84,6 +85,7 @@ public class KK04001Controller {
 			} while (first <= last);
 			// 新規登録なので承認済みフラグを0(未承認)に設定する。
 			KK04001Form.setAuthFlg("0");
+			KK04001Form.setAdminFlg(userInfo.getLoginUser().getAdminFlg());
 			model.addAttribute("onlyDailyList", onlyDailyList);
 			model.addAttribute("workDailyList", workDailyList);
 		} else {
@@ -127,8 +129,6 @@ public class KK04001Controller {
 		}
 		model.addAttribute("userRole", userInfo.getLoginUser().getAdminFlg());
 		KK04001Form.setAdminFlg(userInfo.getLoginUser().getAdminFlg());
-		System.out.println("adminFlg" + userInfo.getLoginUser().getAdminFlg());
-		System.out.println("authFlg" + KK04001Form.getAuthFlg());
 		return "KK04001";
 	}
 
@@ -155,7 +155,10 @@ public class KK04001Controller {
 			workReportDaily.setInsUser(userInfo.getLoginUser().getUserId());
 			workReportDaily.setUpdUser(userInfo.getLoginUser().getUserId());
 			workReportDaily.setUserId(userInfo.getLoginUser().getUserId());
-
+			// 参照している勤務表が自分のものかそうでないかを確認する
+			if (form.getUseUserId() != workReportDaily.getUserId()) {
+				workReportDaily.setUserId(form.getUseUserId());
+			}
 			// 年と月の文字を削除する。
 			workReportDaily.setYear(workReportDaily.getYear().substring(0, 4));
 			workReportDaily.setMonth(workReportDaily.getMonth().substring(0, 2));
@@ -198,7 +201,17 @@ public class KK04001Controller {
 			if (workReportMonthly.getTeiji().equals("")) {
 				result.rejectValue("teiji", "errors.teiji");
 			}
-
+			// 定時間の文字数が3文字以上であるかどうか
+			if (workReportMonthly.getTeiji().length() < 3) {
+				result.rejectValue("teiji", "errors.length.teiji");
+			}
+			if (workReportDaily.getSsJkn().length() != 0 || workReportDaily.getTsJkn().length() != 0
+					|| workReportDaily.getKkJkn().length() != 0) {
+				if (workReportDaily.getSsJkn().length() < 3 || workReportDaily.getTsJkn().length() < 3
+						|| workReportDaily.getKkJkn().length() < 3) {
+					result.rejectValue("ssJkn", "errors.length.workTime");
+				}
+			}
 			if (result.hasErrors()) {
 				// 新規登録か更新によってカレンダーをもう一度取得するか判定をする。workDailyList.size==0なら新規登録
 				if (workDailyList.size() == 0) {
@@ -217,16 +230,18 @@ public class KK04001Controller {
 						first++;
 					} while (first <= last);
 					model.addAttribute("onlyDailyList", onlyDailyList);
+					model.addAttribute("userRole", userInfo.getLoginUser().getAdminFlg());
 					model.addAttribute("workDailyList", workDailyList);
-					// 新規登録の場合、フィールドにカンマ区切りの処理をした際のカンマが残ってしまうのでformに空文字をセットして値を消す
-					form.setSsJkn("");
-					form.setTsJkn("");
-					form.setKdJkn("");
-					form.setKkJkn("");
-					form.setJkngi("");
-					form.setBiko("");
+
 					// 名前を再取得する
 					form.setUserName(userService.findEmployeeName(userId));
+					// フィールドの値を空にする
+					form.setSsJkn("");
+					form.setTsJkn("");
+					form.setKkJkn("");
+					form.setKdJkn("");
+					form.setJkngi("");
+					form.setBiko("");
 					return "KK04001";
 				} else {
 					for (int j = 0; j < dayList.length; j++) {
@@ -238,7 +253,6 @@ public class KK04001Controller {
 						workDailyList.get(j).setJkngi(jkngiList[j]);
 						workDailyList.get(j).setBiko(biko[j]);
 					}
-					// 新規登録の場合、フィールドにカンマ区切りの処理をした際のカンマが残ってしまうのでformに空文字をセットして値を消す
 					model.addAttribute("onlyDailyList", onlyDailyList);
 					model.addAttribute("workDailyList", workDailyList);
 					return "KK04001";
@@ -265,6 +279,10 @@ public class KK04001Controller {
 		workReportMonthly.setInsUser(userInfo.getLoginUser().getUserId());
 		workReportMonthly.setUpdUser(userInfo.getLoginUser().getUserId());
 		workReportMonthly.setUserId(userInfo.getLoginUser().getUserId());
+		// 参照している勤務表が自分のものかそうでないかを確認する
+		if (form.getUseUserId() != workReportMonthly.getUserId()) {
+			workReportMonthly.setUserId(form.getUseUserId());
+		}
 		if (workDailyList.size() == 0) {
 			monthlyService.registWorkReportMonthly(workReportMonthly);
 			System.out.println("初めての月次情報登録完了");
@@ -272,7 +290,7 @@ public class KK04001Controller {
 			monthlyService.updateWorkReportMonthly(workReportMonthly);
 			System.out.println("既存の月次情報更新完了");
 		}
-		//redirectのパラメータ使用
+		// redirectのパラメータ使用
 		return "forward:/reroadKK04001";
 
 	}
@@ -292,7 +310,12 @@ public class KK04001Controller {
 			workReportMonthly.setMonth(month[0].substring(0, 2));
 		}
 		workReportMonthly.setAuthFlg("1");
+		workReportMonthly.setUserId(userInfo.getLoginUser().getUserId());
 		workReportMonthly.setInsUser(userInfo.getLoginUser().getUserId());
+		workReportMonthly.setUpdUser(userInfo.getLoginUser().getUserId());
+		if (KK04001Form.getUseUserId() != workReportMonthly.getUserId()) {
+			workReportMonthly.setUserId(KK04001Form.getUseUserId());
+		}
 		monthlyService.determineWorkReport(workReportMonthly);
 		System.out.println("管理者の確定処理完了");
 		return "forward:/reroadKK04001";
@@ -312,7 +335,12 @@ public class KK04001Controller {
 			workReportMonthly.setMonth(workReportMonthly.getMonth().substring(0, 2));
 		}
 		workReportMonthly.setAuthFlg("0");
+		workReportMonthly.setUserId(userInfo.getLoginUser().getUserId());
 		workReportMonthly.setInsUser(userInfo.getLoginUser().getUserId());
+		workReportMonthly.setUpdUser(userInfo.getLoginUser().getUserId());
+		if (KK04001Form.getUseUserId() != workReportMonthly.getUserId()) {
+			workReportMonthly.setUserId(KK04001Form.getUseUserId());
+		}
 		monthlyService.editWorkReport(workReportMonthly);
 		System.out.println("管理者の取消処理完了");
 		// KK04001の初期表示で使用するパラメータをフォームに入れてfowardする

@@ -55,7 +55,7 @@
 	UPDATE 
 		work_report_monthly 
 	SET 
-		auth_flg = true, 
+		auth_flg = #{authFlg}, 
 		upd_user=#{userId},
 		upd_date=CURRENT_TIMESTAMP  
 	WHERE 

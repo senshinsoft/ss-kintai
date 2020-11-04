@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.senshinsoft.domain.WorkReportDaily;
 import jp.co.senshinsoft.persistence.WorkReportDailyMapper;
@@ -30,6 +31,7 @@ public class WorkReportDailyService {
 	 * 勤務日次情報の登録を行う
 	 * @param workReportDaily
 	 */
+	@Transactional
 	public void registWorkReportDaily(WorkReportDaily workReportDaily) {	
 				mapper.registWorkReportDaily(workReportDaily);
 		}
