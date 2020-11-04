@@ -37,21 +37,24 @@
 		ins_date,upd_user,upd_date)
 		VALUES(#{userId} ,#{year} ,#{month} ,#{day}
 		,#{ssJkn} ,#{tsJkn}
-		,#{kkJkn} ,#{kdJkn} ,#{jkngi} ,#{biko} ,#{userId}
+		,#{kkJkn} ,#{kdJkn} ,#{jkngi} ,#{biko} ,#{insUser}
 		,CURRENT_TIMESTAMP,
-		#{userId}, CURRENT_TIMESTAMP
+		#{updUser}, CURRENT_TIMESTAMP
 		);
 	</insert>
 
 	<update id="updateWorkReportDaily">
-		UPDATE work_report_daily SET 
-		ss_jkn=#{ssJkn}
-		,ts_jkn=#{tsJkn}
-		,kk_jkn=#{kkJkn}
-		,kd_jkn=#{kdJkn}
-		,jkngi=#{jkngi}
-		,biko=#{biko}
-		, upd_user=#{userId}
+		UPDATE 
+			work_report_daily 
+		SET 
+			ss_jkn=#{ssJkn}
+			,ts_jkn=#{tsJkn}
+			,kk_jkn=#{kkJkn}
+			,kd_jkn=#{kdJkn}
+			,jkngi=#{jkngi}
+			,biko=#{biko}
+			,upd_user=#{updUser}
+			,upd_date=CURRENT_TIMESTAMP
 		 WHERE year=#{year} AND month=#{month} AND day=#{day} AND user_id=#{userId}
 	</update>
 </mapper>
