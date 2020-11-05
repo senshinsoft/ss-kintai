@@ -27,3 +27,12 @@ KintaiKanri/bin/src/main/resources/mybatis-config.xml
 KintaiKanri/bin/src/main/resources/templates/KK01001.html
 KintaiKanri/bin/src/main/resources/templates/KK02001.html
 KintaiKanri/bin/src/main/resources/templates/KK03001.html
+KintaiKanri/bin/src/main/resources/application.properties
+docs/画面設計書/【勤怠管理システム_画面設計書】KK05001_メニュー画面.xlsx
+KintaiKanri/bin/.gitignore
+KintaiKanri/bin/src/main/java/jp/co/senshinsoft/auth/GetLoginUserDetails.class
+KintaiKanri/bin/src/main/java/jp/co/senshinsoft/common/CommonController.class
+KintaiKanri/bin/src/main/java/jp/co/senshinsoft/web/KK03001Form.class
+KintaiKanri/bin/src/main/resources/templates/.gitignore
+KintaiKanri/bin/src/main/resources/templates/common.html
+KintaiKanri/src/main/resources/templates/.gitignore
