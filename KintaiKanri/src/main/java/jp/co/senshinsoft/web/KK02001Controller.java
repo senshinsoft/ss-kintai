@@ -41,6 +41,8 @@ public class KK02001Controller {
 			model.addAttribute("oneYearCalendarList", oneYearCalendarList);
 		}
 		model.addAttribute("userInfo", userInfo.getLoginUser());
+		model.addAttribute("screenName", "月別一覧");
+		model.addAttribute("userName",userInfo.getLoginUser().getSei()+" "+userInfo.getLoginUser().getMei() );
 		return "KK02001";
 	}
 

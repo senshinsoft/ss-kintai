@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
+import jp.co.senshinsoft.auth.GetLoginUserDetails;
 import jp.co.senshinsoft.domain.User;
 import jp.co.senshinsoft.service.UserService;
 
@@ -17,7 +17,7 @@ import jp.co.senshinsoft.service.UserService;
 public class KK03001Controller {
 	@Autowired
 	private UserService userService;
-	
+	private GetLoginUserDetails userInfo = new GetLoginUserDetails();
 	/**
 	 * 社員一覧へ遷移（管理者）
 	 * @param model 社員一覧の名前を入れるモデル
@@ -35,6 +35,8 @@ public class KK03001Controller {
 			employeeNameList.add(user.get(i).getSei()+" "+user.get(i).getMei());
 		}
 		model.addAttribute("employeeNameList", employeeNameList);
+		model.addAttribute("screenName", "社員一覧");
+		model.addAttribute("userName",userInfo.getLoginUser().getSei()+" "+userInfo.getLoginUser().getMei() );
 		return "KK03001";
 	}
 
