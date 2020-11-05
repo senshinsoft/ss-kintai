@@ -160,8 +160,8 @@ function kdJknCalc() {
 
 		//稼働合計時間計算
 		//入力された各行の時間
-		tmp = window.document.forms[0].kdJkn[line].value;
-		tmp2 = window.document.forms[0].jkngi[line].value;
+		tmp = kdJkn[line].value;
+		tmp2 =jkngi[line].value;
 
 
 
@@ -272,8 +272,8 @@ function kdJknCalc() {
 				jkngiKei = jkngiKeiHour + ':' + jkngiKeiMin;
 			}
 
-			window.document.forms[0].kdJknKei.value = kdJknKei;
-			window.document.forms[0].jkngiKei.value = jkngiKei;
+			document.form.kdJknKei.value  =kdJknKei;
+			document.form.jkngiKei.value  =jkngiKei;
 		}
 
 		//出社・退社・休憩が空欄の場合に、Nanが出ないように空文字をセットする

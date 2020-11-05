@@ -1,16 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>社員一覧</title>
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-	crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+<head th:replace="common :: meta_header('社員一覧',~{::link},~{::script})">
 </head>
 <body>
-	<h1 class="mx-auto mt-5 mb-4" style="width: 200px;">社員一覧</h1>
+<div th:replace="common :: pageHeader"></div>
+	<h1 class="mx-auto mb-4" style="width: 200px;">社員一覧</h1>
 	<div class="mx-auto position" style="width: 200px;">
 		<form th:action="@{/inputWorkReport}" method="post"
 			th:object="${KK03001Form}" class="mx-auto">

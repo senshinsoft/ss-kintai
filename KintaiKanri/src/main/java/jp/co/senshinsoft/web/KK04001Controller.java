@@ -166,6 +166,9 @@ public class KK04001Controller {
 		String[] kdJknList = workReportDaily.getKdJkn().split(",", -1);
 		String[] jkngiList = workReportDaily.getJkngi().split(",", -1);
 		String[] biko = workReportDaily.getBiko().split(",", -1);
+		
+		//既に勤務表のデータが登録されていないかDBに問合せを行う
+		workDailyList = dailyService.findEmployeeWorkRecordDaily(userId, year, month);
 
 		for (int i = 0; i < dayList.length; i++) {
 			// ログイン情報の取得
@@ -290,13 +293,18 @@ public class KK04001Controller {
 			}
 		}
 		logger.info(
-				"---------------------------------------------------------------------日次勤務表登録・更新完了-------------------------------------------------------------------------------------------");
+				"---------------------------------------------------------------------"+year+"年"+month+"月度の"+"日次勤務表登録・更新完了-------------------------------------------------------------------------------------------");
+		logger.info(
+				"---------------------------------------------------------------------"+"作業者ID："+userInfo.getLoginUser().getUserId()+"-------------------------------------------------------------------------------------------");
+		logger.info(
+				"---------------------------------------------------------------------"+"作業対象者ID："+KK04001Form.getUseUserId()+"-------------------------------------------------------------------------------------------");
 		// work_report_monthlyの登録
 		workReportMonthly.setYear(workReportMonthly.getYear().substring(0, 4));
 		workReportMonthly.setMonth(workReportMonthly.getMonth().substring(0, 2));
 		if (Integer.parseInt(workReportMonthly.getMonth()) < 10) {
 			workReportMonthly.setMonth(workReportMonthly.getMonth().substring(0, 1));
 		}
+		//新規登録の場合は承認済みフラグを0にセットする
 		workReportMonthly.setAuthFlg("0");
 		// ログイン情報の取得
 		workReportMonthly.setInsUser(userInfo.getLoginUser().getUserId());
@@ -306,6 +314,7 @@ public class KK04001Controller {
 		if (KK04001Form.getUseUserId() != workReportMonthly.getUserId()) {
 			workReportMonthly.setUserId(KK04001Form.getUseUserId());
 		}
+	
 		if (workDailyList.size() == 0) {
 			monthlyService.registWorkReportMonthly(workReportMonthly);
 
@@ -314,7 +323,7 @@ public class KK04001Controller {
 
 		}
 		logger.info(
-				"---------------------------------------------------------------------月次勤務表登録・更新完了----------------------------------------------------------------------------------------------");
+				"---------------------------------------------------------------------"+year+"年"+month+"月度の"+"月次勤務表登録・更新完了----------------------------------------------------------------------------------------------");
 		// redirectのパラメータ使用
 		return "forward:/reroadKK04001";
 
@@ -344,6 +353,10 @@ public class KK04001Controller {
 		monthlyService.determineWorkReport(workReportMonthly);
 		logger.info(
 				"---------------------------------------------------------------------勤務表の確定処理完了----------------------------------------------------------------------------------------------");
+		logger.info(
+				"---------------------------------------------------------------------"+"作業者ID："+userInfo.getLoginUser().getUserId()+"-------------------------------------------------------------------------------------------");
+		logger.info(
+				"---------------------------------------------------------------------"+"作業対象者ID："+KK04001Form.getUseUserId()+"-------------------------------------------------------------------------------------------");
 		return "forward:/reroadKK04001";
 	}
 
@@ -370,6 +383,10 @@ public class KK04001Controller {
 		monthlyService.editWorkReport(workReportMonthly);
 		logger.info(
 				"---------------------------------------------------------------------勤務表の取消処理完了----------------------------------------------------------------------------------------------");
+		logger.info(
+				"---------------------------------------------------------------------"+"作業者ID："+userInfo.getLoginUser().getUserId()+"-------------------------------------------------------------------------------------------");
+		logger.info(
+				"---------------------------------------------------------------------"+"作業対象者ID："+KK04001Form.getUseUserId()+"-------------------------------------------------------------------------------------------");
 		// KK04001の初期表示で使用するパラメータをフォームに入れてfowardする
 		KK03001Form.setEmployeeName(KK04001Form.getUserName());
 		KK03001Form.setYear(KK04001Form.getYear());

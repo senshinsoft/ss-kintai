@@ -1,19 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>勤務報告書</title>
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-	crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+<head th:replace="common :: meta_header('勤務報告書',~{::link},~{::script})">
 <script type="text/javascript" th:src="@{js/script.js}"></script>
 </head>
 <body>
+<div th:replace="common :: pageHeader"></div>
 	<form th:action="@{/operateWorkReport}" th:object="${KK04001Form}"
-		method="post">
-
+		method="post" name="form">
 		<div class="width">
 			<h1 class="mx-auto mt-5" style="width: 300px;">勤務報告書</h1>
 			<p th:if="${workDailyList.size()} != 0" th:text="*{workingDate}"
@@ -51,8 +44,8 @@
 					<td><input type="text"   th:value="${workRepo.ssJkn}" name="ssJkn"   onfocus="offColon(this);"onblur="toColon(this);kdJknCalc()"  th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
 					<td><input type="text"   th:value="${workRepo.tsJkn}" name="tsJkn"   onfocus="offColon(this);" onblur="toColon(this);kdJknCalc()"   th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
 					<td><input type="text"  th:value="${workRepo.kkJkn}" name="kkJkn"     onfocus="offColon(this);" onblur="toColon(this);kdJknCalc()"   th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
-					<td><input type="text"  th:value="${workRepo.kdJkn}" name="kdJkn" onInput="calcKdJknKei()" th:errorclass="error-input" readonly="readonly"></td>
-					<td><input type="text"  th:value="${workRepo.jkngi}" name="jkngi" onInput="calcJkngiKei()" maxlength="5"   th:errorclass="error-input" readonly="readonly"></td>
+					<td><input type="text"  th:value="${workRepo.kdJkn}" name="kdJkn"  th:errorclass="error-input" readonly="readonly"></td>
+					<td><input type="text"  th:value="${workRepo.jkngi}" name="jkngi"    th:errorclass="error-input" readonly="readonly"></td>
 					<td><input type="text" th:value="${workRepo.biko}" name="biko" th:readonly="*{authFlg}==1" pattern ="^[^ -~｡-ﾟ]+$" title="全て全角文字で入力してください"></td>
 				</tr>
 				<tr th:each="day : ${onlyDailyList}"
@@ -61,13 +54,13 @@
 					<td><input type="text" th:value="*{ssJkn}" onfocus="offColon(this);"onblur="toColon(this);kdJknCalc()" name="ssJkn" th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
 					<td><input type="text" th:value="*{tsJkn}" onfocus="offColon(this);"onblur="toColon(this);kdJknCalc()" name="tsJkn" th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
 					<td><input type="text" th:value="*{kkJkn}" onfocus="offColon(this);"onblur="toColon(this);kdJknCalc()" th:errorclass="error-input" name="kkJkn" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
-					<td><input type="text"  th:value="*{kdJkn}" onInput="calcKdJknKei()" name="kdJkn" th:errorclass="error-input" readonly="readonly"></td>
-					<td><input type="text" th:value="*{jkngi}" onInput="calcJkngiKei()" name="jkngi" th:errorclass="error-input" readonly="readonly"></td>
-					<td><input type="text" th:field="*{biko}" th:readonly="*{authFlg}==1"></td>
+					<td><input type="text"  th:value="*{kdJkn}"  name="kdJkn" th:errorclass="error-input" readonly="readonly"></td>
+					<td><input type="text" th:value="*{jkngi}"  name="jkngi" th:errorclass="error-input" readonly="readonly"></td>
+					<td><input type="text" th:field="*{biko}" th:readonly="*{authFlg}==1" pattern ="^[^ -~｡-ﾟ]+$" title="全て全角文字で入力してください"></td>
 				</tr>
 				<tr>
 					<td colspan="4">合計時間</td>
-					<td><input type="text" name="kdJknKei" th:value="*{kdJknKei}" readonly="readonly"></td>
+					<td><input type="text" th:value="*{kdJknKei}" name="kdJknKei" readonly="readonly"></td>
 					<td><input type="text" th:value="*{jkngiKei}" name="jkngiKei" readonly="readonly"></td>
 					<td><input type="text" name="pjMei" th:value="*{pjMei}"placeholder="プロジェクト名" th:readonly="*{authFlg}==1"></td>
 				</tr>
