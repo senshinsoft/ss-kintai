@@ -25,6 +25,7 @@ public class KK02001Controller {
 
 	/**
 	 * 現在月から過去12ヶ月のリストをYYYY年MM月の形で表示する
+	 * 
 	 * @return KK02001のパス
 	 */
 	@RequestMapping(value = "/monthlyList", method = RequestMethod.GET)
@@ -41,5 +42,10 @@ public class KK02001Controller {
 		}
 		model.addAttribute("userInfo", userInfo.getLoginUser());
 		return "KK02001";
+	}
+
+	@RequestMapping(value = "/menu", params = "back")
+	public String backnemu() {
+		return "redirect:/menu";
 	}
 }

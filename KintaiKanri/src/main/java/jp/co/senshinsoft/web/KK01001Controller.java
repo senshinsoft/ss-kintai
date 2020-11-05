@@ -37,7 +37,7 @@ public class KK01001Controller {
 	/**
 	 * @param form
 	 * @param result
-	 * @return 遷移先画面パス（月別一覧画面）
+	 * @return 遷移先画面パス（メニュー画面）
 	 */
 	@RequestMapping(value = "/loginConf", method = RequestMethod.POST)
 	public String loginConf(@Validated @ModelAttribute("KK01001Form") KK01001Form form, BindingResult result, Model model) {
@@ -46,8 +46,8 @@ public class KK01001Controller {
 //			model.addAttribute("errorList", errorList);
 			return "KK01001";
 		}
-//		return "KK01002";
-		return "monthlyList";
+//		return "KK00501";
+		return "KK05001";
 	}
 	
 }
