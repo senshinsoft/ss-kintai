@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+
 <title>パスワード変更</title>
 </head>
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+
 
 <body>
 <h1>パスワード変更</h1>
@@ -16,7 +24,7 @@
 ・登録が終わったら変更完了メッセージを表示
  -->
 
-<form>
+<form th:action=@{KK06001}>
 
 <table>
 	<tr>
@@ -39,7 +47,7 @@
 <br>
 
 <input type="submit" value="OK">
-<input type="submit" value="戻る" formaction="KK05001">
+<input type="submit" value="戻る" name="back" formaction="KK05001">
 
 </form>
 

@@ -36,3 +36,6 @@ KintaiKanri/bin/src/main/java/jp/co/senshinsoft/web/KK03001Form.class
 KintaiKanri/bin/src/main/resources/templates/.gitignore
 KintaiKanri/bin/src/main/resources/templates/common.html
 KintaiKanri/src/main/resources/templates/.gitignore
+KintaiKanri/bin/src/main/java/jp/co/senshinsoft/web/KK05001Controller.class
+KintaiKanri/bin/src/main/resources/templates/KK05001.html
+KintaiKanri/src/main/java/jp/co/senshinsoft/web/KK06001Controller.java
