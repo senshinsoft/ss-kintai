@@ -55,6 +55,13 @@
 			,biko=#{biko}
 			,upd_user=#{updUser}
 			,upd_date=CURRENT_TIMESTAMP
-		 WHERE year=#{year} AND month=#{month} AND day=#{day} AND user_id=#{userId}
+		 WHERE 
+		 		year=#{year} 
+		 	AND 
+		 		month=#{month} 
+		 	AND 
+		 		day=#{day} 
+		 	AND 
+		 		user_id=#{userId}
 	</update>
 </mapper>

@@ -4,18 +4,17 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <!-- (2)共通で読み込むCSS/JS -->
     <link rel="stylesheet" href="/css/common.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- (3)タイトルのフォーマット -->
-    <title th:text="${title}+' | sample app'">各ページタイトル | sample app</title>
-
-    <!-- (4)各View固有で読み込むもの -->
-    <th:block th:replace="${links} ?: _" />
-    <th:block th:replace="${scripts} ?: _" />
+     <title th:text="${title}"></title>
 </head>
 <body>
     <!-- (5)body内で共通化したい部品をfragment化する -->
-    <header th:fragment="header">
-        <h1><a th:href="@{'/'}">sample app</a></h1>
-    </header>
+    <th:block th:fragment="pageHeader">
+       <form th:action="@{/logout}">
+				<input type="submit" value=ログアウト name="logout" class="btn btn-outline-danger mx-auto　mb-5 btn-sm" style="width: 180px;">
+		</form>
+		<p th:text="*{screenName}"></p>
+		<p th:text="*{userName}"></p>
+    </th:block>
 </body>
 </html>
