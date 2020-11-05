@@ -147,7 +147,7 @@ function kdJknCalc() {
 					jkngiTime = diffJkngiHour + ':' + diffJkngiMin;
 				}
 				else if (jkngiTime.length == 4) {
-					workTime = diffJkngiHour + ':' + diffJkngiMin;
+					jkngiTime = diffJkngiHour + ':' + diffJkngiMin;
 				}
 				else {
 					diffJkngiHour = ('00' + diffJkngiHour).slice(-2);

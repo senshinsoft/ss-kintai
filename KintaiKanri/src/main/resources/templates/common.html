@@ -1,0 +1,20 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- (1)共通にしたいheadをfragment化する -->
+<head th:fragment="meta_header(title,links,scripts)">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- (2)共通で読み込むCSS/JS -->
+    <link rel="stylesheet" href="/css/common.css" />
+    <!-- (3)タイトルのフォーマット -->
+     <title th:text="${title}"></title>
+</head>
+<body>
+    <!-- (5)body内で共通化したい部品をfragment化する -->
+    <th:block th:fragment="pageHeader">
+       <form th:action="@{/logout}">
+				<input type="submit" value=ログアウト name="logout" class="btn btn-outline-danger mx-auto　mb-5 btn-sm" style="width: 180px;">
+		</form>
+		<p th:text="*{screenName}"></p>
+		<p th:text="*{userName}"></p>
+    </th:block>
+</body>
+</html>

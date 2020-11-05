@@ -55,9 +55,6 @@ public class CommonController {
 		String userId = userService.findEmployeeUserId(name[0], name[1]);
 		String year = KK04001Form.getYear().substring(0,4);
 		String month = KK04001Form.getMonth().substring(0,2);
-		if (KK04001Form.getUseUserId() != userInfo.getLoginUser().getUserId()) {
-			userId = KK04001Form.getUseUserId();
-		}
 		// Serviceクラスを呼び出して、KK04001に必要な値を取得する。
 		KK04001Form.setUserName(userService.findEmployeeName(userId));
 		// ユーザーの日次勤務情報のリスト取得してmodelオブジェクトへ格納する。

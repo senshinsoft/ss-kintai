@@ -40,7 +40,7 @@ public class KK04001Form implements Serializable {
 		// --------------userテーブル--------------
 		userId = "";
 		userName = "";
-		useUserId="";  //参照している勤務表のユーザーID
+		useUserId="";
 		// ---------------------------------------
 		// --------------work_report_dailyテーブル-------------------
 		ssJkn = "";
