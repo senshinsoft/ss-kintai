@@ -254,6 +254,7 @@ public class KK04001Controller {
 					KK04001Form.setKdJkn("");
 					KK04001Form.setJkngi("");
 					KK04001Form.setBiko("");
+					model.addAttribute("userRole", userInfo.getLoginUser().getAdminFlg());
 					logger.info("---------------------------------------------------------------------入力項目についてエラーあり-----------------------------------------------------------------------------------------");
 					return "KK04001";
 				} else {
@@ -268,6 +269,7 @@ public class KK04001Controller {
 					}
 					model.addAttribute("onlyDailyList", onlyDailyList);
 					model.addAttribute("workDailyList", workDailyList);
+					model.addAttribute("userRole", userInfo.getLoginUser().getAdminFlg());
 					logger.info("---------------------------------------------------------------------入力項目についてエラーあり-----------------------------------------------------------------------------------------");
 					return "KK04001";
 				}

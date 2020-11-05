@@ -80,15 +80,15 @@
 		<div class="mx-auto pt-4 pb-5 form-group" style="width: 500px;">
 
 			<input type="submit" value="　戻る　" name="back" class="btn btn-outline-danger .w-25 mr-2 mt-1"> 
-<!-- 承認済みフラグが0(ユーザー編集可能)の場合はユーザー編集を可能にする -->
+		<!-- 承認済みフラグが0(ユーザー編集可能)の場合はユーザー編集を可能にする -->
 		<input type="submit"  value="　登録　" name="registRecord" class="btn btn-outline-primary .w-25 mr-2 mt-1" th:disabled="*{authFlg}==1">		
-<!-- ユーザーの権限が1(管理者)の場合は以下のボタンを表示する -->
+		<!-- ユーザーの権限が1(管理者)の場合は以下のボタンを表示する -->
 			<span th:if="${userRole} == 1"> 
 				<input type="submit" value="　取消　"  name="admin-edit" th:disabled="*{authFlg}==0" class="btn btn-outline-warning .w-25 mr-2 mt-1"> 
 				<input type="submit" value="　確定　" name="admin-regist" th:disabled="*{authFlg}==1" class="btn btn-outline-primary .w-25 mr-2 mt-1">
 			</span>
 		</div>
-<!-- hiddenで送信する値 -->
+		<!-- hiddenで送信する値 -->
 		<input type="hidden" th:field="*{year}" name="year">
 		 <input type="hidden" th:field="*{month}" name="month">
 		  <input type="hidden" th:field="*{workingDate}" name="workingDate">
