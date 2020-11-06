@@ -100,4 +100,10 @@ public class CommonController {
 		KK04001Form.setAdminFlg(userInfo.getLoginUser().getAdminFlg());
 		return "KK04001";
 	}
+	
+	//戻るボタンを押してメニュー画面に戻る
+	@RequestMapping(value="/menu", params="back")
+	public String backMenu() {
+		return"/KK05001";
+	}
 }
