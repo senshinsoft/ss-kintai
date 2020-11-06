@@ -1,16 +1,20 @@
 package jp.co.senshinsoft.web;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 public class KK06001Form {
 	
 	@NotEmpty
+	@Size(min=8, max=12, message="{0}は、{min}字から{max}字で入力してください。")
 	private String old_pass;
 	
 	@NotEmpty
+	@Size(min=8, max=12, message="{0}は、{min}字から{max}字で入力してください。")
 	private String new_pass;
 	
 	@NotEmpty
+	@Size(min=8, max=12, message="{0}は、{min}字から{max}字で入力してください。")
 	private String check_pass;
 	
 	
