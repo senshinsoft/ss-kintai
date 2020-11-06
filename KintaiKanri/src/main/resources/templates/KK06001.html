@@ -38,7 +38,7 @@
 	</tr>
 
 	<tr>
-		<th align="left" >確認用：</th>
+		<th align="left" >新しいパスワード(確認用)：</th>
 		<th><input type="password" name="check_pass"></th>
 	</tr>
 
@@ -46,12 +46,20 @@
 
 <br>
 
+
+
+
 </form>
 
-<form th:action="@{/menu}" name="back" class="btn btn-outline-secondary">
-<input type="submit" value="戻る" name="back" >
+
+<form th:action="@{/menu}" >
+	<input type="submit" value="戻る" name="back" 
+		class="btn btn-outline-danger .w-25 mr-2 mt-1">
+
+<input type="submit" value="登録"
+	class="btn btn-outline-primary .w-25 mr-2 mt-1">
 </form>
-<input type="submit" value="登録">
+ 
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

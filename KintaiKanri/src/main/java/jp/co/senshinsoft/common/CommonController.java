@@ -102,7 +102,7 @@ public class CommonController {
 	}
 	
 	//戻るボタンを押してメニュー画面に戻る
-	@RequestMapping(value="/menu", params="back")
+	@RequestMapping(value="/menu", params="back", method = RequestMethod.POST)
 	public String backMenu() {
 		return"/KK05001";
 	}
