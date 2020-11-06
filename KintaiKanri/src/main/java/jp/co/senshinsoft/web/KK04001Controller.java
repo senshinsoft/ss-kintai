@@ -142,6 +142,8 @@ public class KK04001Controller {
 		}
 		model.addAttribute("userRole", userInfo.getLoginUser().getAdminFlg());
 		KK04001Form.setAdminFlg(userInfo.getLoginUser().getAdminFlg());
+		model.addAttribute("screenName", "勤務報告書");
+		model.addAttribute("userName",userInfo.getLoginUser().getSei()+" "+userInfo.getLoginUser().getMei() );
 		logger.info(
 				"-----------------------------------------------------KK04001(勤務表報告書画面)初期表示完了-------------------------------------------------------------------------------");
 		return "KK04001";
@@ -263,6 +265,8 @@ public class KK04001Controller {
 					KK04001Form.setJkngi("");
 					KK04001Form.setBiko("");
 					model.addAttribute("userRole", userInfo.getLoginUser().getAdminFlg());
+					model.addAttribute("screenName", "勤務報告書");
+					model.addAttribute("userName",userInfo.getLoginUser().getSei()+" "+userInfo.getLoginUser().getMei() );
 					logger.info(
 							"---------------------------------------------------------------------入力項目についてエラーあり-----------------------------------------------------------------------------------------");
 					return "KK04001";
@@ -279,6 +283,8 @@ public class KK04001Controller {
 					model.addAttribute("onlyDailyList", onlyDailyList);
 					model.addAttribute("workDailyList", workDailyList);
 					model.addAttribute("userRole", userInfo.getLoginUser().getAdminFlg());
+					model.addAttribute("screenName", "勤務報告書");
+					model.addAttribute("userName",userInfo.getLoginUser().getSei()+" "+userInfo.getLoginUser().getMei() );
 					logger.info(
 							"---------------------------------------------------------------------入力項目についてエラーあり-----------------------------------------------------------------------------------------");
 					return "KK04001";
@@ -408,12 +414,16 @@ public class KK04001Controller {
 				employeeNameList.add(user.get(i).getSei() + " " + user.get(i).getMei());
 			}
 			model.addAttribute("employeeNameList", employeeNameList);
+			model.addAttribute("screenName", "社員一覧");
+			model.addAttribute("userName",userInfo.getLoginUser().getSei()+" "+userInfo.getLoginUser().getMei() );
 			sessionStatus.setComplete();
 			logger.info(
 					"---------------------------------------------------------------------KK03001(社員一覧画面)への遷移処理完了----------------------------------------------------------------------------------------------");
 			return "KK03001";
 		} else {
 			sessionStatus.setComplete();
+			model.addAttribute("screenName", "月別一覧");
+			model.addAttribute("userName",userInfo.getLoginUser().getSei()+" "+userInfo.getLoginUser().getMei() );
 			logger.info(
 					"---------------------------------------------------------------------KK02001(月別一覧画面)への遷移処理完了----------------------------------------------------------------------------------------------");
 			return "redirect:/monthlyList";

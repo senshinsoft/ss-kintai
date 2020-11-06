@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="/css/common.css" />
 <link rel="stylesheet" href="/css/style.css" />
 <!-- (3)タイトルのフォーマット -->
-<title th:text="${title}+' | 勤怠管理システム'">各ページタイトル | </title>
+<title th:text="${title}+' | 勤怠管理システム'">各ページタイトル |</title>
 <!-- (4)ページ固有のCSS -->
 <th:block th:replace="${scripts} ?: _" />
 </head>
@@ -18,15 +18,30 @@
 	<!-- (4)body内で共通化したい部品をfragment化する -->
 	<th:block th:fragment="pageHeader">
 		<header>
-			<form th:action="@{/logout}">
-				<input type="submit" value=ログアウト name="logout"
-					class="btn btn-outline-danger mx-auto　mt-5 ml-5">
-			</form>
-			<!-- 		<p th:text="*{screenName}"></p> -->
-			<!-- 		<p th:text="*{userName}"></p> -->
+			<div class="width">
+				画面名： <span th:text="${screenName}" class="underSpace"></span> <br><br>ログイン者：<span
+					th:text="${userName}"></span>
+				<div class="right">
+					<form th:action="@{/logout}" class="logout">
+						<input type="submit" value=ログアウト name="logout"
+							class="btn btn-outline-danger mx-auto　mt-5 ml-5">
+					</form>
+				</div>
+			</div>
 		</header>
-		
 	</th:block>
-
+	<th:block th:fragment="pageFooter">
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+			integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+			integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+			integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+			crossorigin="anonymous"></script>
+	</th:block>
 </body>
 </html>
