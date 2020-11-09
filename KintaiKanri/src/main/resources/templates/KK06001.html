@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 
-<title>パスワード変更</title>
-</head>
-
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
 	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
 	crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+
+<title>パスワード変更</title>
+</head>
 
 
 <body>
@@ -24,29 +24,27 @@
 ・登録が終わったら変更完了メッセージを表示
  -->
 
-<form th:action=@{KK06001}>
+<form th:action=@{/pass}>
 
 <table>
 	<tr>
 		<th align="left">現在のパスワード：</th>
-		<th><input type="password" name="old_pass"></th>
+		<th><input type="password" th:field="*{old_pass}" ></th>
 	</tr>
 
 	<tr>
 		<th align="left">新しいパスワード：</th>
-		<th><input type="password" name="new_pass"></th>
+		<th><input type="password" th:field="*{new_pass}"></th>
 	</tr>
 
 	<tr>
 		<th align="left" >新しいパスワード(確認用)：</th>
-		<th><input type="password" name="check_pass"></th>
+		<th><input type="password" th:field="*{check_pass}"></th>
 	</tr>
 
 </table>
 
 <br>
-
-
 
 
 </form>
