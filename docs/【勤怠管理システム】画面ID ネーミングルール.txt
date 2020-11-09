@@ -20,7 +20,7 @@
 
 
 ex.）ログイン画面のコントローラの場合
-		KK01001_Controller.java
+		KK01001Controller.java
 
 	ログイン画面のHTMLファイルの場合
 		KK01001.html
