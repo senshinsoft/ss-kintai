@@ -6,9 +6,8 @@
 	<div th:replace="common :: pageHeader"></div>
 	<div class="container">
 		<div class="mx-auto" style="width: 200px;">
-			<h1 class="mx-auto pb-3" style="width: 200px;">メニュー</h1>
+			<h1 class="mx-auto pt-4 mt-4 mb-4" style="width: 200px;">メニュー</h1>
 			<div th:if="${userInfo.adminFlg} == 1">
-				<p>管理者</p>
 				<form th:action="@{/menuConf}">
 					<input type="submit" value=月別一覧 name="monthlyList"
 						class="btn btn-link"> <input type="submit" value=パスワード変更
@@ -17,7 +16,6 @@
 				</form>
 			</div>
 			<div th:if="${userInfo.adminFlg} == 0">
-				<p>一般社員</p>
 				<form th:action="@{/menuConf}">
 					<input type="submit" value=月別一覧 name="monthlyList"
 						class="btn btn-link"> <input type="submit" value=パスワード変更
