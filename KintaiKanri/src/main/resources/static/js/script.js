@@ -29,7 +29,10 @@ function offColon(obj) {
 	}
 }
 
-function kdJknCalc() {
+/*****************************************************************
+ * 稼働、時間外労働時間をを計算して、合計稼働、合計時間外稼働時間を出力する
+ *****************************************************************/
+function workTimeCalc() {
 	var line;
 	var tmp;
 	var ssJkn = document.getElementsByName("ssJkn");
@@ -39,7 +42,7 @@ function kdJknCalc() {
 	var jkngi = document.getElementsByName("jkngi");
 	var teiji = document.getElementsByName("teiji");
 	var line;
-	var workTime = "";
+	var kdTime = "";
 	var jkngiTime = 0;
 	var jkngiKei = '00:00';
 	var kdJknKei = '00:00';
@@ -50,11 +53,11 @@ function kdJknCalc() {
 		envalorg = tsJkn[line].value.replace(/^\s+|\s+$|\:/g, '');
 		kkvalorg = kkJkn[line].value.replace(/^\s+|\s+$|\:/g, '');
 
-		//未入力、数値ではない、時刻逆転の３種類の場合、計算対象外にします。
+		//未入力、時刻逆転の場合、計算対象外にします。
 		if (stvalorg == '' || envalorg == '' || kkvalorg == ''
 			|| isNaN(stvalorg) || isNaN(envalorg) || isNaN(kkvalorg)
 			|| stvalorg > envalorg) {
-			myhr = 0;
+			workhr = '00:00';
 		} else {
 			//時と分を2桁ずつ切り出します。
 			stmn = stvalorg.substr(-2, 2);
@@ -64,52 +67,53 @@ function kdJknCalc() {
 			enhr = envalorg.substr(-4, 2);
 			kkhr = kkvalorg.substr(-4, 2);
 
-			myhr2 = parseInt(enhr) - parseInt(sthr) - parseInt(kkhr);
-			myhr3 = (parseInt(enmn) - parseInt(stmn) - parseInt(kkmn)) / 60;
+			workhr = parseInt(enhr) - parseInt(sthr) - parseInt(kkhr);
+			workmn = (parseInt(enmn) - parseInt(stmn) - parseInt(kkmn)) / 60;
 
-			if (myhr3 < 0) {
-				myhr2 = parseInt(enhr) - parseInt(sthr) - parseInt(kkhr) - 1;
-				myhr3 = 1 + myhr3;
-				myhr3 = Math.round(myhr3 * 60);
+			if (workmn < 0) {
+				workhr = parseInt(enhr) - parseInt(sthr) - parseInt(kkhr) - 1;
+				workmn = 1 + workmn;
+				workmn = Math.round(workmn * 60);
 			}
 
-			else if (myhr3 < -100) {
-				myhr2 = parseInt(enhr) - parseInt(sthr) - parseInt(kkhr) - 2;
-				myhr3 = 1 + myhr3;
-				myhr3 = Math.round(myhr3 * 60);
+			else if (workmn < -100) {
+				workhr = parseInt(enhr) - parseInt(sthr) - parseInt(kkhr) - 2;
+				workmn = 2 + workmn;
+				workmn = Math.round(workmn * 60);
 
 			} else {
-				myhr3 = Math.round(myhr3 * 60);
+				workmn = Math.round(workmn * 60);
 			}
-			myhr2 = String(myhr2);
-			myhr3 = String(myhr3);
-			workTime = myhr2 + myhr3;
+			workhr = String(workhr);
+			workmn = String(workmn);
+			kdTime = workhr + workmn;
 
-			if (workTime.length == 3) {
-				myhr2 = ('00' + myhr2).slice(-2);
-				myhr3 = ('00' + myhr3).slice(-2);
-				workTime = myhr2 + ':' + myhr3;
+			if (kdTime.length == 3) {
+				workhr = ('00' + workhr).slice(-2);
+				workmn = ('00' + workmn).slice(-2);
+				kdTime = workhr + ':' + workmn;
 			}
-			else if (workTime.length == 4) {
-				workTime = myhr2 + ':' + myhr3;
+			else if (kdTime.length == 4) {
+				kdTime = workhr + ':' + workmn;
 			}
 			else {
-				myhr2 = ('00' + myhr2).slice(-2);
-				myhr3 = ('00' + myhr3).slice(-2);
-				workTime = myhr2 + ':' + myhr3;
+				workhr = ('00' + workhr).slice(-2);
+				workmn = ('00' + workmn).slice(-2);
+				kdTime = workhr + ':' + workmn;
 			}
 		}
 
-		kdJkn[line].value = workTime;
+		kdJkn[line].value = kdTime;
 
 
 		//時間外労働時間計算
-		calcKdjkn = workTime.replace(/^\s+|\s+$|\:/g, '');
+		calcKdjkn = kdTime.replace(/^\s+|\s+$|\:/g, '');
 		calcTeiji = teiji[0].value.replace(/^\s+|\s+$|\:/g, '');
-
+		
+	
 		if (calcTeiji == '' || isNaN(calcTeiji) ||
 			calcKdjkn == '' || isNaN(calcKdjkn)) {
-			totalJkngi = 0;
+			totalJkngi = '00:00';
 		} else {
 			kdHour = calcKdjkn.substr(-4, 2);
 			teijiHour = calcTeiji.substr(-4, 2);
@@ -127,7 +131,7 @@ function kdJknCalc() {
 
 			else if (diffJkngiMin < -100) {
 				diffJkngiHour = parseInt(enhr) - parseInt(sthr) - parseInt(kkhr) - 2;
-				diffJkngiMin = 1 + diffJkngiMin;
+				diffJkngiMin = 2 + diffJkngiMin;
 				diffJkngiMin = Math.round(diffJkngiMin * 60);
 
 			} else {
@@ -173,9 +177,9 @@ function kdJknCalc() {
 
 		if (tmp != "" && tmp2 != "") {
 			//時と分を2桁ずつ切り出します。
-			workTimemn = tmp.substr(-2, 2);
+			kdTimemn = tmp.substr(-2, 2);
 			jkngimn = tmp2.substr(-2, 2);
-			workTimehr = tmp.substr(-4, 2);
+			kdTimehr = tmp.substr(-4, 2);
 			jkngihr = tmp2.substr(-4, 2);
 
 			kdKeihr = kdJknKei.substr(-4, 2);
@@ -186,8 +190,8 @@ function kdJknCalc() {
 
 			sumJkngiHour = parseInt(jkngihr);
 			sumJkngiMin = (parseInt(jkngimn)) / 60;
-			sumWorkTimeHour = parseInt(workTimehr);
-			sumWorkTimeMin = (parseInt(workTimemn)) / 60;
+			sumKdTimeHour = parseInt(kdTimehr);
+			sumKdTimeMin = (parseInt(kdTimemn)) / 60;
 
 			sumJkngiKeiHour = parseInt(jkngiKeihr);
 			sumKdJknKeiHour = parseInt(kdKeihr);
@@ -195,9 +199,9 @@ function kdJknCalc() {
 			sumKdJknKeiMin = (parseInt(kdKeimn)) / 60;
 
 
-			kdJknKeiHour = parseInt(sumKdJknKeiHour) + parseInt(sumWorkTimeHour);
+			kdJknKeiHour = parseInt(sumKdJknKeiHour) + parseInt(sumKdTimeHour);
 			jkngiKeiHour = parseInt(sumJkngiHour) + parseInt(sumJkngiKeiHour);
-			kdJknKeiMin = parseFloat(sumWorkTimeMin) + parseFloat(sumKdJknKeiMin);
+			kdJknKeiMin = parseFloat(sumKdTimeMin) + parseFloat(sumKdJknKeiMin);
 			jkngiKeiMin = parseFloat(sumJkngiMin) + parseFloat(sumJkngiKeiMin);
 
 			//稼働合計時間の60進数に直す計算
@@ -278,7 +282,7 @@ function kdJknCalc() {
 
 		//出社・退社・休憩が空欄の場合に、Nanが出ないように空文字をセットする
 		jkngiTime = "";
-		workTime = "";
+		kdTime = "";
 		jkngiKei == "";
 		kdJknKei == "";
 	}

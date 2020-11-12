@@ -46,5 +46,8 @@ public class KK02001Controller {
 		return "KK02001";
 	}
 
-	
+	@RequestMapping(value = "/menu", params = "back")
+	public String backnemu() {
+		return "redirect:/menu";
+	}
 }
