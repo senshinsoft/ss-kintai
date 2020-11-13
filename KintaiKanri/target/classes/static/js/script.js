@@ -66,7 +66,8 @@ function workTimeCalc() {
 			sthr = stvalorg.substr(-4, 2);
 			enhr = envalorg.substr(-4, 2);
 			kkhr = kkvalorg.substr(-4, 2);
-
+	
+			//退社時間 - 出社時間 - 休憩時間 (hr:時　mn:分)
 			workhr = parseInt(enhr) - parseInt(sthr) - parseInt(kkhr);
 			workmn = (parseInt(enmn) - parseInt(stmn) - parseInt(kkmn)) / 60;
 
@@ -84,6 +85,8 @@ function workTimeCalc() {
 			} else {
 				workmn = Math.round(workmn * 60);
 			}
+			
+			//文字列に変換して文字列の長さによって0埋めを行う
 			workhr = String(workhr);
 			workmn = String(workmn);
 			kdTime = workhr + workmn;
@@ -110,16 +113,18 @@ function workTimeCalc() {
 		calcKdjkn = kdTime.replace(/^\s+|\s+$|\:/g, '');
 		calcTeiji = teiji[0].value.replace(/^\s+|\s+$|\:/g, '');
 		
-	
+		//値が存在しない場合、00:00を返す
 		if (calcTeiji == '' || isNaN(calcTeiji) ||
 			calcKdjkn == '' || isNaN(calcKdjkn)) {
 			totalJkngi = '00:00';
-		} else {
+		//存在していたら文字列を時分で区切る
+		} else {　
 			kdHour = calcKdjkn.substr(-4, 2);
 			teijiHour = calcTeiji.substr(-4, 2);
 			kdMin = calcKdjkn.substr(-2, 2);
 			teijiMin = calcTeiji.substr(-2, 2);
 
+			//稼働時間 - 定時間 (Hour:時　Min:分)
 			diffJkngiHour = parseInt(kdHour) - parseInt(teijiHour);
 			diffJkngiMin = (parseInt(kdMin) - parseInt(teijiMin)) / 60;
 
@@ -137,10 +142,13 @@ function workTimeCalc() {
 			} else {
 				diffJkngiMin = Math.round(diffJkngiMin * 60);
 			}
-
+			
+			//文字列連結を行い、文字数に応じて0埋めを行う
 			diffJkngiHour = String(diffJkngiHour);
 			diffJkngiMin = String(diffJkngiMin);
 			jkngiTime = diffJkngiHour + diffJkngiMin;
+			
+			//時が0の場合(0時間以下ということ)は時間外労働時間は00:00にする
 			if (parseInt(diffJkngiHour) < 0) {
 				jkngiTime = '00:00';
 			}
@@ -218,6 +226,23 @@ function workTimeCalc() {
 				kdJknKeiMin = Math.round((kdJknKeiMin - 2) * 60);
 				kdJknKei = String(kdJknKeiHour) + String(kdJknKeiMin);
 			}
+			//時間外労働合計時間の60進数に直す計算
+			if (jkngiKeiMin < 1) {
+				jkngiKeiHour = parseInt(jkngiKeiHour);
+				jkngiKeiMin = Math.round(jkngiKeiMin * 60);
+				jkngiKei = String(jkngiKeiHour) + String(jkngiKeiMin);
+			}
+			else if (jkngiKeiMin < 2) {
+				jkngiKeiHour = 1 + parseInt(jkngiKeiHour);
+				jkngiKeiMin = Math.round((jkngiKeiMin - 1) * 60);
+				jkngiKei = String(jkngiKeiHour) + String(jkngiKeiMin);
+
+			} else {
+				jkngiKeiHour = 2 + parseInt(jkngiKeiHour);
+				jkngiKeiMin = Math.round((jkngiKeiMin - 2) * 60);
+				jkngiKei = String(jkngiKeiHour) + String(jkngiKeiMin);
+			}
+			
 			//稼働時間合計をコロンを入れた形に整形する
 			if (kdJknKei.length == 2) {
 				kdJknKeiHour = ('00' + kdJknKeiHour).slice(-2);
@@ -239,22 +264,7 @@ function workTimeCalc() {
 				kdJknKei = diffJkngiHour + ':' + kdJknKeiMin;
 			}
 
-			//時間外労働合計時間の60進数に直す計算
-			if (jkngiKeiMin < 1) {
-				jkngiKeiHour = parseInt(jkngiKeiHour);
-				jkngiKeiMin = Math.round(jkngiKeiMin * 60);
-				jkngiKei = String(jkngiKeiHour) + String(jkngiKeiMin);
-			}
-			else if (jkngiKeiMin < 2) {
-				jkngiKeiHour = 1 + parseInt(jkngiKeiHour);
-				jkngiKeiMin = Math.round((jkngiKeiMin - 1) * 60);
-				jkngiKei = String(jkngiKeiHour) + String(jkngiKeiMin);
-
-			} else {
-				jkngiKeiHour = 2 + parseInt(jkngiKeiHour);
-				jkngiKeiMin = Math.round((jkngiKeiMin - 2) * 60);
-				jkngiKei = String(jkngiKeiHour) + String(jkngiKeiMin);
-			}
+			
 
 			//時間外労働合計をコロンを入れた形に整形する
 			if (jkngiKei.length == 2) {
