@@ -10,7 +10,7 @@ create table KintaiKanri.user(
 	sei varchar(20) NOT NULL comment '氏名（姓）',
 	mei varchar(20) NOT NULL comment '氏名（名）',
 	admin_flg int NOT NULL default 0 comment '管理者フラグ',
-	pass_upd_date TIMESTAMP NOT NULL comment 'パスワード更新日時',
+	pass_upd_date TIMESTAMP comment 'パスワード更新日時',
 	ins_user varchar(50) NOT NULL comment '作成者',
 	ins_date TIMESTAMP NOT NULL comment '作成日時',
 	upd_user varchar(50) NOT NULL comment '更新者',
