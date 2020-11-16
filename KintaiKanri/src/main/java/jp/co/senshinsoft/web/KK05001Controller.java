@@ -36,11 +36,10 @@ public class KK05001Controller {
 		
 		return "redirect:KK06001";
 	}
-	@RequestMapping(value = "/menuConf", params="user")
-	public String userRegister(){
-		
-		return "redirect:KK06002";
-	}
+//	@RequestMapping(value = "/menuConf", params="user")
+//	public String userRegister(){
+//		return "redirect:/registerInput";
+//	}
 	
 	
 }
