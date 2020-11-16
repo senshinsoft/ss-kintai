@@ -1,11 +1,8 @@
 package jp.co.senshinsoft.web;
 
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class KK01001Controller {
-
+	
 	/**
 	 * @return ログイン画面フォーム
 	 */
@@ -37,7 +34,7 @@ public class KK01001Controller {
 	/**
 	 * @param form
 	 * @param result
-	 * @return 遷移先画面パス（月別一覧画面）
+	 * @return 遷移先画面パス（メニュー画面）
 	 */
 	@RequestMapping(value = "/loginConf", method = RequestMethod.POST)
 	public String loginConf(@Validated @ModelAttribute("KK01001Form") KK01001Form form, BindingResult result, Model model) {
@@ -46,8 +43,8 @@ public class KK01001Controller {
 //			model.addAttribute("errorList", errorList);
 			return "KK01001";
 		}
-//		return "KK01002";
-		return "monthlyList";
+//		return "KK00501";
+		return "KK05001";
 	}
 	
 }

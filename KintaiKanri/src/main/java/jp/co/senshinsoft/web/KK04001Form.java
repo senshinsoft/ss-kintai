@@ -10,6 +10,7 @@ public class KK04001Form implements Serializable {
 	private String userId;
 	private String userName;
 	private String adminFlg;
+	private String useUserId;
 	// ---------------------------------------
 	// --------------work_report_dailyテーブル-------------------
 	private String year;
@@ -39,6 +40,7 @@ public class KK04001Form implements Serializable {
 		// --------------userテーブル--------------
 		userId = "";
 		userName = "";
+		useUserId="";
 		// ---------------------------------------
 		// --------------work_report_dailyテーブル-------------------
 		ssJkn = "";
@@ -218,5 +220,13 @@ public class KK04001Form implements Serializable {
 
 	public void setAdminFlg(String adminFlg) {
 		this.adminFlg = adminFlg;
+	}
+
+	public String getUseUserId() {
+		return useUserId;
+	}
+
+	public void setUseUserId(String useUserId) {
+		this.useUserId = useUserId;
 	}
 }

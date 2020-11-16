@@ -53,7 +53,6 @@ public class WorkReportMonthlyService {
 	 */
 	public void determineWorkReport(WorkReportMonthly workReportMonthly) {
 		int i = mapper.changeAuthFlg(workReportMonthly);
-		System.out.println("更新件数："+i);
 	}
 
 	/**

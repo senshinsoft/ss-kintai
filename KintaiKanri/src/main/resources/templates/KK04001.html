@@ -1,35 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>勤務報告書</title>
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-	crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+<head th:replace="common :: meta_header('勤務報告書',~{::link},~{::script})">
 <script type="text/javascript" th:src="@{js/script.js}"></script>
 </head>
 <body>
+<div th:replace="common :: pageHeader"></div>
+<div class="container04">
 	<form th:action="@{/operateWorkReport}" th:object="${KK04001Form}"
-		method="post">
-
-		<div class="width">
-			<h1 class="mx-auto mt-5" style="width: 300px;">勤務報告書</h1>
+		method="post" name="form">
+			<h1 class="mx-auto pt-4 mt-4 mb-4" style="width: 300px;">勤務報告書</h1>
 			<p th:if="${workDailyList.size()} != 0" th:text="*{workingDate}"
-				class="ml-5 pl-5"></p>
+				></p>
 			<p th:if="${workDailyList.size()} == 0" th:text="*{year} + *{month}"
-				class="ml-5 pl-5"></p>
-			<p class="ml-5 pl-5">
+			></p>
+			<p>
 				氏名：<span th:text="*{userName}"></span>
 			</p>
-			<p class="ml-5 pl-5">
-				定時間 <input type="text" name="teiji" th:value="*{teiji}"  onfocus="offColon(this);" onblur="toColon(this)" th:errorclass="error-input" oninput="value = value.replace(/[^0-9]+/i,'');" maxlength="4">
+			<p>
+				定時間 <input type="text" name="teiji" th:value="*{teiji}"  onfocus="offColon(this);" onblur="toColon(this);workTimeCalc()" th:errorclass="error-input" oninput="value = value.replace(/[^0-9]+/i,'');" maxlength="4" th:readonly="*{authFlg}==1">
 			</p>
 			<p th:if="${#fields.hasErrors('all')}"></p>
-			<p th:errors="*{teiji}" class="error-message ml-5 pl-5">error！</p>
-			<p th:errors="*{ssJkn}" class="error-message ml-5 pl-5">error！</p>
-			<table border="1">
+			<p th:errors="*{teiji}" class="error-message">error！</p>
+			<p th:errors="*{ssJkn}" class="error-message">error！</p>
+			<table border="1" class="table-layout">
 				<thead class="thead-dark">
 					<tr>
 						<th rowspan="2" class="text-center bg-info">日付</th>
@@ -46,64 +39,55 @@
 				</thead>
 				<tr th:each="workRepo : ${workDailyList}"
 					th:if="${workDailyList.size()} != 0">
-					<td><input type="text" th:value="${workRepo.day}"
+					<td class="text-size"><input type="text" th:value="${workRepo.day}"
 						readonly="readonly" name="day" ></td>
-					<td><input type="text"   th:value="${workRepo.ssJkn}" name="ssJkn"   onfocus="offColon(this);"onblur="toColon(this);kdJknCalc()"  th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
-					<td><input type="text"   th:value="${workRepo.tsJkn}" name="tsJkn"   onfocus="offColon(this);" onblur="toColon(this);kdJknCalc()"   th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
-					<td><input type="text"  th:value="${workRepo.kkJkn}" name="kkJkn"     onfocus="offColon(this);" onblur="toColon(this);kdJknCalc()"   th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
-					<td><input type="text"  th:value="${workRepo.kdJkn}" name="kdJkn" onInput="calcKdJknKei()" th:errorclass="error-input" readonly="readonly"></td>
-					<td><input type="text"  th:value="${workRepo.jkngi}" name="jkngi" onInput="calcJkngiKei()" maxlength="5"   th:errorclass="error-input" readonly="readonly"></td>
-					<td><input type="text" th:value="${workRepo.biko}" name="biko" th:readonly="*{authFlg}==1"></td>
+					<td><input type="text"   th:value="${workRepo.ssJkn}" name="ssJkn"   onfocus="offColon(this);"onblur="toColon(this);workTimeCalc()"  th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');" ></td>
+					<td><input type="text"   th:value="${workRepo.tsJkn}" name="tsJkn"   onfocus="offColon(this);" onblur="toColon(this);workTimeCalc()"   th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
+					<td><input type="text"  th:value="${workRepo.kkJkn}" name="kkJkn"     onfocus="offColon(this);" onblur="toColon(this);workTimeCalc()"   th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
+					<td><input type="text"  th:value="${workRepo.kdJkn}" name="kdJkn"  th:errorclass="error-input" readonly="readonly"></td>
+					<td><input type="text"  th:value="${workRepo.jkngi}" name="jkngi"    th:errorclass="error-input" readonly="readonly"></td>
+					<td><input type="text" th:value="${workRepo.biko}" name="biko" th:readonly="*{authFlg}==1" pattern ="^[^ -~｡-ﾟ]+$" title="全て全角文字で入力してください"></td>
 				</tr>
 				<tr th:each="day : ${onlyDailyList}"
 					th:if="${workDailyList.size()} == 0">
 					<td><input type="text" th:value="${day}" readonly="readonly" name="day"></td>
-					<td><input type="text" th:value="*{ssJkn}" onfocus="offColon(this);"onblur="toColon(this);kdJknCalc()" name="ssJkn" th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
-					<td><input type="text" th:value="*{tsJkn}" onfocus="offColon(this);"onblur="toColon(this);kdJknCalc()" name="tsJkn" th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
-					<td><input type="text" th:value="*{kkJkn}" onfocus="offColon(this);"onblur="toColon(this);kdJknCalc()" th:errorclass="error-input" name="kkJkn" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
-					<td><input type="text"  th:value="*{kdJkn}" onInput="calcKdJknKei()" name="kdJkn" th:errorclass="error-input" readonly="readonly"></td>
-					<td><input type="text" th:value="*{jkngi}" onInput="calcJkngiKei()" name="jkngi" th:errorclass="error-input" readonly="readonly"></td>
-					<td><input type="text" th:field="*{biko}" th:readonly="*{authFlg}==1"></td>
+					<td><input type="text" th:value="*{ssJkn}" onfocus="offColon(this);"onblur="toColon(this);workTimeCalc()" name="ssJkn" th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
+					<td><input type="text" th:value="*{tsJkn}" onfocus="offColon(this);"onblur="toColon(this);workTimeCalc()" name="tsJkn" th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
+					<td><input type="text" th:value="*{kkJkn}" onfocus="offColon(this);"onblur="toColon(this);workTimeCalc()" th:errorclass="error-input" name="kkJkn" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
+					<td><input type="text"  th:value="*{kdJkn}"  name="kdJkn" th:errorclass="error-input" readonly="readonly"></td>
+					<td><input type="text" th:value="*{jkngi}"  name="jkngi" th:errorclass="error-input" readonly="readonly"></td>
+					<td><input type="text" th:field="*{biko}" th:readonly="*{authFlg}==1" pattern ="^[^ -~｡-ﾟ]+$" title="全て全角文字で入力してください"></td>
 				</tr>
 				<tr>
 					<td colspan="4">合計時間</td>
-					<td><input type="text" name="kdJknKei" th:value="*{kdJknKei}" readonly="readonly"></td>
+					<td><input type="text" th:value="*{kdJknKei}" name="kdJknKei" readonly="readonly"></td>
 					<td><input type="text" th:value="*{jkngiKei}" name="jkngiKei" readonly="readonly"></td>
-					<td><input type="text" name="pjMei" th:value="*{pjMei}"placeholder="プロジェクト名"></td>
+					<td><input type="text" name="pjMei" th:value="*{pjMei}"placeholder="プロジェクト名" th:readonly="*{authFlg}==1"></td>
 				</tr>
 
 				<tr>
 					<td colspan="2">特記事項</td>
 					<td colspan="5"><textarea rows="2" cols="105" th:field="*{tokkijiko}" name="tokkijiko" th:readonly="*{authFlg}==1"></textarea></td>
 			</table>
-		</div>
-		<div class="mx-auto pt-4 pb-5 form-group" style="width: 500px;">
+		<div class="mx-auto pt-4 pb-5 form-group" style="width: 420px; text-align:right">
 
 			<input type="submit" value="　戻る　" name="back" class="btn btn-outline-danger .w-25 mr-2 mt-1"> 
-<!-- 承認済みフラグが0(ユーザー編集可能)の場合はユーザー編集を可能にする -->
-		<input type="submit"  value="　登録　" name="registRecord" class="btn btn-outline-primary .w-25 mr-2 mt-1">		
-<!-- ユーザーの権限が1(管理者)の場合は以下のボタンを表示する -->
+		<!-- 承認済みフラグが0(ユーザー編集可能)の場合はユーザー編集を可能にする -->
+		<input type="submit"  value="　登録　" name="registRecord" class="btn btn-outline-primary .w-25 mr-2 mt-1" th:disabled="*{authFlg}==1">		
+		<!-- ユーザーの権限が1(管理者)の場合は以下のボタンを表示する -->
 			<span th:if="${userRole} == 1"> 
 				<input type="submit" value="　取消　"  name="admin-edit" th:disabled="*{authFlg}==0" class="btn btn-outline-warning .w-25 mr-2 mt-1"> 
 				<input type="submit" value="　確定　" name="admin-regist" th:disabled="*{authFlg}==1" class="btn btn-outline-primary .w-25 mr-2 mt-1">
 			</span>
 		</div>
-<!-- hiddenで送信する値 -->
-		<input type="hidden" th:field="*{year}" name="year"> <input
-			type="hidden" th:field="*{month}" name="month"> <input
-			type="hidden" th:field="*{workingDate}" name="workingDate">
-			<input type="hidden" th:field="*{userName}" name="userName">
+		<!-- hiddenで送信する値 -->
+		<input type="hidden" th:field="*{year}" name="year">
+		 <input type="hidden" th:field="*{month}" name="month">
+		  <input type="hidden" th:field="*{workingDate}" name="workingDate">
+		<input type="hidden" th:field="*{userName}" name="userName">
+		<input type="hidden" th:field="*{useUserId}" name="useUserId">
 	</form>
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-		crossorigin="anonymous"></script>
+	</div>
+	<div th:replace="common :: pageFooter"></div>
 </body>
 </html>
