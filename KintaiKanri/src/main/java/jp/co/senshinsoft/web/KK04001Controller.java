@@ -61,10 +61,13 @@ public class KK04001Controller {
 			userId = userService.findEmployeeUserId(name[0], name[1]);
 			year = KK03001Form.getYear();
 			month = KK03001Form.getMonth();
+			// Serviceクラスを呼び出して、KK04001に必要な値を取得する。
+			KK04001Form.setUserName(userService.findEmployeeName(userId));
 		} else if (userInfo.getLoginUser().getAdminFlg().equals("0")) {
 			userId = userInfo.getLoginUser().getUserId();
 			year = KK02001form.getYear().substring(0, 4);
 			month = KK02001form.getYear().substring(5, 7);
+			KK04001Form.setUserName(userInfo.getLoginUser().getSei()+" "+userInfo.getLoginUser().getMei());
 
 		}
 		KK04001Form.setUseUserId(userId);
@@ -73,8 +76,7 @@ public class KK04001Controller {
 		}
 		logger.info("参照する勤務表のユーザーID：" + userId);
 
-		// Serviceクラスを呼び出して、KK04001に必要な値を取得する。
-		KK04001Form.setUserName(userService.findEmployeeName(userId));
+		
 		logger.info("参照する勤務表のユーザー名：" + KK04001Form.getUserName());
 		// ユーザーの日次勤務情報のリスト取得してmodelオブジェクトへ格納する。
 		workDailyList = dailyService.findEmployeeWorkRecordDaily(userId, year, month);
