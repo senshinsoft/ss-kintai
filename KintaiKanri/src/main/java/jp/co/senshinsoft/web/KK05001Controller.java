@@ -33,19 +33,13 @@ public class KK05001Controller {
 	}
 	@RequestMapping(value = "/menuConf", params="pass")
 	public String passChange(){
+		
 		return "redirect:KK06001";
 	}
-<<<<<<< HEAD
-	@RequestMapping(value = "/menuConf", params="user")
-	public String userRegister(){
-		return "redirect:KK06002";
-	}
-=======
 //	@RequestMapping(value = "/menuConf", params="user")
 //	public String userRegister(){
 //		return "redirect:/registerInput";
 //	}
->>>>>>> efed410eeb5e805176ba1940ca27fb558fafcb55
 	
 	
 }
