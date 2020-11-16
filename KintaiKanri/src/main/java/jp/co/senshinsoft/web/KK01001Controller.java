@@ -27,7 +27,7 @@ public class KK01001Controller {
 	 * @return ログイン画面パス
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login() {
+	public String loginInput() {
 		return "KK01001";
 	}
 
