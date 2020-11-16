@@ -4,9 +4,7 @@ package jp.co.senshinsoft.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import jp.co.senshinsoft.auth.GetLoginUserDetails;
 
@@ -22,7 +20,8 @@ public class KK05001Controller {
 	@RequestMapping(value = "/menu")
 	public String menuInput(Model model) {
 		model.addAttribute("userInfo", userInfo.getLoginUser());	
-
+		model.addAttribute("screenName", "メニュー");
+		model.addAttribute("userName",userInfo.getLoginUser().getSei()+" "+userInfo.getLoginUser().getMei() );
 		return "KK05001";
 	}
 	
@@ -36,10 +35,11 @@ public class KK05001Controller {
 		
 		return "redirect:KK06001";
 	}
-//	@RequestMapping(value = "/menuConf", params="user")
-//	public String userRegister(){
-//		return "redirect:/registerInput";
-//	}
+	@RequestMapping(value = "/menuConf", params="user")
+	public String userRegister(){
+		
+		return "redirect:KK06002";
+	}
 	
 	
 }
