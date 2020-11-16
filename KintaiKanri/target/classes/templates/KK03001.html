@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: meta_header('社員一覧',~{::link},~{::script})">
+</head>
+<body>
+<div th:replace="common :: pageHeader"></div>
+<div class="container">
+	<h1 class="mx-auto pt-4 mt-4 mb-4" style="width: 200px;">社員一覧</h1>
+	<div class="mx-auto position" style="width: 200px;">
+		<form th:action="@{/inputWorkReport}" method="post"
+			th:object="${KK03001Form}" class="mx-auto">
+			<ul th:each="employeeName : ${employeeNameList}">
+				<li><input type="submit" th:value="${employeeName}" name="employeeName" class="btn btn-link"></li>
+			</ul>
+				<input type="submit" value=" 戻る " name="back" class="btn btn-outline-secondary" style="width: 150px;">
+			<input type="hidden" th:field="*{year}" name="year"> 
+			<input type="hidden" th:field="*{month}" name="month">
+		</form>
+	</div>
+	</div>
+	<div th:replace="common :: pageFooter"></div>
+</body>
+</html>
