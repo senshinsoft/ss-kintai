@@ -48,5 +48,15 @@
 		AND
 			mei=#{mei}
 	</select>
+	<update id="updatePassword">
+		UPDATE
+			user
+		SET
+			password=#{newPassword}
+			,pass_upd_date=CURRENT_TIMESTAMP
+			,upd_user=#{updUser}
+		WHERE
+			user_id=#{userId}
+	</update>
 </mapper>
    
