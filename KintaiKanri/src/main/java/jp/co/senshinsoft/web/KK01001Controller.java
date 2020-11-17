@@ -39,12 +39,9 @@ public class KK01001Controller {
 	@RequestMapping(value = "/loginConf", method = RequestMethod.POST)
 	public String loginConf(@Validated @ModelAttribute("KK01001Form") KK01001Form form, BindingResult result, Model model) {
 		if(result.hasErrors()) {
-//			List<ObjectError> errorList = result.getAllErrors();
-//			model.addAttribute("errorList", errorList);
 			return "KK01001";
 		}
-//		return "KK00501";
-		return "KK05001";
+		return "redirect:/menu";
 	}
 	
 }

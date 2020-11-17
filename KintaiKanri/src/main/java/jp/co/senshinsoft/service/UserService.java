@@ -3,6 +3,7 @@ package jp.co.senshinsoft.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jp.co.senshinsoft.domain.User;
@@ -13,7 +14,8 @@ public class UserService {
 	
 	@Autowired
 	public UserMapper mapper;
-	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	/**
 	 * mapperを呼び出して、ログインしている社員の名前(姓と名)をリストで取得する。
@@ -40,12 +42,28 @@ public class UserService {
 		User user = mapper.findAccountByUserId(userId);
 		return user;
 	}
-	
+	/**
+	 * mapperを呼び出して、社員一覧を取得する。
+	 * @return
+	 */
 	public List<User> findEmployeeCatalog(){
 		return mapper.findEmployeeCatalog();
 	}
 	
+	/**
+	 * mapperを呼び出して、社員の姓と名からユーザーIDを取得する
+	 * @param sei
+	 * @param mei
+	 * @return
+	 */
 	public String findEmployeeUserId(String sei,String mei) {
 		return mapper.findSelectEmployeeId(sei, mei);
+	}
+	/**
+	 * mapperを呼び出してパスワードをハッシュ化してから更新を行う
+	 * @param user
+	 */
+	public void updateUserPass(User user) {
+		 mapper.updatePassword(user);
 	}
 }
