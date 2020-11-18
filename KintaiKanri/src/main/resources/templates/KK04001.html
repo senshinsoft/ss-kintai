@@ -5,11 +5,10 @@
 </head>
 <body>
 <div th:replace="common :: pageHeader"></div>
-<div class="container">
+<div class="container04">
 	<form th:action="@{/operateWorkReport}" th:object="${KK04001Form}"
 		method="post" name="form">
-		<div class="mx-auto" style="width: 1400px;">
-			<h1 class="mx-auto mt-5" style="width: 300px;">勤務報告書</h1>
+			<h1 class="mx-auto pt-4 mt-4 mb-4" style="width: 300px;">勤務報告書</h1>
 			<p th:if="${workDailyList.size()} != 0" th:text="*{workingDate}"
 				></p>
 			<p th:if="${workDailyList.size()} == 0" th:text="*{year} + *{month}"
@@ -18,12 +17,12 @@
 				氏名：<span th:text="*{userName}"></span>
 			</p>
 			<p>
-				定時間 <input type="text" name="teiji" th:value="*{teiji}"  onfocus="offColon(this);" onblur="toColon(this);kdJknCalc()" th:errorclass="error-input" oninput="value = value.replace(/[^0-9]+/i,'');" maxlength="4" th:readonly="*{authFlg}==1">
+				定時間 <input type="text" name="teiji" th:value="*{teiji}"  onfocus="offColon(this);" onblur="toColon(this);workTimeCalc()" th:errorclass="error-input" oninput="value = value.replace(/[^0-9]+/i,'');" maxlength="4" th:readonly="*{authFlg}==1">
 			</p>
 			<p th:if="${#fields.hasErrors('all')}"></p>
 			<p th:errors="*{teiji}" class="error-message">error！</p>
 			<p th:errors="*{ssJkn}" class="error-message">error！</p>
-			<table border="1">
+			<table border="1" class="table-layout">
 				<thead class="thead-dark">
 					<tr>
 						<th rowspan="2" class="text-center bg-info">日付</th>
@@ -40,11 +39,11 @@
 				</thead>
 				<tr th:each="workRepo : ${workDailyList}"
 					th:if="${workDailyList.size()} != 0">
-					<td><input type="text" th:value="${workRepo.day}"
+					<td class="text-size"><input type="text" th:value="${workRepo.day}"
 						readonly="readonly" name="day" ></td>
-					<td><input type="text"   th:value="${workRepo.ssJkn}" name="ssJkn"   onfocus="offColon(this);"onblur="toColon(this);kdJknCalc()"  th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
-					<td><input type="text"   th:value="${workRepo.tsJkn}" name="tsJkn"   onfocus="offColon(this);" onblur="toColon(this);kdJknCalc()"   th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
-					<td><input type="text"  th:value="${workRepo.kkJkn}" name="kkJkn"     onfocus="offColon(this);" onblur="toColon(this);kdJknCalc()"   th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
+					<td><input type="text"   th:value="${workRepo.ssJkn}" name="ssJkn"   onfocus="offColon(this);"onblur="toColon(this);workTimeCalc()"  th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');" ></td>
+					<td><input type="text"   th:value="${workRepo.tsJkn}" name="tsJkn"   onfocus="offColon(this);" onblur="toColon(this);workTimeCalc()"   th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
+					<td><input type="text"  th:value="${workRepo.kkJkn}" name="kkJkn"     onfocus="offColon(this);" onblur="toColon(this);workTimeCalc()"   th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
 					<td><input type="text"  th:value="${workRepo.kdJkn}" name="kdJkn"  th:errorclass="error-input" readonly="readonly"></td>
 					<td><input type="text"  th:value="${workRepo.jkngi}" name="jkngi"    th:errorclass="error-input" readonly="readonly"></td>
 					<td><input type="text" th:value="${workRepo.biko}" name="biko" th:readonly="*{authFlg}==1" pattern ="^[^ -~｡-ﾟ]+$" title="全て全角文字で入力してください"></td>
@@ -52,9 +51,9 @@
 				<tr th:each="day : ${onlyDailyList}"
 					th:if="${workDailyList.size()} == 0">
 					<td><input type="text" th:value="${day}" readonly="readonly" name="day"></td>
-					<td><input type="text" th:value="*{ssJkn}" onfocus="offColon(this);"onblur="toColon(this);kdJknCalc()" name="ssJkn" th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
-					<td><input type="text" th:value="*{tsJkn}" onfocus="offColon(this);"onblur="toColon(this);kdJknCalc()" name="tsJkn" th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
-					<td><input type="text" th:value="*{kkJkn}" onfocus="offColon(this);"onblur="toColon(this);kdJknCalc()" th:errorclass="error-input" name="kkJkn" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
+					<td><input type="text" th:value="*{ssJkn}" onfocus="offColon(this);"onblur="toColon(this);workTimeCalc()" name="ssJkn" th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
+					<td><input type="text" th:value="*{tsJkn}" onfocus="offColon(this);"onblur="toColon(this);workTimeCalc()" name="tsJkn" th:errorclass="error-input" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
+					<td><input type="text" th:value="*{kkJkn}" onfocus="offColon(this);"onblur="toColon(this);workTimeCalc()" th:errorclass="error-input" name="kkJkn" th:readonly="*{authFlg}==1"  maxlength="4" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
 					<td><input type="text"  th:value="*{kdJkn}"  name="kdJkn" th:errorclass="error-input" readonly="readonly"></td>
 					<td><input type="text" th:value="*{jkngi}"  name="jkngi" th:errorclass="error-input" readonly="readonly"></td>
 					<td><input type="text" th:field="*{biko}" th:readonly="*{authFlg}==1" pattern ="^[^ -~｡-ﾟ]+$" title="全て全角文字で入力してください"></td>
@@ -70,8 +69,7 @@
 					<td colspan="2">特記事項</td>
 					<td colspan="5"><textarea rows="2" cols="105" th:field="*{tokkijiko}" name="tokkijiko" th:readonly="*{authFlg}==1"></textarea></td>
 			</table>
-		</div>
-		<div class="mx-auto pt-4 pb-5 form-group" style="width: 600px; text-align:right">
+		<div class="mx-auto pt-4 pb-5 form-group" style="width: 420px; text-align:right">
 
 			<input type="submit" value="　戻る　" name="back" class="btn btn-outline-danger .w-25 mr-2 mt-1"> 
 		<!-- 承認済みフラグが0(ユーザー編集可能)の場合はユーザー編集を可能にする -->

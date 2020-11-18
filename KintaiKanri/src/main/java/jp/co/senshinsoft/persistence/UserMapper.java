@@ -32,4 +32,8 @@ public interface UserMapper {
 	 */
 	public String findSelectEmployeeId(String sei,String mei);
 
+	/**
+	 * パスワード変更する
+	 */
+	public void updatePassword(User user);
 }
