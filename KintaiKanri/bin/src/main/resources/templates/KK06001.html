@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>パスワード変更</title>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: meta_header('社員一覧',~{::link},~{::script})">
 </head>
-
 <body>
-<h1>パスワード変更</h1>
+	<div th:replace="common :: pageHeader"></div>
+	<div class="container">
+		<h1>パスワード変更</h1>
 
-<!-- 
+		<!-- 
 ・現在のパスワードがDBに無い場合エラーメッセージを表示
 ・現在のパスワードと新しいパスワードが同じ場合エラーメッセージを表示
 ・新しいパスワードと確認用に入力された値が異なる場合エラーメッセージを表示
@@ -16,32 +15,31 @@
 ・登録が終わったら変更完了メッセージを表示
  -->
 
-<form>
+		<form th:action="@{/updatePassword}" th:object="${KK06001Form}">
+			<p th:errors="*{password}" class="error-message">error！</p>
+			<p th:errors="*{newPassword}" class="error-message">error！</p>
+			<p th:errors="*{confPassword}" class="error-message">error！</p>
+			<table>
+				<tr>
+					<td>現在のパスワード：</td>
+					<td><input type="password" th:field="*{password}"></td>
+				</tr>
+				<tr>
+					<td>新しいパスワード：</td>
+					<td><input type="password" th:field="*{newPassword}"></td>
+				</tr>
+				<tr>
+					<td>新しいパスワード(確認用)：</td>
+					<td><input type="password" th:field="*{confPassword}"></td>
 
-<table>
-	<tr>
-		<th align="left">現在のパスワード：</th>
-		<th><input type="password"></th>
-	</tr>
-
-	<tr>
-		<th align="left">新しいパスワード：</th>
-		<th><input type="password"></th>
-	</tr>
-
-	<tr>
-		<th align="left" >確認用：</th>
-		<th><input type="password"></th>
-	</tr>
-
-</table>
-
-<br>
-
-<input type="submit" value="OK">
-<input type="submit" value="戻る" formaction="KK05001">
-
-</form>
-
+				</tr>
+			</table>
+			<br> <input type="submit" value="戻る" name="back"
+				class="btn btn-outline-danger .w-25 mr-2 mt-1"> <input
+				type="submit" value="変更" name="update"
+				class="btn btn-outline-primary .w-25 mr-2 mt-1">
+		</form>
+	</div>
+	<div th:replace="common :: pageFooter"></div>
 </body>
 </html>
