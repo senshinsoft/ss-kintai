@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +58,8 @@ public class KK04001Controller {
 		logger.info(
 				"-----------------------------------------------------KK04001(勤務表報告書画面)初期表示開始-------------------------------------------------------------------------------");
 		if (userInfo.getLoginUser().getAdminFlg().equals("1")) {
-			userId = KK03001Form.getUserId();
+			String[] empIdName =KK03001Form.getEmployeeName().split(Pattern.quote("."));
+			userId = empIdName[0];
 			year = KK03001Form.getYear();
 			month = KK03001Form.getMonth();
 			// Serviceクラスを呼び出して、KK04001に必要な値を取得する。
@@ -407,14 +409,15 @@ public class KK04001Controller {
 		logger.info(
 				"---------------------------------------------------------------------KK03001(社員一覧画面)またはKK02001(月別一覧画面)への遷移開始----------------------------------------------------------------------------------------------");
 		if (KK04001Form.getAdminFlg().equals("1")) {
-			List<String> employeeNameList = new ArrayList<>();
-			List<User> user = userService.findEmployeeCatalog();
-			KK03001Form.setYear(KK03001Form.getYear().substring(0, 4));
-			KK03001Form.setMonth(KK03001Form.getMonth().substring(0, 2));
-			for (int i = 0; i < user.size(); i++) {
-				employeeNameList.add(user.get(i).getSei() + " " + user.get(i).getMei());
+
+			List<User> empList = userService.findEmployeeCatalog();
+			List <String> empInfoList = new ArrayList<>();
+			KK03001Form.setYear(KK03001Form.getYear().substring(0,4));
+			KK03001Form.setMonth(KK03001Form.getMonth().substring(0,2));
+			for(int i =0 ; i < empList.size(); i++) {
+			empInfoList.add(empList.get(i).getUserId()+".　"+empList.get(i).getSei()+" "+empList.get(i).getMei());
 			}
-			model.addAttribute("employeeNameList", employeeNameList);
+			model.addAttribute("empInfoList", empInfoList);
 			model.addAttribute("screenName", "社員一覧");
 			model.addAttribute("userName",userInfo.getLoginUser().getSei()+" "+userInfo.getLoginUser().getMei() );
 			sessionStatus.setComplete();

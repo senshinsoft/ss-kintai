@@ -5,15 +5,17 @@
 <body>
 	<div th:replace="common :: pageHeader"></div>
 	<div class="container">
-		<div class="mx-auto" style="width: 200px;">
-			<h1 class="mx-auto pt-4 mt-4 mb-4" style="width: 200px;">月別一覧</h1>
+		<div class="mx-auto" style="width: 400px;">
+			<h1 class="mx-auto pt-4 mt-4 mb-4" style="width: 180px;">月別一覧</h1>
 			<div th:if="${userInfo.adminFlg} == 1">
 				<form th:action="@{/employeeList}" th:object="${KK02001Form}"
 					method="post">
+					<div class="columnsKK02001">
 					<ul th:each="calendar : ${oneYearCalendarList}">
 						<li><input type="submit" th:value="${calendar}" name="year"
 							class="btn btn-link"></li>
 					</ul>
+					</div>
 				</form>
 			</div>
 			<div th:if="${userInfo.adminFlg} == 0">
@@ -26,8 +28,10 @@
 				</form>
 			</div>
 			<form th:action="@{/menu}">
+			<div class="row justify-content-center mt-3 mb-5">
 				<input type="submit" value=" 戻る " name="back"
-					class="btn btn-outline-secondary mb-5" style="width: 180px;">
+					class="btn btn-outline-secondary mb-5" style="width: 100px;">
+					</div>
 			</form>
 		</div>
 	</div>

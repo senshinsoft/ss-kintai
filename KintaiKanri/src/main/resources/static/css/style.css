@@ -6,3 +6,34 @@
 .container{
 	padding-top:120px;
 }
+
+.columnsKK03001 {/*分けたいリストの親要素に指定する。column-countはカラム数*/
+  column-count: 5;
+  column-gap: 26px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.empList-size{
+	width:200px;
+}
+
+.KK03001List{
+	padding:0;
+	margin:0;
+	margin-bottom:10px;
+	height:38px;
+}
+
+.columnsKK02001 {/*分けたいリストの親要素に指定する。column-countはカラム数*/
+  column-count: 2;
+  column-gap: 26px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.box-top{
+	vertical-align:middle;
+}

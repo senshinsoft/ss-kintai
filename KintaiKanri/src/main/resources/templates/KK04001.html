@@ -8,7 +8,7 @@
 <div class="container04">
 	<form th:action="@{/operateWorkReport}" th:object="${KK04001Form}"
 		method="post" name="form">
-			<h1 class="mx-auto pt-4 mt-4 mb-4" style="width: 300px;">勤務報告書</h1>
+			<h1 class="mx-auto pt-4 mt-4 mb-4" style="width: 250px;">勤務報告書</h1>
 			<p th:if="${workDailyList.size()} != 0" th:text="*{workingDate}"
 				></p>
 			<p th:if="${workDailyList.size()} == 0" th:text="*{year} + *{month}"
@@ -78,7 +78,7 @@
 			<span th:if="${userRole} == 1"> 
 				<input type="submit" value="　取消　"  name="admin-edit" th:disabled="*{authFlg}==0" class="btn btn-outline-warning .w-25 mr-2 mt-1"> 
 				<input type="submit" value="　確定　" name="admin-regist" th:disabled="*{authFlg}==1" class="btn btn-outline-primary .w-25 mr-2 mt-1">
-				<input type="submit" value="　ファイル出力　" name="admin-export" class="btn btn-outline-success .w-25 mr-2 mt-1">
+				<input type="submit" value=" excel出力 " name="admin-export" class="btn btn-outline-success .w-25 mr-2 mt-1">
 			</span>
 		</div>
 		<!-- hiddenで送信する値 -->

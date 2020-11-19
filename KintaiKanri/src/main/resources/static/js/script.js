@@ -17,7 +17,6 @@ function toColon(obj) {
 
 }
 
-
 /**************************
  * コロン編集を解除するFunction
  **************************/
@@ -288,4 +287,22 @@ function workTimeCalc() {
 		kdJknKei == "";
 	}
 }
-
+//パスワードマスク解除
+function displayPassword(){
+ const pwd = document.getElementById('password');
+  const pwd2 = document.getElementById('newPassword');
+   const pwd3 = document.getElementById('confPassword');
+ const pwdCheck = document.getElementById('password-check');
+ pwdCheck.addEventListener('change', function() {
+     if(pwdCheck.checked) {
+         pwd.setAttribute('type', 'text');
+          pwd2.setAttribute('type', 'text');
+           pwd3.setAttribute('type', 'text');
+     } else {
+         pwd.setAttribute('type', 'password');
+           pwd2.setAttribute('type', 'password');
+             pwd3.setAttribute('type', 'password');
+         
+     }
+ }, false);
+}

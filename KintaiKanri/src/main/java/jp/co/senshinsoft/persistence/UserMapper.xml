@@ -32,10 +32,13 @@
 	<select id="findEmployeeCatalog"
 		resultType="jp.co.senshinsoft.domain.User">
 		SELECT
-			sei
+			user_id
+			,sei
 			,mei
 		FROM
 			user
+		ORDER BY
+			(user_id+0)
 	</select>
 	<select id="findSelectEmployeeId"
 		resultType="String">

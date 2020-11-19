@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jp.co.senshinsoft.auth.GetLoginUserDetails;
@@ -18,6 +19,12 @@ public class KK03001Controller {
 	@Autowired
 	private UserService userService;
 	private GetLoginUserDetails userInfo = new GetLoginUserDetails();
+	
+	@ModelAttribute(value = "KK03001Form")
+	public KK03001Form empForm() {
+		return new KK03001Form();
+	}
+	
 	/**
 	 * 社員一覧へ遷移（管理者）
 	 * @param model 社員一覧の名前を入れるモデル
@@ -27,14 +34,14 @@ public class KK03001Controller {
 	 */
 	@RequestMapping("/employeeList")
 	public String empInput(Model model,KK03001Form KK03001form,KK02001Form KK02001form) {
-		List<String> employeeNameList = new ArrayList<>();
-		List<User> user = userService.findEmployeeCatalog();
+		List<User> empList = userService.findEmployeeCatalog();
+		List <String> empInfoList = new ArrayList<>();
 		KK03001form.setYear(KK02001form.getYear().substring(0,4));
 		KK03001form.setMonth(KK02001form.getYear().substring(5,7));
-		for(int i=0;  i <user.size(); i++) {
-			employeeNameList.add(user.get(i).getSei()+" "+user.get(i).getMei());
+		for(int i =0 ; i < empList.size(); i++) {
+		empInfoList.add(empList.get(i).getUserId()+".　"+empList.get(i).getSei()+" "+empList.get(i).getMei());
 		}
-		model.addAttribute("employeeNameList", employeeNameList);
+		model.addAttribute("empInfoList", empInfoList);
 		model.addAttribute("screenName", "社員一覧");
 		model.addAttribute("userName",userInfo.getLoginUser().getSei()+" "+userInfo.getLoginUser().getMei() );
 		return "KK03001";

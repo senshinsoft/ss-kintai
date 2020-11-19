@@ -24,3 +24,11 @@ header{
 	z-index:1;
 }
 
+
+.error-input{
+	background-color:#f4959c;
+}
+
+.error-message{
+	color:#f4959c;
+}
