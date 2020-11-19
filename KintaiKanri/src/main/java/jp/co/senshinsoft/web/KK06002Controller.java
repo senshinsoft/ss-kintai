@@ -29,7 +29,7 @@ public class KK06002Controller {
 	 * @return ユーザー登録画面フォーム
 	 */
 	@ModelAttribute("KK06002Form")
-	public KK06002Form regusterForm() {
+	public KK06002Form registForm() {
 		return new KK06002Form();
 	}
 
@@ -86,7 +86,7 @@ public class KK06002Controller {
 	}
 
 	@RequestMapping(value = "/registerConf", method = RequestMethod.POST, params = "back")
-	public String getoutFormKK06002() {
+	public String getoutFromKK06002() {
 		return "redirect:/menu";
 
 	}

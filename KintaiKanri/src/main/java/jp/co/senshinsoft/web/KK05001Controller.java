@@ -15,8 +15,17 @@ public class KK05001Controller {
 	private GetLoginUserDetails userInfo = new GetLoginUserDetails();
 
 	/**
+	 * @return パスワード変更画面フォーム
+	 */
+	@ModelAttribute("KK06001Form")
+	public KK06001Form changePasswordForm() {
+		return new KK06001Form();
+	}
+	
+	/**
 	 * メニュー画面を表示する
-	 * @return KK05001のパス
+	 * 初回ログインとパスワード更新後180日経過していた場合はパスワード変更画面へ遷移
+	 * @return KK05001、KK06001のパス
 	 */
 	@RequestMapping(value = "/menu")
 	public String menuInput(Model model) {
@@ -26,8 +35,12 @@ public class KK05001Controller {
 		model.addAttribute("userInfo", userInfo.getLoginUser());	
 		return "KK05001";
 	}
-		return 	"redirect:enterChangePassword";	
+		model.addAttribute("screenName", "パスワード変更");
+		model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
+		model.addAttribute("userInfo", userInfo.getLoginUser());
+		return 	"KK06001";	
 	}
+	
 	@RequestMapping(value = "/menuConf", params="monthlyList")
 	public String inputWorkReport(){
 		return "redirect:/monthlyList";

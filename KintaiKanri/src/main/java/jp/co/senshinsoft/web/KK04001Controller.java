@@ -57,8 +57,7 @@ public class KK04001Controller {
 		logger.info(
 				"-----------------------------------------------------KK04001(勤務表報告書画面)初期表示開始-------------------------------------------------------------------------------");
 		if (userInfo.getLoginUser().getAdminFlg().equals("1")) {
-			String[] name = KK03001Form.getEmployeeName().split(" ");
-			userId = userService.findEmployeeUserId(name[0], name[1]);
+			userId = KK03001Form.getUserId();
 			year = KK03001Form.getYear();
 			month = KK03001Form.getMonth();
 			// Serviceクラスを呼び出して、KK04001に必要な値を取得する。
