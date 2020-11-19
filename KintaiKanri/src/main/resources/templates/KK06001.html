@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="common :: meta_header('社員一覧',~{::link},~{::script})">
+<script type="text/javascript" th:src="@{js/script.js}"></script>
 </head>
 <body>
+
 	<div th:replace="common :: pageHeader"></div>
 	<div class="container">
-		<h1>パスワード変更</h1>
+		<h1 class="mx-auto mt-4 pb-4" style="width: 280px;">パスワード変更</h1>
 
 		<!-- 
 ・現在のパスワードがDBに無い場合エラーメッセージを表示
@@ -19,25 +21,31 @@
 			<p th:errors="*{password}" class="error-message">error！</p>
 			<p th:errors="*{newPassword}" class="error-message">error！</p>
 			<p th:errors="*{confPassword}" class="error-message">error！</p>
-			<table>
-				<tr>
-					<td>現在のパスワード：</td>
-					<td><input type="password" th:field="*{password}"></td>
-				</tr>
-				<tr>
-					<td>新しいパスワード：</td>
-					<td><input type="password" th:field="*{newPassword}"></td>
-				</tr>
-				<tr>
-					<td>新しいパスワード(確認用)：</td>
-					<td><input type="password" th:field="*{confPassword}"></td>
+			<div class="d-flex align-items-center justify-content-center">
+				<table>
+					<tr>
+						<td>現在のパスワード：</td>
+						<td><input type="password" th:field="*{password}" name="password"> 
+						</td>
+					</tr>
+					<tr>
+						<td>新しいパスワード：</td>
+						<td><input type="password" th:field="*{newPassword}" name="newPassword"></td>
+					</tr>
+					<tr>
+						<td>新しいパスワード(確認用)：</td>
+						<td><input type="password" th:field="*{confPassword}" name="confPassword"></td>
+					</tr>
+					<tr><td><input type="checkbox" id="password-check" onclick="displayPassword()">　パスワードを表示する </td></tr>
+				</table>
+			</div>
+			<div class="row justify-content-center mt-3">
+				<br> <input type="submit" value="戻る" name="back"
+					class="btn btn-outline-secondary  mr-2 mt-1" style="width: 150px;"> <input
+					type="submit" value="変更" name="update"
+					class="btn btn-outline-primary  mr-2 mt-1" style="width: 150px;">
+			</div>
 
-				</tr>
-			</table>
-			<br> <input type="submit" value="戻る" name="back"
-				class="btn btn-outline-danger .w-25 mr-2 mt-1"> <input
-				type="submit" value="変更" name="update"
-				class="btn btn-outline-primary .w-25 mr-2 mt-1">
 		</form>
 	</div>
 	<div th:replace="common :: pageFooter"></div>

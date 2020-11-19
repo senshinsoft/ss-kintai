@@ -19,8 +19,8 @@
 	<th:block th:fragment="pageHeader">
 		<header>
 			<div class="width">
-				<span class="ml-5 pt-3 mt-3" th:text="画面名：+ ${screenName}"></span><br><br>
-				 <span class="ml-5" th:text="ログイン者：+ ${userName}"></span>
+				<span class="ml-5 pt-3 mt-3" th:text="画面名：+ ${screenName}"></span><br>
+				<br> <span class="ml-5" th:text="ログイン者：+ ${userName}"></span>
 				<div class="right">
 					<form th:action="@{/logout}" class="logout">
 						<input type="submit" value=ログアウト name="logout"
