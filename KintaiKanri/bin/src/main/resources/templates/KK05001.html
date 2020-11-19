@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: meta_header('メニュー',~{::link},~{::script})">
+</head>
+<body>
+	<div th:replace="common :: pageHeader"></div>
+	<div class="container">
+		<div class="mx-auto" style="width: 200px;">
+			<h1 class="mx-auto pt-4 mt-4 mb-4" style="width: 200px;">メニュー</h1>
+			<div th:if="${userInfo.adminFlg} == 1">
+				<form th:action="@{/menuConf}">
+					<input type="submit" value=月別一覧 name="monthlyList"
+						class="btn btn-link"> <input type="submit" value=パスワード変更
+						name="pass" class="btn btn-link"> <input type="submit"
+						value=ユーザー登録 name="user" class="btn btn-link">
+				</form>
+			</div>
+			<div th:if="${userInfo.adminFlg} == 0">
+				<form th:action="@{/menuConf}">
+					<input type="submit" value=月別一覧 name="monthlyList"
+						class="btn btn-link"> <input type="submit" value=パスワード変更
+						name="pass" class="btn btn-link">
+				</form>
+			</div>
+		</div>
+	</div>
+	<div th:replace="common :: pageFooter"></div>
+</body>
+</html>

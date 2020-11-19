@@ -58,6 +58,8 @@ public class KK06002Controller {
 			Model model, RedirectAttributes attributes) {
 		RegisteringUser registeringUser = new RegisteringUser();
 		BeanUtils.copyProperties(form, registeringUser);
+		registeringUser.setInsUser(userInfo.getLoginUser().getUserId());
+		registeringUser.setIpdUser(userInfo.getLoginUser().getUserId());
 
 		// どれか一つでも未入力ならエラー
 		if (registeringUser.getUserId().equals("") || registeringUser.getMailAddress().equals("")

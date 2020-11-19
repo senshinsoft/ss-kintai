@@ -21,7 +21,7 @@
           (user_id, mail_address, password, sei, mei, admin_flg, ins_user,
            ins_date, upd_user, upd_date)
           VALUES (#{userId}, #{mailAddress}, #{password}, #{sei}, #{mei}
-                  , #{adminFlg} , 'insuser',CURRENT_TIMESTAMP, 'upduser', CURRENT_TIMESTAMP);
+                  , #{adminFlg} , '#{insUser}',CURRENT_TIMESTAMP, '#{updUser}', CURRENT_TIMESTAMP);
      </insert>
      
      

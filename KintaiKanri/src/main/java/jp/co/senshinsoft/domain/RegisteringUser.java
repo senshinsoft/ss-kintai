@@ -7,6 +7,8 @@ public class RegisteringUser {
 	private String password;
 	private String sei;
 	private String mei;
+	private String insUser;
+	private String updUser;
 	private int adminFlg;
 	private int RegisterCheck;	
 	
@@ -51,6 +53,18 @@ public class RegisteringUser {
 	}
 	public void setAdminFlg(int adminFlg) {
 		this.adminFlg = adminFlg;
+	}
+	public String getInsUser() {
+		return insUser;
+	}
+	public void setInsUser(String insUser) {
+		this.insUser = insUser;
+	}
+	public String getUpdUser() {
+		return updUser;
+	}
+	public void setUpdUser(String updUser) {
+		this.updUser = updUser;
 	}
 
 }

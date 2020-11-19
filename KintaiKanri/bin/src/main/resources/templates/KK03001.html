@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: meta_header('社員一覧',~{::link},~{::script})">
+</head>
+<body>
+	<div th:replace="common :: pageHeader"></div>
+	<div class="container">
+		<h1 class="mx-auto pt-4 mt-4 mb-4" style="width: 180px;">社員一覧</h1>
+		<div class="mx-auto position" style="width: 1000px;">
+			<form th:action="@{/inputWorkReport}" method="post"
+				th:object="${KK03001Form}" class="mx-auto">
+				<div class="columnsKK03001">
+				<ul th:each="employee : ${empInfoList}" class="KK03001List empList-size">
+					<li class="KK03001List empList-size"><input type="checkbox" value="${employee.userId}" class="box-top">
+					<input type="submit" th:value="${employee}" name="employeeName" class="btn btn-link">　			
+					</li>
+				</ul>
+				</div>
+			<div class="row justify-content-center mt-3 mb-5">
+					<input type="submit" value=" 戻る " name="back"class="btn btn-outline-secondary">
+						<input type="submit" value="　excel出力　" name="admin-export" class="btn btn-outline-success ml-3">
+				</div>
+				<input type="hidden" th:field="*{year}" name="year"> <input
+					type="hidden" th:field="*{month}" name="month">
+			</form>
+		</div>
+	</div>
+	<div th:replace="common :: pageFooter"></div>
+</body>
+</html>

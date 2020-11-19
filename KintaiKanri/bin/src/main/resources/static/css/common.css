@@ -1,0 +1,34 @@
+.right{
+	float:right;
+}
+
+.logout{
+	margin-right:30px;
+}
+
+.width{
+	width:90%;
+	margin:0 auto;
+	margin-top:20px;
+}
+
+li{
+	list-style-type:none;
+}
+
+header{
+	height:120px;
+	width:100%;
+	background-color:#00CCFF;
+	position:fixed;
+	z-index:1;
+}
+
+
+.error-input{
+	background-color:#f4959c;
+}
+
+.error-message{
+	color:#f4959c;
+}
