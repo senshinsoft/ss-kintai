@@ -10,59 +10,85 @@ public class User {
 	private String passUpdDate;
 	private String insUser;
 	private String updUser;
+	private int RegisterCheck;
+
 	public String getUserId() {
 		return userId;
 	}
+
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
 	public String getMailAddress() {
 		return mailAddress;
 	}
+
 	public void setMailAddress(String mailAddress) {
 		this.mailAddress = mailAddress;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	public String getSei() {
 		return sei;
 	}
+
 	public void setSei(String sei) {
 		this.sei = sei;
 	}
+
 	public String getMei() {
 		return mei;
 	}
+
 	public void setMei(String mei) {
 		this.mei = mei;
 	}
+
 	public String getAdminFlg() {
 		return adminFlg;
 	}
+
 	public void setAdminFlg(String adminFlg) {
 		this.adminFlg = adminFlg;
 	}
+
 	public String getPassUpdDate() {
 		return passUpdDate;
 	}
+
 	public void setPassUpdDate(String passUpdDate) {
 		this.passUpdDate = passUpdDate;
 	}
+
 	public String getInsUser() {
 		return insUser;
 	}
+
 	public void setInsUser(String insUser) {
 		this.insUser = insUser;
 	}
+
 	public String getUpdUser() {
 		return updUser;
 	}
+
 	public void setUpdUser(String updUser) {
 		this.updUser = updUser;
 	}
 
+	public int getRegisterCheck() {
+		return RegisterCheck;
+	}
+
+	public void setRegisterCheck(int registerCheck) {
+		RegisterCheck = registerCheck;
+	}
 }

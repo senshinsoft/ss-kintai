@@ -7,41 +7,40 @@
 	<select id="findEmployeeName"
 		resultType="jp.co.senshinsoft.domain.User">
 		SELECT
-		sei
-		,mei
+			sei
+			,mei
 		FROM
-		user
+			user
 		WHERE
-		user_id=#{userId}
+			user_id=#{userId}
 	</select>
 	<select id="findAccountByUserId"
 		resultType="jp.co.senshinsoft.domain.User">
 		SELECT
-		user_id
-		,mail_address
-		,password
-		,sei
-		,mei
-		,admin_flg
-		,pass_upd_date
+			user_id
+			,mail_address
+			,password
+			,sei
+			,mei
+			,admin_flg
+			,pass_upd_date
 		FROM
-		user
+			user
 		WHERE
-		user_id=#{userId}
+			user_id=#{userId}
 	</select>
 	<select id="findEmployeeCatalog"
 		resultType="jp.co.senshinsoft.domain.User">
 		SELECT
 			user_id
-			,sei
+			,sei	
 			,mei
 		FROM
 			user
 		ORDER BY
 			(user_id+0)
 	</select>
-	<select id="findSelectEmployeeId"
-		resultType="String">
+	<select id="findSelectEmployeeId" resultType="String">
 		SELECT
 			user_id
 		FROM
@@ -55,11 +54,57 @@
 		UPDATE
 			user
 		SET
-			password=#{newPassword}
+			password=#{password}
 			,pass_upd_date=CURRENT_TIMESTAMP
 			,upd_user=#{updUser}
 		WHERE
 			user_id=#{userId}
 	</update>
+
+	<select id="searchUser" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			user
+		WHERE
+			user_id=#{userId}
+		OR
+			mail_address=#{mailAddress}
+	</select>
+
+	<insert id="registeringUser">
+		INSERT INTO user
+		(user_id, mail_address, password, sei, mei, admin_flg, ins_user,
+		ins_date, upd_user, upd_date)
+		VALUES (#{userId}, #{mailAddress}, #{password}, #{sei}, #{mei}
+		, #{adminFlg} , #{insUser},CURRENT_TIMESTAMP, #{updUser},
+		CURRENT_TIMESTAMP);
+	</insert>
+
+	<update id="updateUser">
+		UPDATE
+			user
+		SET
+			mail_address=#{mailAddress}
+			,sei=#{sei}
+			,mei=#{mei}
+			,admin_flg= #{adminFlg}	
+			,upd_user=#{updUser}
+		WHERE
+			user_id=#{userId}
+	</update>
+
+	<select id="findUser" resultType="jp.co.senshinsoft.domain.User">
+		SELECT
+			user_id
+			,mail_address
+			,sei
+			,mei
+			,admin_flg
+		FROM
+			user
+		WHERE
+			user_id=#{userId}
+	</select>
 </mapper>
    

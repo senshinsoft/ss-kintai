@@ -2,6 +2,7 @@ package jp.co.senshinsoft.persistence;
 
 import java.util.List;
 
+
 import jp.co.senshinsoft.domain.User;
 
 public interface UserMapper {
@@ -36,4 +37,25 @@ public interface UserMapper {
 	 * パスワード変更する
 	 */
 	public void updatePassword(User user);
+
+	/**
+	 * userテーブルへユーザー登録処理を行う
+	 * @param user
+	 */
+	public void registeringUser(User user);
+	
+/**
+ * 入力された社員ID、メールアドレスと既に登録されている社員ID、メールアドレスの一致数を返す
+ * @param user
+ * @return 社員IDとメールアドレスの一致件数
+ */
+	public int searchUser(User user);
+
+/**
+ * userテーブルへユーザー情報を更新する
+ * @param user
+ */
+	public void updateUser(User user);
+	
+//	public List<User> findUser;
 }

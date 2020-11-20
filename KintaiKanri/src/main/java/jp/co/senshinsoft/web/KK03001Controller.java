@@ -35,13 +35,9 @@ public class KK03001Controller {
 	@RequestMapping("/employeeList")
 	public String empInput(Model model,KK03001Form KK03001form,KK02001Form KK02001form) {
 		List<User> empList = userService.findEmployeeCatalog();
-		List <String> empInfoList = new ArrayList<>();
 		KK03001form.setYear(KK02001form.getYear().substring(0,4));
 		KK03001form.setMonth(KK02001form.getYear().substring(5,7));
-		for(int i =0 ; i < empList.size(); i++) {
-		empInfoList.add(empList.get(i).getUserId()+".　"+empList.get(i).getSei()+" "+empList.get(i).getMei());
-		}
-		model.addAttribute("empInfoList", empInfoList);
+		model.addAttribute("empList", empList);
 		model.addAttribute("screenName", "社員一覧");
 		model.addAttribute("userName",userInfo.getLoginUser().getSei()+" "+userInfo.getLoginUser().getMei() );
 		return "KK03001";
