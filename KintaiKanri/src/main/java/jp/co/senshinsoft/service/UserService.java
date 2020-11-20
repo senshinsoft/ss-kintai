@@ -66,4 +66,30 @@ public class UserService {
 	public void updateUserPass(User user) {
 		 mapper.updatePassword(user);
 	}
+	
+	
+	// ユーザーの重複チェック
+	public Boolean searchUser(User user) {
+		int checkCount = mapper.searchUser(user);
+		if(checkCount == 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * パスワードをハッシュ化して新規ユーザーを登録する
+	 * テーブル名：user
+	 * 
+	 */
+	public void registeringUser(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		
+		mapper.registeringUser(user);
+	}
+	
+//	public List<User> findUser(String userId){
+//		return mapper.
+//	}
 }

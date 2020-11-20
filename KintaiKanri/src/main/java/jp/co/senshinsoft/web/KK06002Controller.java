@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.co.senshinsoft.auth.GetLoginUserDetails;
-import jp.co.senshinsoft.domain.RegisteringUser;
-import jp.co.senshinsoft.service.RegisteringUserService;
+import jp.co.senshinsoft.domain.User;
+import jp.co.senshinsoft.service.UserService;
 
 @Controller
 public class KK06002Controller {
 
 	@Autowired
-	private RegisteringUserService registerSrvice;
+	private UserService userService;
 	private GetLoginUserDetails userInfo = new GetLoginUserDetails();
 
 	/**
@@ -56,13 +56,15 @@ public class KK06002Controller {
 	@RequestMapping(value = "/registerConf", method = RequestMethod.POST, params = "register")
 	public String registUser(@Validated @ModelAttribute("KK06002Form") KK06002Form form, BindingResult result,
 			Model model, RedirectAttributes attributes) {
-		RegisteringUser registeringUser = new RegisteringUser();
-		BeanUtils.copyProperties(form, registeringUser);
+		User user = new User();
+		BeanUtils.copyProperties(form, user);
+		user.setInsUser(userInfo.getLoginUser().getUserId());
+		user.setUpdUser(userInfo.getLoginUser().getUserId());
 
 		// どれか一つでも未入力ならエラー
-		if (registeringUser.getUserId().equals("") || registeringUser.getMailAddress().equals("")
-				|| registeringUser.getPassword().equals("") || registeringUser.getSei().equals("")
-				|| registeringUser.getMei().equals("")) {
+		if (user.getUserId().equals("") || user.getMailAddress().equals("")
+				|| user.getPassword().equals("") || user.getSei().equals("")
+				|| user.getMei().equals("")) {
 			result.rejectValue("regist", "errors.register");
 		}
 		// パスワードが7以下ならエラー
@@ -72,14 +74,14 @@ public class KK06002Controller {
 
 		// 既に既存のユーザーが登録されていないかDBに問い合わせを行う
 		// 重複していなければ登録する
-		Boolean isValid = registerSrvice.searchUser(registeringUser);
+		Boolean isValid = userService.searchUser(user);
 		if (!isValid) {
 			result.rejectValue("checkRepeat", "errors.repeat");
 		}
 		if (result.hasErrors()) {
 			return "KK06002";
 		}
-		registerSrvice.registeringUser(registeringUser);
+		userService.registeringUser(user);
 		attributes.addFlashAttribute("message", "登録完了しました");
 		return "redirect:/menuConf?user=user";
 
