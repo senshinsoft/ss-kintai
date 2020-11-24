@@ -29,6 +29,7 @@
 		(day+0)
 	</select>
 
+
 	<insert id="registWorkReportDaily">
 		INSERT INTO
 		work_report_daily (user_id, year, month,

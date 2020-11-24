@@ -17,6 +17,7 @@ public class KK06002Form implements Serializable {
 	private String regist;
 	private String checkRepeat;
 	private String updateFlg;
+	private String searchEmpId;
 
 	public String getUserId() {
 		return userId;
@@ -92,5 +93,13 @@ public class KK06002Form implements Serializable {
 
 	public void setRegist(String regist) {
 		this.regist = regist;
+	}
+
+	public String getSearchEmpId() {
+		return searchEmpId;
+	}
+
+	public void setSearchEmpId(String searchEmpId) {
+		this.searchEmpId = searchEmpId;
 	}
 }

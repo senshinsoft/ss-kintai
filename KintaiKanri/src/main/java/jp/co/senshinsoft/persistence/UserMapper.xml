@@ -106,5 +106,12 @@
 		WHERE
 			user_id=#{userId}
 	</select>
+	
+	<select id="findMailAddress" resultType="String">
+		SELECT
+			mail_address
+		FROM
+			user
+	</select>
 </mapper>
    
