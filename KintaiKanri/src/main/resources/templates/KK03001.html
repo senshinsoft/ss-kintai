@@ -12,7 +12,7 @@
 				<div class="columnsKK03001">
 				<ul th:each="employee : ${empInfoList}" class="KK03001List empList-size">
 					<li class="KK03001List empList-size"><input type="checkbox" value="${employee.userId}" class="box-top">
-					<input type="submit" th:value="${employee}" name="employeeName" class="btn btn-link">　			
+					<input type="submit" th:value="${employee.employeeName}" name="employeeName" class="btn btn-link">　			
 					</li>
 				</ul>
 				</div>
