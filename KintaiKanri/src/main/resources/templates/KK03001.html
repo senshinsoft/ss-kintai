@@ -10,9 +10,9 @@
 			<form th:action="@{/inputWorkReport}" method="post"
 				th:object="${KK03001Form}" class="mx-auto">
 				<div class="columnsKK03001">
-				<ul th:each="employee : ${empInfoList}" class="KK03001List empList-size">
-					<li class="KK03001List empList-size"><input type="checkbox" value="${employee.userId}" class="box-top">
-					<input type="submit" th:value="${employee.employeeName}" name="employeeName" class="btn btn-link">　			
+				<ul th:each="employee : *{empInfoList}" class="KK03001List empList-size">
+					<li class="KK03001List empList-size"><input type="checkbox" th:value="${employee.userId}" class="box-top" name="userId">
+					<input type="submit" th:value="${employee.userId}+${employee.sei}+${employee.mei}" name="employeeName" class="btn btn-link">　			
 					</li>
 				</ul>
 				</div>
