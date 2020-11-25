@@ -10,7 +10,9 @@ public class User {
 	private String passUpdDate;
 	private String insUser;
 	private String updUser;
+	private String employeeName;
 	private int RegisterCheck;
+	
 
 	public String getUserId() {
 		return userId;
@@ -90,5 +92,13 @@ public class User {
 
 	public void setRegisterCheck(int registerCheck) {
 		RegisterCheck = registerCheck;
+	}
+
+	public String getEmployeeName() {
+		return employeeName;
+	}
+
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
 	}
 }
