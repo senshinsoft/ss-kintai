@@ -57,5 +57,12 @@ public interface UserMapper {
  */
 	public void updateUser(User user);
 	
-//	public List<User> findUser;
+	public List<User> findUser(String userId);
+	
+	/**
+	 * メールアドレスが一致している場合に一致している件数を返す
+	 * @param mailAddress
+	 * @return
+	 */
+	public List<String> findMailAddress();
 }

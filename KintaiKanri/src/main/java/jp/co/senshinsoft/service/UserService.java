@@ -89,7 +89,15 @@ public class UserService {
 		mapper.registeringUser(user);
 	}
 	
-//	public List<User> findUser(String userId){
-//		return mapper.
-//	}
+	public List<User> findUser(String userId){
+		return mapper.findUser(userId);
+	}
+	
+	public void updateUser(User user) {
+		mapper.updateUser(user);
+	}
+	
+	public List<String> findMailAddress() {
+		return mapper.findMailAddress();
+	}
 }
