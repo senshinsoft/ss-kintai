@@ -1,5 +1,9 @@
 package jp.co.senshinsoft.web;
 
+import java.util.List;
+
+import jp.co.senshinsoft.domain.User;
+
 public class KK03001Form {
 
 	private String userId;
@@ -8,6 +12,7 @@ public class KK03001Form {
 	private String year;
 	private String month;
 	private String employeeName;
+	private List<User> empInfoList;
 	
 	public String getUserId() {
 		return userId;
@@ -55,6 +60,14 @@ public class KK03001Form {
 
 	public void setEmployeeName(String employeeName) {
 		this.employeeName = employeeName;
+	}
+
+	public List<User> getEmpInfoList() {
+		return empInfoList;
+	}
+
+	public void setEmpInfoList(List<User> empInfoList) {
+		this.empInfoList = empInfoList;
 	}
 	
 }

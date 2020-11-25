@@ -38,11 +38,9 @@ public class KK03001Controller {
 		KK03001form.setYear(KK02001form.getYear().substring(0, 4));
 		KK03001form.setMonth(KK02001form.getYear().substring(5, 7));
 		for (int i = 0; i < empInfoList.size(); i++) {
-			empInfoList.get(i).setEmployeeName(empInfoList.get(i).getUserId() + ".　" + empInfoList.get(i).getSei() + " "
-					+ empInfoList.get(i).getMei());
+			KK03001form.setEmpInfoList(empInfoList);
 
 		}
-		model.addAttribute("empInfoList", empInfoList);
 		model.addAttribute("screenName", "社員一覧");
 		model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
 		return "KK03001";
