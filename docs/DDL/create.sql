@@ -54,3 +54,22 @@ create table KintaiKanri.work_report_monthly(
 	upd_date TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL comment '更新日時',
 	primary key(user_id,year,month)
 )comment '勤務表報告書_日次情報';
+
+-- suppliersテーブル
+create table KintaiKanri.suppliers(
+	suppliers_code varchar(8) NOT NULL comment '取引先コード',
+	suppliers_name varchar(50) NOT NULL comment '取引先名称',
+	suppliers_begin_date varchar(2) NOT NULL comment '適用開始日',
+	suppliers_end_date varchar(5) NOT NULL comment '適用終了日',
+	primary key(suppliers_code)
+)comment '取引先マスタ';
+
+-- suppliersテーブル
+create table KintaiKanri.suppliers(
+	suppliers_code varchar(8) NOT NULL comment '取引先コード',
+	suppliers_name varchar(50) NOT NULL comment '取引先名称',
+	suppliers_begin_date varchar(2) NOT NULL comment '適用開始日',
+	suppliers_end_date varchar(5) NOT NULL comment '適用終了日',
+	primary key(suppliers_code)
+)comment '取引先マスタ';
+

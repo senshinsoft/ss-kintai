@@ -13,6 +13,7 @@ public class KK03001Form {
 	private String month;
 	private String employeeName;
 	private List<User> empInfoList;
+	private String comma;
 	
 	public String getUserId() {
 		return userId;
@@ -69,5 +70,11 @@ public class KK03001Form {
 	public void setEmpInfoList(List<User> empInfoList) {
 		this.empInfoList = empInfoList;
 	}
+
+	public String getComma() {
+		comma=".　";
+		return comma;
+	}
+
 	
 }
