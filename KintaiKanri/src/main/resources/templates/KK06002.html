@@ -18,35 +18,36 @@
 			<p th:errors="*{checkRepeat}" class="error-message">error!</p>
 			<p th:errors="*{password}" class="error-message">error！</p>
 			<p th:errors="*{mailAddress}" class="error-message">error！</p>
-			<div class="d-flex align-items-center justify-content-center mb-4" style="width: 490px;">
-				<span>社員</span><input type="text" name="searchEmpId" class="ml-3 mr-4"> <input type="submit"
+			<div class="d-flex align-items-center justify-content-center mb-4 center">
+				<span>社員</span><input type="text" name="searchEmpId" class="ml-4 mr-4"> <input type="submit"
 					value="検索" name="search" class="btn btn-outline-secondary">
 			</div>
+			<hr>
 			<div class="d-flex align-items-center justify-content-center">
 				<table>
 					<tr>
 						<td>社員番号</td>
 						<td><input type="text" th:value="*{userId}" name="userId"
 							maxlength="4" th:errorclass="error-input"
-							th:disabled="*{updateFlg}==1"></td>
+							th:disabled="*{updateFlg}==1"  class="ml-5"></td>
 					</tr>
 					<tr>
 						<td>メールアドレス</td>
 						<td><input type="email" th:value="*{mailAddress}"
-							name="mailAddress" maxlength="50" th:errorclass="error-input"></td>
+							name="mailAddress" maxlength="50" th:errorclass="error-input" class="ml-5"></td>
 					</tr>
 					<tr>
 						<td>パスワード</td>
 						<td><input type="password" th:value="*{password}"
 							name="password" maxlength="20" th:errorclass="error-input"
-							th:disabled="*{updateFlg}==1"></td>
+							th:disabled="*{updateFlg}==1" class="ml-5"></td>
 					</tr>
 					<tr>
 						<td>氏名</td>
 						<td><input type="text" th:value="*{sei}" name="sei"
-							th:errorclass="error-input" maxlength="20"></td>
+							th:errorclass="error-input" maxlength="20" class="ml-5"></td>
 						<td><input type="text" th:value="*{mei}" name="mei"
-							th:errorclass="error-input" maxlength="20"></td>
+							th:errorclass="error-input" maxlength="20" class="ml-2"></td>
 					</tr>
 					<tr>
 						<td>権限</td>
@@ -54,7 +55,7 @@
 								<custom-field-radio-list> <input
 									type="radio" name="adminFlg" th:value="${item.key}"
 									th:text="${item.value}" th:field="*{adminFlg}"
-									th:checked="${item.key == '0'}" /> </custom-field-radio-list>
+									th:checked="${item.key == '0'}"  class="ml-5"/> </custom-field-radio-list>
 							</div></td>
 					<tr>
 				</table>

@@ -71,6 +71,14 @@ public class KK06002Controller {
 			Model model, RedirectAttributes attributes) {
 		User user = new User();
 		BeanUtils.copyProperties(KK06002Form, user);
+		if (KK06002Form.getUserId().equals(",")) {
+			KK06002Form.setUpdateFlg("0");
+			KK06002Form.setUserId("");
+			model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
+			model.addAttribute("screenName", "ユーザー登録");
+			model.addAttribute("radioItems", getRadioItems());
+			return "KK06002";
+		}
 		String[] useUserId = KK06002Form.getUserId().split(",");
 		user.setUserId(useUserId[0]);
 		user.setInsUser(userInfo.getLoginUser().getUserId());
@@ -80,19 +88,42 @@ public class KK06002Controller {
 		if (user.getUserId().equals("") || user.getMailAddress().equals("") || user.getPassword().equals("")
 				|| user.getSei().equals("") || user.getMei().equals("")) {
 			result.rejectValue("regist", "errors.register");
+			String[] registUserId =KK06002Form.getUserId().split(",");
+				KK06002Form.setUserId(registUserId[0]);
+				model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
+				model.addAttribute("screenName", "ユーザー登録");
+				KK06002Form.setUpdateFlg("0");
+				return "KK06002";	
 		}
 		// パスワードが7以下ならエラー
 		if (KK06002Form.getPassword().length() <= 7) {
 			result.rejectValue("password", "errors.password");
+			if (result.hasErrors()) {
+				model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
+				model.addAttribute("screenName", "ユーザー登録");
+				KK06002Form.setUpdateFlg("0");
+				KK06002Form.setPassword("");
+				 useUserId = KK06002Form.getUserId().split(",");
+				 KK06002Form.setUserId(useUserId[0]);
+				
+				return "KK06002";
+			}
 		}
 
 		// 既に既存のユーザーが登録されていないかDBに問い合わせを行う
 		// 重複していなければ登録する
 		Boolean isValid = userService.searchUser(user);
 		if (!isValid) {
-			result.rejectValue("checkRepeat", "errors.repeat");
+			result.rejectValue("userId", "errors.repeat");
+			result.rejectValue("mailAddress", "errors.repeat");
 		}
 		if (result.hasErrors()) {
+			model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
+			model.addAttribute("screenName", "ユーザー登録");
+			KK06002Form.setUserId("");
+			KK06002Form.setMailAddress("");
+			KK06002Form.setUpdateFlg("0");
+			
 			return "KK06002";
 		}
 		userService.registeringUser(user);
@@ -117,6 +148,18 @@ public class KK06002Controller {
 	@RequestMapping(value = "/registerConf", method = RequestMethod.POST, params = "search")
 	public String searchEmployee(KK06002Form KK06002Form, BindingResult result, Model model) {
 		String id = KK06002Form.getSearchEmpId();
+		if (id.equals("")) {
+			KK06002Form.setUpdateFlg("0");
+			KK06002Form.setUserId("");
+			KK06002Form.setMailAddress("");
+			KK06002Form.setPassword("");
+			KK06002Form.setSei("");
+			KK06002Form.setMei("");
+			model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
+			model.addAttribute("screenName", "ユーザー登録");
+			model.addAttribute("radioItems", getRadioItems());
+			return "KK06002";
+		}
 		List<User> empList = userService.findUser(id);
 
 		for (User u : empList) {
@@ -142,23 +185,23 @@ public class KK06002Controller {
 		user.setInsUser(userInfo.getLoginUser().getUserId());
 		user.setUpdUser(userInfo.getLoginUser().getUserId());
 
-		// エラーチェックスタート	
-		//アドレスに空欄がないか
-		if (user.getMailAddress().equals("") ||  user.getSei().equals("") || user.getMei().equals("")) {
+		// エラーチェックスタート
+		// アドレスに空欄がないか
+		if (user.getMailAddress().equals("") || user.getSei().equals("") || user.getMei().equals("")) {
 			result.rejectValue("sei", "errors.blank.userInfo");
 			result.rejectValue("mei", "errors.blank.userInfo");
 			result.rejectValue("mailAddress", "errors.blank.userInfo");
-			}
-		//メールアドレス被りチェック
-		if(user.getMailAddress()!="") {
-		List<String> addressList = userService.findMailAddress();
-		for(String s:addressList) {
-		if (s.equals(KK06002Form.getMailAddress())) {
-			result.rejectValue("mailAddress", "errors.duplicateAddress");
+		}
+		// メールアドレス被りチェック
+		if (user.getMailAddress() != "") {
+			List<String> addressList = userService.findMailAddress();
+			for (String s : addressList) {
+				if (s.equals(KK06002Form.getMailAddress())) {
+					result.rejectValue("mailAddress", "errors.duplicateAddress");
+				}
 			}
 		}
-		}
-		
+
 		if (result.hasErrors()) {
 			List<User> empList = userService.findUser(KK06002Form.getUserId());
 			for (User u : empList) {
@@ -181,9 +224,9 @@ public class KK06002Controller {
 
 		return "redirect:/menuConf?user=user";
 	}
-	
+
 	@RequestMapping(value = "/registerConf", method = RequestMethod.POST, params = "clear")
 	public String clearKK06002(KK06002Form KK06002Form, Model model) {
-		return  "redirect:/menuConf?user=user";
+		return "redirect:/menuConf?user=user";
 	}
 }
