@@ -77,6 +77,7 @@ public class KK06002Controller {
 			model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
 			model.addAttribute("screenName", "ユーザー登録");
 			model.addAttribute("radioItems", getRadioItems());
+			result.rejectValue("regist", "errors.register");
 			return "KK06002";
 		}
 		String[] useUserId = KK06002Form.getUserId().split(",");
@@ -88,24 +89,25 @@ public class KK06002Controller {
 		if (user.getUserId().equals("") || user.getMailAddress().equals("") || user.getPassword().equals("")
 				|| user.getSei().equals("") || user.getMei().equals("")) {
 			result.rejectValue("regist", "errors.register");
-			String[] registUserId =KK06002Form.getUserId().split(",");
-				KK06002Form.setUserId(registUserId[0]);
-				model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
-				model.addAttribute("screenName", "ユーザー登録");
-				KK06002Form.setUpdateFlg("0");
-				return "KK06002";	
+			String[] registUserId = KK06002Form.getUserId().split(",");
+			KK06002Form.setUserId(registUserId[0]);
+			model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
+			model.addAttribute("screenName", "ユーザー登録");
+			KK06002Form.setUpdateFlg("0");
+			return "KK06002";
 		}
 		// パスワードが7以下ならエラー
 		if (KK06002Form.getPassword().length() <= 7) {
 			result.rejectValue("password", "errors.password");
 			if (result.hasErrors()) {
-				model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
+				model.addAttribute("userName",
+						userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
 				model.addAttribute("screenName", "ユーザー登録");
 				KK06002Form.setUpdateFlg("0");
 				KK06002Form.setPassword("");
-				 useUserId = KK06002Form.getUserId().split(",");
-				 KK06002Form.setUserId(useUserId[0]);
-				
+				useUserId = KK06002Form.getUserId().split(",");
+				KK06002Form.setUserId(useUserId[0]);
+
 				return "KK06002";
 			}
 		}
@@ -123,7 +125,7 @@ public class KK06002Controller {
 			KK06002Form.setUserId("");
 			KK06002Form.setMailAddress("");
 			KK06002Form.setUpdateFlg("0");
-			
+
 			return "KK06002";
 		}
 		userService.registeringUser(user);
@@ -161,7 +163,20 @@ public class KK06002Controller {
 			return "KK06002";
 		}
 		List<User> empList = userService.findUser(id);
-
+		if (empList.size() == 0) {
+			KK06002Form.setUpdateFlg("0");
+			KK06002Form.setUserId("");
+			KK06002Form.setMailAddress("");
+			KK06002Form.setPassword("");
+			KK06002Form.setSei("");
+			KK06002Form.setMei("");
+			model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
+			model.addAttribute("screenName", "ユーザー登録");
+			model.addAttribute("radioItems", getRadioItems());
+			result.rejectValue("regist", "error.noEmployee");
+			return "KK06002";
+		}
+		
 		for (User u : empList) {
 			KK06002Form.setUserId(u.getUserId());
 			KK06002Form.setMailAddress(u.getMailAddress());

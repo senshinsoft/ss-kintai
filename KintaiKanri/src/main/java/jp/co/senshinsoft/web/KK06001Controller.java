@@ -49,7 +49,7 @@ public class KK06001Controller {
 		User user = new User();
 	String encodeNewPassword =passwordEncoder.encode(form.getNewPassword());
 	if(form.getPassword().equals("")|| form.getConfPassword().equals("") || form.getConfPassword().equals("")) {
-		result.reject("errors.register");
+		result.rejectValue("regist","errors.register");
 		model.addAttribute("screenName", "パスワード変更");
 		model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
 		return "KK06001";
