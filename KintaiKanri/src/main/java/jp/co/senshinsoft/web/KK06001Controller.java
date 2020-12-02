@@ -48,21 +48,39 @@ public class KK06001Controller {
 	public String updateChangePassword(Model model, KK06001Form form, BindingResult result) {
 		User user = new User();
 	String encodeNewPassword =passwordEncoder.encode(form.getNewPassword());
+	if(form.getPassword().equals("")|| form.getConfPassword().equals("") || form.getConfPassword().equals("")) {
+		result.rejectValue("regist","errors.register");
+		model.addAttribute("screenName", "パスワード変更");
+		model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
+		return "KK06001";
+	}
 		// 現在のパスワードが一致しているか
 		if (!passwordEncoder.matches(form.getPassword(), userInfo.getLoginUser().getPassword())) {
 			result.rejectValue("password", "errors.vaild.nowPassword");
+			model.addAttribute("screenName", "パスワード変更");
+			model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
+			return "KK06001";
 		}
 		// 新しいパスワードが8文字以上であるか
 		if (form.getNewPassword().length() <= 7) {
 			result.rejectValue("newPassword", "errors.password");
+			model.addAttribute("screenName", "パスワード変更");
+			model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
+			return "KK06001";
 		}
 		// 現在のパスワードと新しいパスワードが一致していないか
 		if (form.getPassword().equals(form.getNewPassword())) {
 			result.rejectValue("newPassword", "errors.samePassword");
+			model.addAttribute("screenName", "パスワード変更");
+			model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
+			return "KK06001";
 		}
 		// 新しいパスワードと確認用パスワードが一致しているか
 		if (!form.getNewPassword().equals( form.getConfPassword())) {
 			result.rejectValue("confPassword", "errors.confPassword");
+			model.addAttribute("screenName", "パスワード変更");
+			model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
+			return "KK06001";
 		}
 		if (result.hasErrors()) {
 			model.addAttribute("screenName", "パスワード変更");

@@ -37,10 +37,7 @@ public class KK03001Controller {
 		List<User> empInfoList = userService.findEmployeeCatalog();
 		KK03001form.setYear(KK02001form.getYear().substring(0, 4));
 		KK03001form.setMonth(KK02001form.getYear().substring(5, 7));
-		for (int i = 0; i < empInfoList.size(); i++) {
-			KK03001form.setEmpInfoList(empInfoList);
-
-		}
+		KK03001form.setEmpInfoList(empInfoList);
 		model.addAttribute("screenName", "社員一覧");
 		model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
 		return "KK03001";

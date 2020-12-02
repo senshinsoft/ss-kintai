@@ -7,24 +7,39 @@ public class KK06001Form implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String password;
 	private String newPassword;
+	private String regist;
 	private String confPassword;
-	
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	public String getNewPassword() {
 		return newPassword;
 	}
+
 	public void setNewPassword(String newPassword) {
 		this.newPassword = newPassword;
 	}
+
 	public String getConfPassword() {
 		return confPassword;
 	}
+
 	public void setConfPassword(String confPassword) {
 		this.confPassword = confPassword;
 	}
+
+	public String getRegist() {
+		return regist;
+	}
+
+	public void setRegist(String regist) {
+		this.regist = regist;
+	}
+
 }

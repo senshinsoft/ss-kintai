@@ -409,15 +409,12 @@ public class KK04001Controller {
 		logger.info(
 				"---------------------------------------------------------------------KK03001(社員一覧画面)またはKK02001(月別一覧画面)への遷移開始----------------------------------------------------------------------------------------------");
 		if (KK04001Form.getAdminFlg().equals("1")) {
-
-			List<User> empList = userService.findEmployeeCatalog();
-			List <String> empInfoList = new ArrayList<>();
+			List<User> empInfoList = userService.findEmployeeCatalog();
 			KK03001Form.setYear(KK03001Form.getYear().substring(0,4));
 			KK03001Form.setMonth(KK03001Form.getMonth().substring(0,2));
-			for(int i =0 ; i < empList.size(); i++) {
-			empInfoList.add(empList.get(i).getUserId()+".　"+empList.get(i).getSei()+" "+empList.get(i).getMei());
+			for (int i = 0; i < empInfoList.size(); i++) {
+				KK03001Form.setEmpInfoList(empInfoList);
 			}
-			model.addAttribute("empInfoList", empInfoList);
 			model.addAttribute("screenName", "社員一覧");
 			model.addAttribute("userName",userInfo.getLoginUser().getSei()+" "+userInfo.getLoginUser().getMei() );
 			sessionStatus.setComplete();

@@ -8,7 +8,7 @@
 <body>
 	<div th:replace="common :: pageHeader"></div>
 	<div class="container">
-		<h1 class="mx-auto mt-4 pb-3" style="width: 250px;">ユーザー登録</h1>
+		<h3 class="mt-4 pb-3" style="width: 250px;">ユーザー登録</h3>
 
 
 		<form th:action="@{/registerConf}" th:object="${KK06002Form}"
@@ -18,35 +18,39 @@
 			<p th:errors="*{checkRepeat}" class="error-message">error!</p>
 			<p th:errors="*{password}" class="error-message">error！</p>
 			<p th:errors="*{mailAddress}" class="error-message">error！</p>
-			<div class="d-flex align-items-center justify-content-center mb-4" style="width: 490px;">
-				<span>社員</span><input type="text" name="searchEmpId" class="ml-3 mr-4"> <input type="submit"
-					value="検索" name="search" class="btn btn-outline-secondary">
+			<div
+				class="d-flex align-items-center justify-content-center mb-4 center">
+				<span>社員</span><input type="text" name="searchEmpId"
+					class="ml-4 mr-4"> <input type="submit" value="検索"
+					name="search" class="btn btn-outline-secondary">
 			</div>
+			<hr>
 			<div class="d-flex align-items-center justify-content-center">
 				<table>
 					<tr>
 						<td>社員番号</td>
 						<td><input type="text" th:value="*{userId}" name="userId"
 							maxlength="4" th:errorclass="error-input"
-							th:disabled="*{updateFlg}==1"></td>
+							th:disabled="*{updateFlg}==1" class="ml-5"></td>
 					</tr>
 					<tr>
 						<td>メールアドレス</td>
 						<td><input type="email" th:value="*{mailAddress}"
-							name="mailAddress" maxlength="50" th:errorclass="error-input"></td>
+							name="mailAddress" maxlength="50" th:errorclass="error-input"
+							class="ml-5"></td>
 					</tr>
 					<tr>
 						<td>パスワード</td>
 						<td><input type="password" th:value="*{password}"
 							name="password" maxlength="20" th:errorclass="error-input"
-							th:disabled="*{updateFlg}==1"></td>
+							th:disabled="*{updateFlg}==1" class="ml-5"></td>
 					</tr>
 					<tr>
 						<td>氏名</td>
 						<td><input type="text" th:value="*{sei}" name="sei"
-							th:errorclass="error-input" maxlength="20"></td>
+							th:errorclass="error-input" maxlength="20" class="ml-5"></td>
 						<td><input type="text" th:value="*{mei}" name="mei"
-							th:errorclass="error-input" maxlength="20"></td>
+							th:errorclass="error-input" maxlength="20" class="ml-2"></td>
 					</tr>
 					<tr>
 						<td>権限</td>
@@ -54,19 +58,86 @@
 								<custom-field-radio-list> <input
 									type="radio" name="adminFlg" th:value="${item.key}"
 									th:text="${item.value}" th:field="*{adminFlg}"
-									th:checked="${item.key == '0'}" /> </custom-field-radio-list>
+									th:checked="${item.key == '0'}" class="ml-5" /> </custom-field-radio-list>
 							</div></td>
 					<tr>
 				</table>
 
 			</div>
 			<br>
-
-			<div class="row justify-content-center">
+			<!-- ロケーション情報 -->
+			<h3 class="mt-4 pb-3" style="width: 250px;">ロケーション情報</h3>
+			<div class="d-flex align-items-center justify-content-center">
+				<table>
+					<tr>
+						<td>取引先</td>
+						<td><select name="supplier" class="ml-5">
+								<option>株式会社センシンソフト</option>
+								<option>株式会社CIJ</option>
+								<option>株式会社コスモ</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>ロケーション</td>
+						<td><select name="location" class="ml-5">
+								<option>五反田</option>
+								<option>泉岳寺</option>
+								<option>新宿</option>
+								<option>川崎</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>定時間(8:00形式)</td>
+						<td><input type="text" name="teiji" maxlength="4"
+							class="ml-5"></td>
+					</tr>
+					<tr>
+						<td>定時間(8.00形式)</td>
+						<td><input type="text" name="teijiDecimal" maxlength="4"
+							class="ml-5">
+					</tr>
+					<tr>
+						<td>出社時間</td>
+						<td><input type="text" name="ssJkn" maxlength="4"
+							class="ml-5">
+					</tr>
+					<tr>
+						<td>退社時間</td>
+						<td><input type="text" name="tsJkn" maxlength="4"
+							class="ml-5">
+					</tr>
+					<tr>
+						<td>休憩時間</td>
+						<td><input type="text" name="kkJkn" maxlength="4"
+							class="ml-5">
+					</tr>
+				</table>
+			</div>
+			<h3 class="mt-4 pb-3" style="width: 250px;">ユニット情報</h3>
+			<div class="d-flex align-items-center justify-content-center">
+				<table>
+					<tr>
+						<td>ユニット長</td>
+						<td><select name="supplier" class="ml-5">
+								<option>01：管理者A</option>
+								<option>02：管理者B</option>
+								<option>03：サブリーダーC</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>取引先</td>
+						<td><select name="supplier" class="ml-5">
+								<option>株式会社センシンソフト</option>
+								<option>株式会社CIJ</option>
+								<option>株式会社コスモ</option>
+						</select></td>
+					</tr>
+				</table>
+			</div>
+			<div class="row justify-content-center mt-5 mb-5">
 				<input type="submit" value="戻る" name="back"
-					class="btn btn-light mr-3"> <input
-					type="submit" value="クリア" name="clear"
-					class="btn btn-outline-secodary mr-3"
+					class="btn btn-light mr-3"> <input type="submit"
+					value="クリア" name="clear" class="btn btn-outline-secodary mr-3"
 					th:disabled="*{updateFlg}==0"> <input type="submit"
 					value="登録" name="register" class="btn btn-outline-primary ml-4"
 					th:disabled="*{updateFlg}==1"> <input type="submit"
@@ -74,6 +145,7 @@
 					th:disabled="*{updateFlg}==0">
 			</div>
 			<input type="hidden" th:field="*{userId}" name="userId">
+
 		</form>
 	</div>
 	<div th:replace="common :: pageFooter"></div>
