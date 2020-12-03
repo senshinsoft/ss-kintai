@@ -56,27 +56,35 @@ create table KintaiKanri.work_report_monthly(
 )comment '勤務表報告書_日次情報';
 
 -- suppliersテーブル
-create table KintaiKanri.suppliers(
-	suppliers_code varchar(8) NOT NULL comment '取引先コード',
-	suppliers_name varchar(50) NOT NULL comment '取引先名称',
-	suppliers_begin_date varchar(8) NOT NULL comment '適用開始日',
-	suppliers_end_date varchar(8) NOT NULL comment '適用終了日',
-	primary key(suppliers_code)
+create table KintaiKanri.supplier(
+	supplier_code varchar(8) NOT NULL comment '取引先コード',
+	supplier_name varchar(50) NOT NULL comment '取引先名称',
+	begin_date varchar(8) NOT NULL comment '適用開始日',
+	end_date varchar(8) NOT NULL comment '適用終了日',
+	primary key(supplier_code)
 )comment '勤務表報告書_取引先マスタ';
 
 -- locationテーブル
-create table KintaiKanri.suppliers(
-	suppliers_code varchar(8) NOT NULL comment '取引先コード',
+create table KintaiKanri.location(
 	location_code varchar(4) NOT NULL comment 'ロケーションコード',
 	location_name varchar(50) NOT NULL comment 'ロケーション名称',
-	location_begin_date varchar(8) NOT NULL comment '適用開始日',
-	location_end_date varchar(8) NOT NULL comment '適用終了日',
-	primary key(suppliers_code,location_code)
+	begin_date varchar(8) NOT NULL comment '適用開始日',
+	end_date varchar(8) NOT NULL comment '適用終了日',
+	primary key(location_code)
 )comment '勤務表報告書_ロケーションマスタ';
 
--- locationテーブル
-create table KintaiKanri.location_info(
-	suppliers_code varchar(8) NOT NULL comment '取引先コード',
+-- siteテーブル
+create table KintaiKanri.site(
+	supplier_code varchar(8) NOT NULL comment '取引先コード',
+	location_code varchar(4) NOT NULL comment 'ロケーションコード',
+	begin_date varchar(8) NOT NULL comment '適用開始日',
+	end_date varchar(8) NOT NULL comment '適用終了日',
+	primary key(location_code,supplier_code)
+)comment '勤務表報告書_サイトマスタ';
+
+-- site_infoテーブル
+create table KintaiKanri.site_info(
+	supplier_code varchar(8) NOT NULL comment '取引先コード',
 	location_code varchar(4) NOT NULL comment 'ロケーションコード',
 	user_id varchar(4) NOT NULL comment '社員番号',
 	teiji varchar(5) NOT NULL comment '定時間(8:00形式)',
@@ -84,14 +92,14 @@ create table KintaiKanri.location_info(
 	ss_jkn varchar(5) NOT NULL  comment '出社時間',
 	ts_jkn varchar(5) NOT NULL  comment '退社時間',
 	kk_jkn varchar(5) NOT NULL  comment '休憩時間',
-	primary key(suppliers_code,location_code,user_id)
-)comment '勤務表報告書_ロケーション情報';
+	primary key(supplier_code,location_code,user_id)
+)comment '勤務表報告書_サイト情報';
 
 -- unit_infoテーブル
 create table KintaiKanri.unit_info(
 	leader_user_id varchar(4) NOT NULL comment 'ユニット長社員番号',
-	suppliers_code varchar(8) NOT NULL comment '取引先コード',
+	supplier_code varchar(8) NOT NULL comment '取引先コード',
 	member_user_id varchar(4) NOT NULL comment 'メンバー社員番号',
 	unit_deleted tinyint(1) NOT NULL comment '削除フラグ',
-	primary key(leader_user_id,suppliers_code,member_user_id)
+	primary key(leader_user_id,supplier_code,member_user_id)
 )comment '勤務表報告書_ユニット情報';
