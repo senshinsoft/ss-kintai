@@ -84,6 +84,7 @@ public class KK04001Controller {
 		// DBに勤務情報がない場合、日付のリストのみを作成しKK04001へ遷移する。
 		if (workDailyList.size() == 0) { // 勤務表の登録記録が0
 			onlyDailyList = new ArrayList<>();
+			calendar.set(Integer.parseInt(KK02001form.getYear()), Integer.parseInt(KK02001form.getMonth())-1,1);
 			// 該当月の最後の日付の取得
 			int last = calendar.getActualMaximum(Calendar.DATE);
 			// 該当月の最初の日付を取得
@@ -93,8 +94,8 @@ public class KK04001Controller {
 			do {
 				calendar.set(Calendar.DATE, first);
 				onlyDailyList.add((sdf.format(calendar.getTime()).substring(8, 12)));
-				KK04001Form.setYear(sdf.format(calendar.getTime()).substring(0, 4) + "年");
-				KK04001Form.setMonth(sdf.format(calendar.getTime()).substring(5, 7) + "月度");
+				KK04001Form.setYear(KK02001form.getYear() + "年");
+				KK04001Form.setMonth(KK02001form.getMonth() + "月度");
 				first++;
 			} while (first <= last);
 			logger.info("参照する勤務表の日時：" + KK04001Form.getYear() + KK04001Form.getMonth());
