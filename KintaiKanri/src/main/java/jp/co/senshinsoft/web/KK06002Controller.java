@@ -17,7 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.co.senshinsoft.auth.GetLoginUserDetails;
+import jp.co.senshinsoft.domain.Location;
+import jp.co.senshinsoft.domain.SiteInfo;
+import jp.co.senshinsoft.domain.Supplier;
+import jp.co.senshinsoft.domain.UnitInfo;
 import jp.co.senshinsoft.domain.User;
+import jp.co.senshinsoft.service.LocationService;
+import jp.co.senshinsoft.service.SupplierService;
 import jp.co.senshinsoft.service.UserService;
 
 @Controller
@@ -25,6 +31,11 @@ public class KK06002Controller {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private LocationService locationService;
+	@Autowired
+	private SupplierService supplierService;
+
 	private GetLoginUserDetails userInfo = new GetLoginUserDetails();
 
 	/**
@@ -50,6 +61,31 @@ public class KK06002Controller {
 	 */
 	@RequestMapping(value = "/menuConf", params = "user")
 	public String registerInput(Model model, KK06002Form KK06002Form) {
+		// ロケーション情報の初期表示の処理
+		//ロケーションのマップを作成
+		List<Location> locationList = locationService.findLocationInfo();
+		Map<String, String> locationMap = new LinkedHashMap<>();
+		for (int i = 0; i < locationList.size(); i++) {
+			locationMap.put(locationList.get(i).getLocationCode(), locationList.get(i).getLocationName());
+		}
+		
+		//取引先のマップを作成(ロケーション・ユニット両方で使用)
+		List<Supplier> supplierList = supplierService.supplierCatalog();
+		Map<String, String> supplierMap = new LinkedHashMap<>();
+		for (int i = 0; i < supplierList.size(); i++) {
+			supplierMap.put(supplierList.get(i).getSupplierCode(), supplierList.get(i).getSupplierName());
+		}
+		
+		// ユニット情報の初期標示の処理
+		List<User> userList = userService.findEmployeeCatalog();
+		Map<String, String> userMap = new LinkedHashMap<>();
+		for(int i =0; i<userList.size(); i++) {
+			userMap.put(userList.get(i).getUserId(), userList.get(i).getUserId()+"："+userList.get(i).getSei()+" "+userList.get(i).getMei());
+		}
+		//formとmodelに初期標示に必要な値をセットする
+		KK06002Form.setLocationMap(locationMap);
+		KK06002Form.setSupplierMap(supplierMap);
+		KK06002Form.setUserMap(userMap);
 		model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
 		model.addAttribute("screenName", "ユーザー登録");
 		model.addAttribute("radioItems", getRadioItems());
@@ -70,7 +106,13 @@ public class KK06002Controller {
 	public String registUser(@Validated @ModelAttribute("KK06002Form") KK06002Form KK06002Form, BindingResult result,
 			Model model, RedirectAttributes attributes) {
 		User user = new User();
+		SiteInfo siteInfo = new SiteInfo();
+		UnitInfo unitInfo = new UnitInfo();
 		BeanUtils.copyProperties(KK06002Form, user);
+		BeanUtils.copyProperties(KK06002Form, siteInfo);
+		BeanUtils.copyProperties(KK06002Form, unitInfo);
+		
+		//ユーザー情報の登録処理
 		if (KK06002Form.getUserId().equals(",")) {
 			KK06002Form.setUpdateFlg("0");
 			KK06002Form.setUserId("");
@@ -129,6 +171,11 @@ public class KK06002Controller {
 			return "KK06002";
 		}
 		userService.registeringUser(user);
+		
+		//ロケーション情報の登録
+		
+		//ユニット情報の登録
+		
 		attributes.addFlashAttribute("message", "登録完了しました");
 		return "redirect:/menuConf?user=user";
 
@@ -176,7 +223,7 @@ public class KK06002Controller {
 			result.rejectValue("regist", "error.noEmployee");
 			return "KK06002";
 		}
-		
+
 		for (User u : empList) {
 			KK06002Form.setUserId(u.getUserId());
 			KK06002Form.setMailAddress(u.getMailAddress());

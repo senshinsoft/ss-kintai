@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <head th:replace="common :: meta_header('ユーザー登録',~{::link},~{::script})">
+<script type="text/javascript" th:src="@{js/script.js}"></script>
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
 <body>
@@ -71,25 +72,22 @@
 				<table>
 					<tr>
 						<td>取引先</td>
-						<td><select name="supplier" class="ml-5">
-								<option>株式会社センシンソフト</option>
-								<option>株式会社CIJ</option>
-								<option>株式会社コスモ</option>
+						<td><select name="supplierCode" class="ml-5">
+								<option></option>
+								<option th:each="supInfo: *{supplierMap}" th:value="${supInfo.key}">[[${supInfo.value}]]</option>
 						</select></td>
 					</tr>
 					<tr>
 						<td>ロケーション</td>
-						<td><select name="location" class="ml-5">
-								<option>五反田</option>
-								<option>泉岳寺</option>
-								<option>新宿</option>
-								<option>川崎</option>
+						<td><select name="locationCode" class="ml-5">
+								<option></option>
+								<option th:each="locInfo: *{locationMap}" th:value="${locInfo.key}">[[${locInfo.value}]]</option>
 						</select></td>
 					</tr>
 					<tr>
 						<td>定時間(8:00形式)</td>
-						<td><input type="text" name="teiji" maxlength="4"
-							class="ml-5"></td>
+						<td><input type="text" name="teiji"
+							class="ml-5" maxlength="4" onfocus="offColon(this);"onblur="toColon(this);workTimeCalc()" oninput="value = value.replace(/[^0-9]+/i,'');"></td>
 					</tr>
 					<tr>
 						<td>定時間(8.00形式)</td>
@@ -98,18 +96,18 @@
 					</tr>
 					<tr>
 						<td>出社時間</td>
-						<td><input type="text" name="ssJkn" maxlength="4"
-							class="ml-5">
+						<td><input type="text" name="ssJkn" 
+							class="ml-5" maxlength="4" onfocus="offColon(this);"onblur="toColon(this);workTimeCalc()" oninput="value = value.replace(/[^0-9]+/i,'');">
 					</tr>
 					<tr>
 						<td>退社時間</td>
-						<td><input type="text" name="tsJkn" maxlength="4"
-							class="ml-5">
+						<td><input type="text" name="tsJkn" 
+							class="ml-5" maxlength="4" onfocus="offColon(this);"onblur="toColon(this);workTimeCalc()" oninput="value = value.replace(/[^0-9]+/i,'');">
 					</tr>
 					<tr>
 						<td>休憩時間</td>
-						<td><input type="text" name="kkJkn" maxlength="4"
-							class="ml-5">
+						<td><input type="text" name="kkJkn" 
+							class="ml-5" maxlength="4" onfocus="offColon(this);"onblur="toColon(this);workTimeCalc()" oninput="value = value.replace(/[^0-9]+/i,'');">
 					</tr>
 				</table>
 			</div>
@@ -118,18 +116,16 @@
 				<table>
 					<tr>
 						<td>ユニット長</td>
-						<td><select name="supplier" class="ml-5">
-								<option>01：管理者A</option>
-								<option>02：管理者B</option>
-								<option>03：サブリーダーC</option>
+						<td><select name="leaderEmpId" class="ml-5">
+								<option></option>
+								<option th:each="userInfo: *{userMap}" th:value="${userInfo.key}">[[${userInfo.value}]]</option>
 						</select></td>
 					</tr>
 					<tr>
 						<td>取引先</td>
-						<td><select name="supplier" class="ml-5">
-								<option>株式会社センシンソフト</option>
-								<option>株式会社CIJ</option>
-								<option>株式会社コスモ</option>
+						<td><select name="assignmentLocationUserId" class="ml-5">
+								<option></option>
+								<option th:each="supInfo: *{supplierMap}" th:value="${supInfo.key}">[[${supInfo.value}]]</option>
 						</select></td>
 					</tr>
 				</table>
