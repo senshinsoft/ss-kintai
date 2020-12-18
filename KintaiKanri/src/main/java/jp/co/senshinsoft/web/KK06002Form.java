@@ -3,8 +3,6 @@ package jp.co.senshinsoft.web;
 import java.io.Serializable;
 import java.util.Map;
 
-import javax.validation.constraints.Size;
-
 public class KK06002Form implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -30,14 +28,14 @@ public class KK06002Form implements Serializable {
 	private String supplierCode;
 	private String locationCode;
 	private String teiji;
-	private String teijiDecimal;
+	private String teijiDecimalNumber;
 	private String ssJkn;
 	private String tsJkn;
 	private String kkJkn;
 	
 	//ユニット情報
-	private String leaderEmpId;
 	private String assignmentLocationUserId;
+	private String leaderUserId;
 	
 
 	
@@ -173,12 +171,12 @@ public class KK06002Form implements Serializable {
 		this.teiji = teiji;
 	}
 
-	public String getTeijiDecimal() {
-		return teijiDecimal;
+	public String getTeijiDecimalNumber() {
+		return teijiDecimalNumber;
 	}
 
-	public void setTeijiDecimal(String teijiDecimal) {
-		this.teijiDecimal = teijiDecimal;
+	public void setTeijiDecimalNumber(String teijiDecimalNumber) {
+		this.teijiDecimalNumber = teijiDecimalNumber;
 	}
 
 	public String getSsJkn() {
@@ -205,12 +203,8 @@ public class KK06002Form implements Serializable {
 		this.kkJkn = kkJkn;
 	}
 
-	public String getLeaderEmpId() {
-		return leaderEmpId;
-	}
-
-	public void setLeaderEmpId(String leaderEmpId) {
-		this.leaderEmpId = leaderEmpId;
+	public String getLeaderUserId() {
+		return leaderUserId;
 	}
 
 	public String getAssignmentLocationUserId() {
@@ -220,4 +214,10 @@ public class KK06002Form implements Serializable {
 	public void setAssignmentLocationUserId(String assignmentLocationUserId) {
 		this.assignmentLocationUserId = assignmentLocationUserId;
 	}
+
+	public void setLeaderUserId(String leaderUserId) {
+		this.leaderUserId = leaderUserId;
+	}
+
+	
 }
