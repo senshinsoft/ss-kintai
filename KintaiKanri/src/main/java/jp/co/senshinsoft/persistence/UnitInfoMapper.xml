@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.co.senshinsoft.persistence.UnitInfoMapper">
+	<insert id="registUnitInfo">
+		INSERT INTO 
+			unit_info
+		(
+			leader_user_id
+			 ,supplier_code
+			 ,member_user_id
+			 ,unit_deleted
+		 )
+		VALUES
+		(
+			#{leaderUserId}
+			,#{supplierCode}
+			,#{memberUserId}
+			,0
+		);
+	</insert>
+	<select id="findUnitInfo" resultType="jp.co.senshinsoft.domain.UnitInfo">
+	select
+		leader_user_id
+		,supplier_code
+	from
+		unit_info
+	where
+		member_user_id=#{userId}
+	and
+		unit_deleted=0;
+	</select>
+	<update id="updateUnitInfo">
+		UPDATE
+			unit_info
+		SET
+			leader_user_id=#{leaderUserId}
+			,supplier_code=#{supplierCode}
+			,member_user_id=#{memberUserId}
+		WHERE
+			member_user_id=#{memberUserId}
+	</update>
+</mapper>

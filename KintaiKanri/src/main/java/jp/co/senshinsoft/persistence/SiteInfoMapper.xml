@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.co.senshinsoft.persistence.SiteInfoMapper">
+	<insert id="registSiteInfo">
+		INSERT INTO 
+			site_info
+		(
+			supplier_code
+			 ,location_code
+			 ,user_id
+			 ,teiji
+			 ,teiji_decimal_number
+			 ,ss_jkn
+			 ,ts_jkn
+			 ,kk_jkn
+		 )
+		VALUES
+		(
+			#{supplierCode}
+			,#{locationCode}
+			,#{userId}
+			,#{teiji}
+			,#{teijiDecimalNumber}
+			,#{ssJkn}
+			,#{tsJkn}
+			,#{kkJkn}
+		);
+	</insert>
+		<select id="findSiteInfo" resultType="jp.co.senshinsoft.domain.SiteInfo">
+		select
+			supplier_code
+			,location_code
+			,user_id
+			,teiji
+			,teiji_decimal_number
+			,ss_jkn
+			,ts_jkn
+			,kk_jkn
+		from
+			site_info
+		where
+			user_id=#{userId};
+	</select>
+	<update id="updateSiteInfo">
+		UPDATE
+			site_info
+		SET
+			supplier_code=#{supplierCode}
+			,location_code=#{locationCode}
+			,user_id=#{userId}
+			,teiji=#{teiji}
+			,teiji_decimal_number=#{teijiDecimalNumber}
+			,ss_jkn=#{ssJkn}
+			,ts_jkn=#{tsJkn}
+			,kk_jkn=#{kkJkn}
+		WHERE
+			user_id=#{userId}
+			
+	</update>
+</mapper>

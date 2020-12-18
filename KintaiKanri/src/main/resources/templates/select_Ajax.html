@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+<!--     <select id="id1" name="id1" size="5" th:fragment="flgmntB"> -->
+<!--         <option value="">------------------------------------</option> -->
+<!--         <option th:each="item : ${selectLst}" th:value="${item.value}" th:text="|<<${item.key}>>:${item.value}|" th:selected="${item.value == id1}"></option> -->
+<!--     </select> -->
+    <select  class="ml-5" id="locationCode" name="locationCode" th:fragment="selectAjaxBody"> 
+		<option value="">---</option>
+		<option th:each="locInfo: *{locationMap}" th:value="${locInfo.key}" th:text="${locInfo.value}" th:selected="${locInfo.key == locationCode}">]</option>
+	</select>
+</body>
+</html>
