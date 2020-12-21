@@ -35,7 +35,7 @@ public class KK06001Controller {
 	 */
 	@RequestMapping(value="enterKK06001")
 	public String enterKK06001(KK06001Form form, Model model) {
-		model.addAttribute("screenName", "メニュー");
+		model.addAttribute("screenName", "パスワード変更");
 		model.addAttribute("userName",userInfo.getLoginUser().getSei()+" "+userInfo.getLoginUser().getMei() );
 		model.addAttribute("userInfo", userInfo.getLoginUser());	
 		return "KK06001";
@@ -97,7 +97,7 @@ public class KK06001Controller {
 	}
 	
 	@RequestMapping(value = "/updatePassword",  params = "back")
-	public String getoutFormKK06001() {
+	public String getoutFromKK06001() {
 		return "redirect:/menu";
 
 	}
