@@ -81,7 +81,7 @@ public class KK06002Controller {
 	 * 
 	 * @return ユーザ登録画面パス
 	 */
-	@RequestMapping(value = "/menuConf", params = "user")
+	@RequestMapping(value = "/registUser")
 	public String registerInput(Model model, KK06002Form KK06002Form) {
 
 		// 取引先のマップを作成(ロケーション・ユニット両方で使用)
