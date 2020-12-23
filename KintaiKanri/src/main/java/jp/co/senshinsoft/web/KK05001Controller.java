@@ -16,14 +16,7 @@ import jp.co.senshinsoft.auth.GetLoginUserDetails;
 public class KK05001Controller {
 	private GetLoginUserDetails userInfo = new GetLoginUserDetails();
 
-	/**
-	 * @return パスワード変更画面フォーム
-	 */
-	@ModelAttribute("KK06001Form")
-	public KK06001Form changePasswordForm() {
-		return new KK06001Form();
-	}
-
+	
 	/**
 	 * メニュー画面を表示する 初回ログインとパスワード更新後180日経過していた場合はパスワード変更画面へ遷移
 	 * 
@@ -71,5 +64,9 @@ public class KK05001Controller {
 	public String passChange() {
 		return "redirect:/enterKK06001";
 	}
-
+	
+	@RequestMapping(value = "/menuConf", params = "user")
+	public String registUser() {
+		return "redirect:/registUser";
+	}
 }

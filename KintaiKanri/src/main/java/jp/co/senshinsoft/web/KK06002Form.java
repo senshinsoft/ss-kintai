@@ -1,13 +1,13 @@
 package jp.co.senshinsoft.web;
 
 import java.io.Serializable;
-
-import javax.validation.constraints.Size;
+import java.util.Map;
 
 public class KK06002Form implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	//ユーザー登録に必要な値
 	private String userId;
 	private String mailAddress;
 	private String password;
@@ -18,7 +18,27 @@ public class KK06002Form implements Serializable {
 	private String checkRepeat;
 	private String updateFlg;
 	private String searchEmpId;
+	
+	//初期表示に必要なMap
+	private Map<String,String> locationMap;
+	private Map<String,String> supplierMap;
+	private Map<String,String> userMap;
+	
+	//ロケーション情報
+	private String supplierCode;
+	private String locationCode;
+	private String teiji;
+	private String teijiDecimalNumber;
+	private String ssJkn;
+	private String tsJkn;
+	private String kkJkn;
+	
+	//ユニット情報
+	private String assignmentLocationUserId;
+	private String leaderUserId;
+	
 
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -102,4 +122,102 @@ public class KK06002Form implements Serializable {
 	public void setSearchEmpId(String searchEmpId) {
 		this.searchEmpId = searchEmpId;
 	}
+
+	public Map<String, String> getLocationMap() {
+		return locationMap;
+	}
+
+	public void setLocationMap(Map<String, String> locationMap) {
+		this.locationMap = locationMap;
+	}
+
+	public Map<String, String> getSupplierMap() {
+		return supplierMap;
+	}
+
+	public void setSupplierMap(Map<String, String> supplierMap) {
+		this.supplierMap = supplierMap;
+	}
+
+	public Map<String, String> getUserMap() {
+		return userMap;
+	}
+
+	public void setUserMap(Map<String, String> userMap) {
+		this.userMap = userMap;
+	}
+
+	public String getSupplierCode() {
+		return supplierCode;
+	}
+
+	public void setSupplierCode(String supplierCode) {
+		this.supplierCode = supplierCode;
+	}
+
+	public String getLocationCode() {
+		return locationCode;
+	}
+
+	public void setLocationCode(String locationCode) {
+		this.locationCode = locationCode;
+	}
+
+	public String getTeiji() {
+		return teiji;
+	}
+
+	public void setTeiji(String teiji) {
+		this.teiji = teiji;
+	}
+
+	public String getTeijiDecimalNumber() {
+		return teijiDecimalNumber;
+	}
+
+	public void setTeijiDecimalNumber(String teijiDecimalNumber) {
+		this.teijiDecimalNumber = teijiDecimalNumber;
+	}
+
+	public String getSsJkn() {
+		return ssJkn;
+	}
+
+	public void setSsJkn(String ssJkn) {
+		this.ssJkn = ssJkn;
+	}
+
+	public String getTsJkn() {
+		return tsJkn;
+	}
+
+	public void setTsJkn(String tsJkn) {
+		this.tsJkn = tsJkn;
+	}
+
+	public String getKkJkn() {
+		return kkJkn;
+	}
+
+	public void setKkJkn(String kkJkn) {
+		this.kkJkn = kkJkn;
+	}
+
+	public String getLeaderUserId() {
+		return leaderUserId;
+	}
+
+	public String getAssignmentLocationUserId() {
+		return assignmentLocationUserId;
+	}
+
+	public void setAssignmentLocationUserId(String assignmentLocationUserId) {
+		this.assignmentLocationUserId = assignmentLocationUserId;
+	}
+
+	public void setLeaderUserId(String leaderUserId) {
+		this.leaderUserId = leaderUserId;
+	}
+
+	
 }

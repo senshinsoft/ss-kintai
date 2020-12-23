@@ -3,14 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <head th:replace="common :: meta_header('ユーザー登録',~{::link},~{::script})">
+<script type="text/javascript" th:src="@{js/script.js}"></script>
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
 <body>
 	<div th:replace="common :: pageHeader"></div>
 	<div class="container">
-		<h3 class="mt-4 pb-3" style="width: 250px;">ユーザー登録</h3>
-
-
+		<p class="red mt-3">※は必須入力です</p>
 		<form th:action="@{/registerConf}" th:object="${KK06002Form}"
 			method="post">
 			<p th:text="${message}"></p>
@@ -18,6 +17,7 @@
 			<p th:errors="*{checkRepeat}" class="error-message">error!</p>
 			<p th:errors="*{password}" class="error-message">error！</p>
 			<p th:errors="*{mailAddress}" class="error-message">error！</p>
+		<h3 class="mt-4 pb-3" style="width: 250px;">ユーザー登録</h3>
 			<div
 				class="d-flex align-items-center justify-content-center mb-4 center">
 				<span>社員</span><input type="text" name="searchEmpId"
@@ -28,32 +28,32 @@
 			<div class="d-flex align-items-center justify-content-center">
 				<table>
 					<tr>
-						<td>社員番号</td>
+						<td>社員番号<span class="red">※</span></td>
 						<td><input type="text" th:value="*{userId}" name="userId"
 							maxlength="4" th:errorclass="error-input"
 							th:disabled="*{updateFlg}==1" class="ml-5"></td>
 					</tr>
 					<tr>
-						<td>メールアドレス</td>
+						<td>メールアドレス<span class="red">※</span></td>
 						<td><input type="email" th:value="*{mailAddress}"
 							name="mailAddress" maxlength="50" th:errorclass="error-input"
 							class="ml-5"></td>
 					</tr>
 					<tr>
-						<td>パスワード</td>
+						<td>パスワード<span class="red">※</span></td>
 						<td><input type="password" th:value="*{password}"
 							name="password" maxlength="20" th:errorclass="error-input"
 							th:disabled="*{updateFlg}==1" class="ml-5"></td>
 					</tr>
 					<tr>
-						<td>氏名</td>
+						<td>氏名<span class="red">※</span></td>
 						<td><input type="text" th:value="*{sei}" name="sei"
 							th:errorclass="error-input" maxlength="20" class="ml-5"></td>
 						<td><input type="text" th:value="*{mei}" name="mei"
 							th:errorclass="error-input" maxlength="20" class="ml-2"></td>
 					</tr>
 					<tr>
-						<td>権限</td>
+						<td>権限<span class="red">※</span></td>
 						<td><div th:each="item : ${radioItems}">
 								<custom-field-radio-list> <input
 									type="radio" name="adminFlg" th:value="${item.key}"
@@ -66,50 +66,58 @@
 			</div>
 			<br>
 			<!-- ロケーション情報 -->
-			<h3 class="mt-4 pb-3" style="width: 250px;">ロケーション情報</h3>
+			<h3 class="mt-4 pb-3" style="width: 250px;">サイト情報</h3>
 			<div class="d-flex align-items-center justify-content-center">
 				<table>
 					<tr>
-						<td>取引先</td>
-						<td><select name="supplier" class="ml-5">
-								<option>株式会社センシンソフト</option>
-								<option>株式会社CIJ</option>
-								<option>株式会社コスモ</option>
+						<td>取引先<span class="red">※</span></td>
+						<td><select th:field="*{supplierCode}" class="ml-5" id="supplierCode" name="supplierCode">
+								<option value=""></option>
+								<option th:each="supInfo: *{supplierMap}"
+									th:value="${supInfo.key}" th:text="${supInfo.value}"
+									th:selected="${supInfo.key == supplierCode}"></option>
 						</select></td>
 					</tr>
 					<tr>
-						<td>ロケーション</td>
-						<td><select name="location" class="ml-5">
-								<option>五反田</option>
-								<option>泉岳寺</option>
-								<option>新宿</option>
-								<option>川崎</option>
-						</select></td>
+						<td>ロケーション<span class="red">※</span></td>
+						<td>
+							 <div id="resultDiv">
+               					<div th:substituteby="select_Ajax::selectAjaxBody" th:fragment="selectAjax"></div>
+        					</div>
+        				</td>
 					</tr>
 					<tr>
-						<td>定時間(8:00形式)</td>
-						<td><input type="text" name="teiji" maxlength="4"
-							class="ml-5"></td>
+						<td>定時間(8:00形式)<span class="red">※</span></td>
+						<td><input type="text" th:value="*{teiji}" name="teiji"
+							class="ml-5" maxlength="4" onfocus="offColon(this);"
+							onblur="toColon(this);workTimeCalc()"
+							oninput="value = value.replace(/[^0-9]+/i,'');"></td>
 					</tr>
 					<tr>
-						<td>定時間(8.00形式)</td>
-						<td><input type="text" name="teijiDecimal" maxlength="4"
-							class="ml-5">
+						<td>定時間(8.00形式)<span class="red">※</span></td>
+						<td><input type="text" th:value="*{teijiDecimalNumber}"
+							name="teijiDecimalNumber" maxlength="4" class="ml-5">
 					</tr>
 					<tr>
-						<td>出社時間</td>
-						<td><input type="text" name="ssJkn" maxlength="4"
-							class="ml-5">
+						<td>出社時間<span class="red">※</span></td>
+						<td><input type="text" th:value="*{ssJkn}" name="ssJkn"
+							class="ml-5" maxlength="4" onfocus="offColon(this);"
+							onblur="toColon(this);workTimeCalc()"
+							oninput="value = value.replace(/[^0-9]+/i,'');">
 					</tr>
 					<tr>
-						<td>退社時間</td>
-						<td><input type="text" name="tsJkn" maxlength="4"
-							class="ml-5">
+						<td>退社時間<span class="red">※</span></td>
+						<td><input type="text" th:value="*{tsJkn}" name="tsJkn"
+							class="ml-5" maxlength="4" onfocus="offColon(this);"
+							onblur="toColon(this);workTimeCalc()"
+							oninput="value = value.replace(/[^0-9]+/i,'');">
 					</tr>
 					<tr>
-						<td>休憩時間</td>
-						<td><input type="text" name="kkJkn" maxlength="4"
-							class="ml-5">
+						<td>休憩時間<span class="red">※</span></td>
+						<td><input type="text" th:value="*{kkJkn}" name="kkJkn"
+							class="ml-5" maxlength="4" onfocus="offColon(this);"
+							onblur="toColon(this);workTimeCalc()"
+							oninput="value = value.replace(/[^0-9]+/i,'');">
 					</tr>
 				</table>
 			</div>
@@ -118,18 +126,21 @@
 				<table>
 					<tr>
 						<td>ユニット長</td>
-						<td><select name="supplier" class="ml-5">
-								<option>01：管理者A</option>
-								<option>02：管理者B</option>
-								<option>03：サブリーダーC</option>
+						<td><select th:field="*{leaderUserId}" class="ml-5">
+								<option value=""></option>
+								<option th:each="userInfo: *{userMap}"
+									th:value="${userInfo.key}" th:text="${userInfo.value}"
+									th:selected="${userInfo.key == leaderUserId}"></option>
 						</select></td>
 					</tr>
 					<tr>
 						<td>取引先</td>
-						<td><select name="supplier" class="ml-5">
-								<option>株式会社センシンソフト</option>
-								<option>株式会社CIJ</option>
-								<option>株式会社コスモ</option>
+						<td><select th:field="*{assignmentLocationUserId}"
+							class="ml-5">
+								<option value=""></option>
+								<option th:each="supInfo: *{supplierMap}"
+									th:value="${supInfo.key}" th:text="${supInfo.value}"
+									th:selected="${supInfo.key == assignmentLocationUserId}"></option>
 						</select></td>
 					</tr>
 				</table>
@@ -149,5 +160,26 @@
 		</form>
 	</div>
 	<div th:replace="common :: pageFooter"></div>
+	<script>
+$(function () {
+    $("#supplierCode").change(function() {
+        $.ajax({
+            type: "GET",
+            url: "select",
+            data: "supplierCode=" + $("#supplierCode").val(),
+            dataType : "html",
+            success : function(data,status,xhr) {
+                $("#resultDiv").html(data);
+         },
+       error : function(XMLHttpRequest, textStatus, errorThrown) {
+                 alert("error:" + XMLHttpRequest + "/" + textStatus + "/" + errorThrown);
+       }
+});
+});
+});
+
+</script>
 </body>
+<meta th:name="_csrf" th:content="${_csrf.token}"/>
+<meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
 </html>

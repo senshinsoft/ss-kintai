@@ -84,6 +84,7 @@ public class KK04001Controller {
 		// DBに勤務情報がない場合、日付のリストのみを作成しKK04001へ遷移する。
 		if (workDailyList.size() == 0) { // 勤務表の登録記録が0
 			onlyDailyList = new ArrayList<>();
+			calendar.set(Integer.parseInt(KK02001form.getYear()), Integer.parseInt(KK02001form.getMonth())-1,1);
 			// 該当月の最後の日付の取得
 			int last = calendar.getActualMaximum(Calendar.DATE);
 			// 該当月の最初の日付を取得
@@ -93,11 +94,10 @@ public class KK04001Controller {
 			do {
 				calendar.set(Calendar.DATE, first);
 				onlyDailyList.add((sdf.format(calendar.getTime()).substring(8, 12)));
-				KK04001Form.setYear(sdf.format(calendar.getTime()).substring(0, 4) + "年");
-				KK04001Form.setMonth(sdf.format(calendar.getTime()).substring(5, 7) + "月度");
 				first++;
 			} while (first <= last);
-			logger.info("参照する勤務表の日時：" + KK04001Form.getYear() + KK04001Form.getMonth());
+			KK04001Form.setYear(KK02001form.getYear() + "年");
+			KK04001Form.setMonth(KK02001form.getMonth() + "月度");
 			// 新規登録なので承認済みフラグを0(未承認)に設定する。
 			KK04001Form.setAuthFlg("0");
 			KK04001Form.setAdminFlg(userInfo.getLoginUser().getAdminFlg());
@@ -334,13 +334,13 @@ public class KK04001Controller {
 		logger.info(
 				"---------------------------------------------------------------------"+year+"年"+month+"月度の"+"月次勤務表登録・更新完了----------------------------------------------------------------------------------------------");
 		// redirectのパラメータ使用
-		return "forward:/reroadKK04001";
+		return "forward:/reloadKK04001";
 
 	}
 
 	// 管理者が確定ボタンを押した時の処理
 	@RequestMapping(value = "operateWorkReport", params = "admin-regist")
-	public String determin(KK04001Form KK04001Form, KK03001Form KK03001Form, Model model, SessionStatus sessionStatus) {
+	public String determine(KK04001Form KK04001Form, KK03001Form KK03001Form, Model model, SessionStatus sessionStatus) {
 		WorkReportMonthly workReportMonthly = new WorkReportMonthly();
 		// Formクラスの値をドメインクラスにコピー
 		BeanUtils.copyProperties(KK04001Form, workReportMonthly);
@@ -366,7 +366,7 @@ public class KK04001Controller {
 				"---------------------------------------------------------------------"+"作業者ID："+userInfo.getLoginUser().getUserId()+"-------------------------------------------------------------------------------------------");
 		logger.info(
 				"---------------------------------------------------------------------"+"作業対象者ID："+KK04001Form.getUseUserId()+"-------------------------------------------------------------------------------------------");
-		return "forward:/reroadKK04001";
+		return "forward:/reloadKK04001";
 	}
 
 	// 管理者が取消ボタンを押した時の処理
@@ -396,11 +396,8 @@ public class KK04001Controller {
 				"---------------------------------------------------------------------"+"作業者ID："+userInfo.getLoginUser().getUserId()+"-------------------------------------------------------------------------------------------");
 		logger.info(
 				"---------------------------------------------------------------------"+"作業対象者ID："+KK04001Form.getUseUserId()+"-------------------------------------------------------------------------------------------");
-		// KK04001の初期表示で使用するパラメータをフォームに入れてfowardする
-		KK03001Form.setEmployeeName(KK04001Form.getUserName());
-		KK03001Form.setYear(KK04001Form.getYear());
-		KK03001Form.setMonth(KK04001Form.getMonth());
-		return "forward:/reroadKK04001";
+
+		return "forward:/reloadKK04001";
 	}
 
 	@RequestMapping(value = "operateWorkReport", params = "back")

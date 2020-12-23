@@ -48,8 +48,8 @@ public class CommonController {
 	 * @param KK04001Form 勤務報告書画面から引き継いだ値（選択されている年月と選択されている社員の名前）
 	 * @return KK04001のパス
 	 */
-	@RequestMapping(value = "reroadKK04001")
-	public String reroadKK04001(KK04001Form KK04001Form, Model model) {
+	@RequestMapping(value = "reloadKK04001")
+	public String reloadKK04001(KK04001Form KK04001Form, Model model) {
 		 List<WorkReportDaily> workDailyList = new ArrayList<>();
 		String[] name = KK04001Form.getUserName().split(" ");
 		String userId = userService.findEmployeeUserId(name[0], name[1]);
@@ -97,6 +97,8 @@ public class CommonController {
 			KK04001Form.setAuthFlg(wrm.getAuthFlg());
 		}
 		model.addAttribute("userRole", userInfo.getLoginUser().getAdminFlg());
+		model.addAttribute("screenName", "勤務報告書");
+		model.addAttribute("userName",userInfo.getLoginUser().getSei()+" "+userInfo.getLoginUser().getMei() );
 		KK04001Form.setAdminFlg(userInfo.getLoginUser().getAdminFlg());
 		return "KK04001";
 	}

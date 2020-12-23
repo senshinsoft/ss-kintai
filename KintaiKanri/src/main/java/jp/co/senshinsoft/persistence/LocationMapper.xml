@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.co.senshinsoft.persistence.LocationMapper">
+<select id="findLocationInfo"
+		resultType="jp.co.senshinsoft.domain.Location">
+		SELECT
+			location_code
+			,location_name
+		FROM
+			location
+		WHERE
+			location_code=#{locationCode}
+		AND
+			location_deleted=0
+</select>
+</mapper>
