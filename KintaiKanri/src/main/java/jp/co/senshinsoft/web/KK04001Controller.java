@@ -250,12 +250,11 @@ public class KK04001Controller {
 					do {
 						calendar.set(Calendar.DATE, first);
 						onlyDailyList.add((sdf.format(calendar.getTime()).substring(8, 12)));
-						KK04001Form.setYear(sdf.format(calendar.getTime()).substring(0, 4) + "年");
-						KK04001Form.setMonth(sdf.format(calendar.getTime()).substring(5, 7) + "月度");
 						first++;
 					} while (first <= last);
+					KK04001Form.setYear(sdf.format(calendar.getTime()).substring(0, 4) + "年");
+					KK04001Form.setMonth(sdf.format(calendar.getTime()).substring(5, 7) + "月度");
 					model.addAttribute("onlyDailyList", onlyDailyList);
-					model.addAttribute("userRole", userInfo.getLoginUser().getAdminFlg());
 					model.addAttribute("workDailyList", workDailyList);
 
 					// 名前を再取得する
@@ -344,14 +343,8 @@ public class KK04001Controller {
 		WorkReportMonthly workReportMonthly = new WorkReportMonthly();
 		// Formクラスの値をドメインクラスにコピー
 		BeanUtils.copyProperties(KK04001Form, workReportMonthly);
-		// monthの値が「〜月度」となっているため漢字を除去する
-		String[] month = workReportMonthly.getMonth().split("月");
-		// 画面からキー項目のセットを行う
-		if (Integer.parseInt(month[0]) < 10) {
-			workReportMonthly.setMonth(month[0].substring(0, 1));
-		} else {
-			workReportMonthly.setMonth(month[0].substring(0, 2));
-		}
+		workReportMonthly.setYear(workReportMonthly.getYear().substring(0, 4));workReportMonthly.setYear(workReportMonthly.getYear());
+		workReportMonthly.setMonth(workReportMonthly.getMonth());
 		workReportMonthly.setAuthFlg("1");
 		workReportMonthly.setUserId(userInfo.getLoginUser().getUserId());
 		workReportMonthly.setInsUser(userInfo.getLoginUser().getUserId());
@@ -376,12 +369,8 @@ public class KK04001Controller {
 		// Formクラスの値をドメインクラスにコピー
 		BeanUtils.copyProperties(KK04001Form, workReportMonthly);
 		// 画面からキー項目のセットを行う
-		workReportMonthly.setYear(workReportMonthly.getYear().substring(0, 4));
-		if (Integer.parseInt(workReportMonthly.getMonth()) < 10) {
-			workReportMonthly.setMonth(workReportMonthly.getMonth().substring(0, 1));
-		} else {
-			workReportMonthly.setMonth(workReportMonthly.getMonth().substring(0, 2));
-		}
+		workReportMonthly.setYear(workReportMonthly.getYear());
+		workReportMonthly.setMonth(workReportMonthly.getMonth());
 		workReportMonthly.setAuthFlg("0");
 		workReportMonthly.setUserId(userInfo.getLoginUser().getUserId());
 		workReportMonthly.setInsUser(userInfo.getLoginUser().getUserId());
