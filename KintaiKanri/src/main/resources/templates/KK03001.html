@@ -8,6 +8,10 @@
 		<h1 class="mx-auto pt-4 mt-4 mb-4" style="width: 180px;">社員一覧</h1>
 		<div class="mx-auto position" style="width: 1200px;">
 			<form th:action="@{/inputWorkReport}" method="post" th:object="${KK03001Form}" class="mx-auto">
+				<div th:if="${#fields.hasErrors('all')}">
+					<p th:errors="*{userId}" class="error-message">error!</p>
+				</div>
+
 				<div class="columnsKK03001">
 					<ul th:each="employee : *{empInfoList}" class="KK03001List empList-size">
 						<li class="KK03001List empList-size"><input type="checkbox" th:value="${employee.userId}" class="box-top" name="userId">
