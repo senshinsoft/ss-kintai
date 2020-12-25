@@ -29,7 +29,7 @@ create table KintaiKanri.work_report_daily(
 	kk_jkn varchar(5) comment '休憩時間',
 	kd_jkn varchar(5) comment '稼働時間',
 	jkngi varchar(5) comment '時間外労働時間',
-	biko varchar(5) comment '備考',
+	biko varchar(50) comment '備考',
 	ins_user varchar(50) NOT NULL comment '作成者',
 	ins_date TIMESTAMP NOT NULL comment '作成日時',
 	upd_user varchar(50) NOT NULL comment '更新者',
@@ -61,7 +61,7 @@ create table KintaiKanri.supplier(
 	supplier_name varchar(50) NOT NULL comment '取引先名称',
 	begin_date varchar(8) NOT NULL comment '適用開始日',
 	end_date varchar(8) NOT NULL comment '適用終了日',
-	suppliers_deleted tinyint(1) NOT NULL comment '削除フラグ',
+	suppliers_deleted int NOT NULL comment '削除フラグ',
 	primary key(supplier_code)
 )comment '勤務表報告書_取引先マスタ';
 
@@ -71,7 +71,7 @@ create table KintaiKanri.location(
 	location_name varchar(50) NOT NULL comment 'ロケーション名称',
 	begin_date varchar(8) NOT NULL comment '適用開始日',
 	end_date varchar(8) NOT NULL comment '適用終了日',
-	location_deleted tinyint(1) NOT NULL comment '削除フラグ',
+	location_deleted int NOT NULL comment '削除フラグ',
 	primary key(location_code)
 )comment '勤務表報告書_ロケーションマスタ';
 
@@ -81,7 +81,7 @@ create table KintaiKanri.site(
 	location_code varchar(4) NOT NULL comment 'ロケーションコード',
 	begin_date varchar(8) NOT NULL comment '適用開始日',
 	end_date varchar(8) NOT NULL comment '適用終了日',
-	site_deleted tinyint(1) NOT NULL comment '削除フラグ',
+	site_deleted int NOT NULL comment '削除フラグ',
 	primary key(location_code,supplier_code)
 )comment '勤務表報告書_サイトマスタ';
 
@@ -103,6 +103,6 @@ create table KintaiKanri.unit_info(
 	leader_user_id varchar(4) NOT NULL comment 'ユニット長社員番号',
 	supplier_code varchar(8) NOT NULL comment '取引先コード',
 	member_user_id varchar(4) NOT NULL comment 'メンバー社員番号',
-	unit_deleted tinyint(1) NOT NULL comment '削除フラグ',
+	unit_deleted int NOT NULL comment '削除フラグ',
 	primary key(leader_user_id,supplier_code,member_user_id)
 )comment '勤務表報告書_ユニット情報';
