@@ -78,7 +78,22 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
+		<dependency>
+        	<groupId>org.apache.poi</groupId>
+        	<artifactId>poi-ooxml</artifactId>
+        	<version>4.1.2</version>
+        </dependency>
+		<dependency>
+        	<groupId>org.projectlombok</groupId>
+        	<artifactId>lombok</artifactId>
+        	<scope>provided</scope>
+        </dependency>
         <!-- 追記終了 -->
+        <dependency>
+        	<groupId>org.springframework.boot</groupId>
+        	<artifactId>spring-boot-configuration-processor</artifactId>
+        	<optional>true</optional>
+        </dependency>
 	</dependencies>
 
 	<build>

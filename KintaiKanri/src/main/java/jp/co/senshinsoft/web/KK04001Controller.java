@@ -1,5 +1,9 @@
 package jp.co.senshinsoft.web;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,10 +12,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,12 +30,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.co.senshinsoft.auth.GetLoginUserDetails;
 import jp.co.senshinsoft.domain.User;
 import jp.co.senshinsoft.domain.WorkReportDaily;
 import jp.co.senshinsoft.domain.WorkReportMonthly;
+import jp.co.senshinsoft.service.ExcelBuildService;
 import jp.co.senshinsoft.service.UserService;
 import jp.co.senshinsoft.service.WorkReportDailyService;
 import jp.co.senshinsoft.service.WorkReportMonthlyService;
@@ -39,6 +51,9 @@ public class KK04001Controller {
 	private WorkReportDailyService dailyService;
 	@Autowired
 	private WorkReportMonthlyService monthlyService;
+	@Autowired
+	private ExcelBuildService excelBuildService;
+	
 	private List<WorkReportDaily> workDailyList = new ArrayList<>();
 	private List<String> onlyDailyList = new ArrayList<>();
 	private GetLoginUserDetails userInfo = new GetLoginUserDetails();
@@ -415,5 +430,73 @@ public class KK04001Controller {
 					"---------------------------------------------------------------------KK02001(月別一覧画面)への遷移処理完了----------------------------------------------------------------------------------------------");
 			return "redirect:/monthlyList";
 		}
+	}
+
+	
+	/**
+	 * excel出力ボタン押下時実行
+	 * Excelファイル作成
+	 * 
+	 * @param KK04001Form
+	 * @return HttpEntity
+	 */
+	@RequestMapping(value = "operateWorkReport", params = "admin-export")
+	public HttpEntity downloadExcel(@Validated @ModelAttribute("KK04001Form") KK04001Form KK04001Form, BindingResult result, Model model, RedirectAttributes redirectAttribute) {
+		insertWorkDailyReport(KK04001Form, result, model, redirectAttribute);
+
+		String name[] = KK04001Form.getUserName().split(" ");
+
+		// 作成する勤務報告書Excelファイル名設定
+		String fileName = "SSI勤務報告書_" + KK04001Form.getYear() + KK04001Form.getMonth() + "_" + name[0] + name[1] + "_v102.xlsx";
+
+		return workbookToResponseEntity(fileName, excelBuildService.getExcel(KK04001Form, workDailyList));
+
+	}
+
+	
+	/**
+	 * HttpResponse 設定 (Excelファイルをダウンロードする設定)
+	 * 
+	 * @param fileName
+	 * @param wb
+	 * @return HttpResponse
+	 */
+	private ResponseEntity<byte[]> workbookToResponseEntity(String fileName, Workbook wb) {
+		String encodedFileName = null;
+		
+		try {
+			encodedFileName = URLEncoder.encode(fileName, "UTF-8");
+		} catch(UnsupportedEncodingException e) {
+			new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		
+		try {
+			wb.write(baos);
+
+			if(null != wb && null != baos) {
+				wb.close();
+				baos.close();
+			}
+		} catch(IOException e) {
+			new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		byte[] documentContent = baos.toByteArray();
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+		headers.set("Content-Disposition", "attachment; filename*=UTF-8''" + encodedFileName);
+		headers.setContentLength(documentContent.length);
+		
+		try{
+			wb.close();
+			baos.close();
+		} catch (IOException e) {
+			new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	
+		return new ResponseEntity<byte[]>(documentContent, headers, HttpStatus.OK);
+	
 	}
 }
