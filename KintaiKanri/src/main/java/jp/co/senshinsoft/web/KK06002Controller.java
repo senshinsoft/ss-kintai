@@ -184,11 +184,11 @@ public class KK06002Controller {
 		if (Integer.parseInt(finishWork[0]) > Integer.parseInt(startWork[0])) {
 			if (Integer.parseInt(finishWork[1]) < Integer.parseInt(startWork[1])) {
 				result.rejectValue("ssJkn", "errors.workTimeJkn");
-				result.rejectValue("tsJkn", "errors.workTimeJkn");
+				
 			}
 		} else {
 			result.rejectValue("ssJkn", "errors.workTimeJkn");
-			result.rejectValue("tsJkn", "errors.workTimeJkn");
+			
 		}
 
 		if (KK06002Form.getLeaderUserId().equals("") && KK06002Form.getAssignmentLocationUserId().equals("")
@@ -258,6 +258,24 @@ public class KK06002Controller {
 			model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
 			model.addAttribute("screenName", "ユーザー登録");
 			model.addAttribute("radioItems", getRadioItems());
+			// 取引先のマップを作成(ロケーション・ユニット両方で使用)
+			List<Supplier> supplierList = supplierService.supplierCatalog();
+
+			for (int i = 0; i < supplierList.size(); i++) {
+				supplierMap.put(supplierList.get(i).getSupplierCode(), supplierList.get(i).getSupplierName());
+			}
+
+			// ユニット情報の初期標示の処理
+			List<User> userList = userService.findEmployeeCatalog();
+
+			for (int i = 0; i < userList.size(); i++) {
+				userMap.put(userList.get(i).getUserId(),
+						userList.get(i).getUserId() + "：" + userList.get(i).getSei() + " " + userList.get(i).getMei());
+			}
+
+			KK06002Form.setLocationMap(locationMap);
+			KK06002Form.setSupplierMap(supplierMap);
+			KK06002Form.setUserMap(userMap);
 			return "KK06002";
 		}
 		List<User> empList = userService.findUser(id);
@@ -272,6 +290,24 @@ public class KK06002Controller {
 			model.addAttribute("screenName", "ユーザー登録");
 			model.addAttribute("radioItems", getRadioItems());
 			result.rejectValue("regist", "error.noEmployee");
+			// 取引先のマップを作成(ロケーション・ユニット両方で使用)
+			List<Supplier> supplierList = supplierService.supplierCatalog();
+
+			for (int i = 0; i < supplierList.size(); i++) {
+				supplierMap.put(supplierList.get(i).getSupplierCode(), supplierList.get(i).getSupplierName());
+			}
+
+			// ユニット情報の初期標示の処理
+			List<User> userList = userService.findEmployeeCatalog();
+
+			for (int i = 0; i < userList.size(); i++) {
+				userMap.put(userList.get(i).getUserId(),
+						userList.get(i).getUserId() + "：" + userList.get(i).getSei() + " " + userList.get(i).getMei());
+			}
+			// formとmodelに初期標示に必要な値をセットする
+			KK06002Form.setLocationMap(locationMap);
+			KK06002Form.setSupplierMap(supplierMap);
+			KK06002Form.setUserMap(userMap);
 			return "KK06002";
 		}
 
@@ -304,23 +340,23 @@ public class KK06002Controller {
 		}
 
 		// 取引先のマップを作成(ロケーション・ユニット両方で使用)
-		List<Supplier> supplierList = supplierService.supplierCatalog();
+					List<Supplier> supplierList = supplierService.supplierCatalog();
 
-		for (int i = 0; i < supplierList.size(); i++) {
-			supplierMap.put(supplierList.get(i).getSupplierCode(), supplierList.get(i).getSupplierName());
-		}
+					for (int i = 0; i < supplierList.size(); i++) {
+						supplierMap.put(supplierList.get(i).getSupplierCode(), supplierList.get(i).getSupplierName());
+					}
 
-		// ユニット情報の初期標示の処理
-		List<User> userList = userService.findEmployeeCatalog();
+					// ユニット情報の初期標示の処理
+					List<User> userList = userService.findEmployeeCatalog();
 
-		for (int i = 0; i < userList.size(); i++) {
-			userMap.put(userList.get(i).getUserId(),
-					userList.get(i).getUserId() + "：" + userList.get(i).getSei() + " " + userList.get(i).getMei());
-		}
-
-		KK06002Form.setLocationMap(locationMap);
-		KK06002Form.setSupplierMap(supplierMap);
-		KK06002Form.setUserMap(userMap);
+					for (int i = 0; i < userList.size(); i++) {
+						userMap.put(userList.get(i).getUserId(),
+								userList.get(i).getUserId() + "：" + userList.get(i).getSei() + " " + userList.get(i).getMei());
+					}
+					// formとmodelに初期標示に必要な値をセットする
+					KK06002Form.setLocationMap(locationMap);
+					KK06002Form.setSupplierMap(supplierMap);
+					KK06002Form.setUserMap(userMap);
 		model.addAttribute("userName", userInfo.getLoginUser().getSei() + " " + userInfo.getLoginUser().getMei());
 		model.addAttribute("screenName", "ユーザー登録");
 		model.addAttribute("radioItems", getRadioItems());
@@ -358,6 +394,16 @@ public class KK06002Controller {
 				}
 			}
 		}
+		String[] startWork = KK06002Form.getSsJkn().split(":");
+		String[] finishWork = KK06002Form.getTsJkn().split(":");
+		if (Integer.parseInt(finishWork[0]) > Integer.parseInt(startWork[0])) {
+			if (Integer.parseInt(finishWork[1]) < Integer.parseInt(startWork[1])) {
+				result.rejectValue("ssJkn", "errors.workTimeJkn");
+			}
+		} else {
+			result.rejectValue("ssJkn", "errors.workTimeJkn");
+		}
+		
 		if (KK06002Form.getSupplierCode().equals("") || KK06002Form.getLocationCode().equals("")
 				|| KK06002Form.getTeiji().equals("") || KK06002Form.getTeijiDecimalNumber().equals("")
 				|| KK06002Form.getSsJkn().equals("") || KK06002Form.getTsJkn().equals("")
