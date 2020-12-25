@@ -18,6 +18,11 @@ import jp.co.senshinsoft.auth.GetLoginUserDetails;
 public class KK02001Controller {
 	private GetLoginUserDetails userInfo = new GetLoginUserDetails();
 
+	/**
+	 * 月別一覧画面で使用するフォームを返す
+	 * 
+	 * @return 月別一覧画面フォーム
+	 */
 	@ModelAttribute("KK02001Form")
 	public KK02001Form setForm() {
 		return new KK02001Form();
@@ -46,6 +51,11 @@ public class KK02001Controller {
 		return "KK02001";
 	}
 
+	/**
+	 * メニュー画面へ遷移する
+	 * 
+	 * @return 遷移先画面パス（メニュー画面）
+	 */
 	@RequestMapping(value = "/menu", params = "back")
 	public String backMenu() {
 		return "redirect:/menu";

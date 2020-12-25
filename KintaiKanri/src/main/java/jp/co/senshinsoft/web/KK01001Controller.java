@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class KK01001Controller {
 	
 	/**
+	 * ログイン画面で使用するフォームを返す
+	 * 
 	 * @return ログイン画面フォーム
 	 */
 	@ModelAttribute("KK01001Form")
@@ -24,6 +26,8 @@ public class KK01001Controller {
 	}
 
 	/**
+	 * ログイン画面のパスを返す
+	 * 
 	 * @return ログイン画面パス
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -32,15 +36,12 @@ public class KK01001Controller {
 	}
 
 	/**
-	 * @param form
-	 * @param result
+	 * メニュー画面へ遷移する
+	 * 
 	 * @return 遷移先画面パス（メニュー画面）
 	 */
 	@RequestMapping(value = "/loginConf", method = RequestMethod.POST)
-	public String loginConf(@Validated @ModelAttribute("KK01001Form") KK01001Form form, BindingResult result, Model model) {
-		if(result.hasErrors()) {
-			return "KK01001";
-		}
+	public String loginConf() {
 		return "redirect:/menu";
 	}
 	
