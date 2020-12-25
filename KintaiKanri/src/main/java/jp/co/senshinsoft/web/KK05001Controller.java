@@ -55,16 +55,28 @@ public class KK05001Controller {
 		return "KK06001";
 	}
 
+	/**
+	 * 月別一覧画面へリダイレクトする
+	 * @return
+	 */
 	@RequestMapping(value = "/menuConf", params = "monthlyList")
 	public String inputWorkReport() {
 		return "redirect:/monthlyList";
 	}
 
+	/**
+	 * パスワード変更画面へリダイレクトする
+	 * @return
+	 */
 	@RequestMapping(value = "/menuConf", params = "pass")
 	public String passChange() {
 		return "redirect:/enterKK06001";
 	}
 	
+	/**
+	 * ユーザー登録画面へリダイレクトする
+	 * @return
+	 */
 	@RequestMapping(value = "/menuConf", params = "user")
 	public String registUser() {
 		return "redirect:/registUser";

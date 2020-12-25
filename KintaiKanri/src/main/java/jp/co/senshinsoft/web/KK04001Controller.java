@@ -67,7 +67,15 @@ public class KK04001Controller {
 	public KK04001Form workReportForm() {
 		return new KK04001Form();
 	}
-
+	
+	/**
+	 * 勤務報告書画面(KK04001)の初期表示を行う
+	 * @param KK04001Form
+	 * @param model
+	 * @param KK02001form
+	 * @param KK03001Form
+	 * @return
+	 */
 	@RequestMapping(value = "inputWorkReport")
 	public String enterKK04001(KK04001Form KK04001Form, Model model, KK02001Form KK02001form, KK03001Form KK03001Form) {
 		logger.info(
@@ -167,6 +175,14 @@ public class KK04001Controller {
 		return "KK04001";
 	}
 
+	/**
+	 * 勤務報告書の登録を行う
+	 * @param KK04001Form
+	 * @param result
+	 * @param model
+	 * @param redirectAttribute
+	 * @return
+	 */
 	@RequestMapping(value = "operateWorkReport", params = "registRecord")
 	public String insertWorkDailyReport(@Validated @ModelAttribute("KK04001Form") KK04001Form KK04001Form,
 			BindingResult result, Model model, RedirectAttributes redirectAttribute) {
@@ -352,7 +368,14 @@ public class KK04001Controller {
 
 	}
 
-	// 管理者が確定ボタンを押した時の処理
+	/**
+	 * 勤務報告書の内容を確定する
+	 * @param KK04001Form
+	 * @param KK03001Form
+	 * @param model
+	 * @param sessionStatus
+	 * @return
+	 */
 	@RequestMapping(value = "operateWorkReport", params = "admin-regist")
 	public String determine(KK04001Form KK04001Form, KK03001Form KK03001Form, Model model, SessionStatus sessionStatus) {
 		WorkReportMonthly workReportMonthly = new WorkReportMonthly();
@@ -377,7 +400,14 @@ public class KK04001Controller {
 		return "forward:/reloadKK04001";
 	}
 
-	// 管理者が取消ボタンを押した時の処理
+	/**
+	 * 管理者が取消ボタンを押した時の処理
+	 * @param KK04001Form
+	 * @param KK03001Form
+	 * @param model
+	 * @param sessionStatus
+	 * @return
+	 */
 	@RequestMapping(value = "operateWorkReport", params = "admin-edit")
 	public String edit(KK04001Form KK04001Form, KK03001Form KK03001Form, Model model, SessionStatus sessionStatus) {
 		WorkReportMonthly workReportMonthly = new WorkReportMonthly();
@@ -404,6 +434,14 @@ public class KK04001Controller {
 		return "forward:/reloadKK04001";
 	}
 
+	/**
+	 * 月別一覧画面へ戻る
+	 * @param KK04001Form
+	 * @param model
+	 * @param sessionStatus
+	 * @param KK03001Form
+	 * @return
+	 */
 	@RequestMapping(value = "operateWorkReport", params = "back")
 	public String getoutFromKK04001(KK04001Form KK04001Form, Model model, SessionStatus sessionStatus,
 			KK03001Form KK03001Form) {

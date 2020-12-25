@@ -43,6 +43,7 @@ public class UserService {
 		return user;
 	}
 	/**
+	 * 全てのユーザーの姓と名をリストで取得する
 	 * mapperを呼び出して、社員一覧を取得する。
 	 * @return
 	 */
@@ -89,14 +90,27 @@ public class UserService {
 		mapper.registeringUser(user);
 	}
 	
+	/**
+	 * 指定したユーザーのユーザー情報を取得する
+	 * @param userId
+	 * @return
+	 */
 	public List<User> findUser(String userId){
 		return mapper.findUser(userId);
 	}
 	
+	/**
+	 * 指定したユーザーのユーザー情報の更新を行う
+	 * @param user
+	 */
 	public void updateUser(User user) {
 		mapper.updateUser(user);
 	}
 	
+	/**
+	 * ユーザーテーブルのメールアドレスを取得する
+	 * @return
+	 */
 	public List<String> findMailAddress() {
 		return mapper.findMailAddress();
 	}

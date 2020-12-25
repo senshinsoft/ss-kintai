@@ -29,14 +29,20 @@ public class WorkReportDailyService {
 
 	/**
 	 * 勤務日次情報の登録を行う
+	 * 
 	 * @param workReportDaily
 	 */
 	@Transactional
-	public void registWorkReportDaily(WorkReportDaily workReportDaily) {	
-				mapper.registWorkReportDaily(workReportDaily);
-		}
-	
+	public void registWorkReportDaily(WorkReportDaily workReportDaily) {
+		mapper.registWorkReportDaily(workReportDaily);
+	}
+
+	/**
+	 * 勤務日次情報の更新を行う
+	 * 
+	 * @param workReportDaily
+	 */
 	public void updateWorkReportDaily(WorkReportDaily workReportDaily) {
 		mapper.updateWorkReportDaily(workReportDaily);
 	}
-	}
+}

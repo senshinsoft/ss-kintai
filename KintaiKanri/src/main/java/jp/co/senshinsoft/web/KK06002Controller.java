@@ -230,6 +230,10 @@ public class KK06002Controller {
 
 	}
 
+	/**
+	 * メニュー画面へリダイレクトする
+	 * @return
+	 */
 	@RequestMapping(value = "/registerConf", method = RequestMethod.POST, params = "back")
 	public String getoutFromKK06002() {
 		return "redirect:/menu";
@@ -361,6 +365,14 @@ public class KK06002Controller {
 		return "KK06002";
 	}
 
+	/**
+	 * ユーザー情報の更新を行う
+	 * @param KK06002Form
+	 * @param result
+	 * @param model
+	 * @param attributes
+	 * @return
+	 */
 	@RequestMapping(value = "/registerConf", method = RequestMethod.POST, params = "update")
 	public String updateUser(@Validated KK06002Form KK06002Form, BindingResult result, Model model,
 			RedirectAttributes attributes) {
@@ -446,11 +458,23 @@ public class KK06002Controller {
 		return "redirect:/menuConf?user=user";
 	}
 
+	/**
+	 * 検索した内容をクリアして初期表示を行う
+	 * @param KK06002Form
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/registerConf", method = RequestMethod.POST, params = "clear")
 	public String clearKK06002(KK06002Form KK06002Form, Model model) {
 		return "redirect:/menuConf?user=user";
 	}
 
+	/**
+	 * supplierCodeからlocationCodeを取得し、取引先に該当するロケーションを取得する(非同期通信時に使用)
+	 * @param KK06002Form
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/select", method = RequestMethod.GET)
 	public String getSelectData(KK06002Form KK06002Form, ModelMap model) {
 		locationMap.clear();

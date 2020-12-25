@@ -13,6 +13,11 @@ public class SiteService {
 	@Autowired
 	SiteMapper mapper;
 	
+	/**
+	 * 取引先に該当するロケーションコードを取得する
+	 * @param supplierCode
+	 * @return
+	 */
 	public List<String> findLocatist(String supplierCode){
 		return mapper.findLocationList(supplierCode);
 	}

@@ -42,7 +42,7 @@ public class KK06001Controller {
 	}
 	
 	/**
-	 * パスワード更新処理
+	 * パスワード更新処理を行う
 	 */
 	@RequestMapping(value = "/updatePassword", params = "update")
 	public String updateChangePassword(Model model, KK06001Form form, BindingResult result) {
@@ -96,6 +96,10 @@ public class KK06001Controller {
 		return "redirect:/enterKK06001";
 	}
 	
+	/**
+	 * メニュー画面へリダイレクトする
+	 * @return
+	 */
 	@RequestMapping(value = "/updatePassword",  params = "back")
 	public String getoutFromKK06001() {
 		return "redirect:/menu";
