@@ -1,14 +1,7 @@
 package jp.co.senshinsoft.service;
 
-import java.io.ByteArrayOutputStream;
-import java.util.List;
-
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-
-import jp.co.senshinsoft.domain.User;
-import jp.co.senshinsoft.domain.WorkReportDaily;
-import jp.co.senshinsoft.domain.WorkReportMonthly;
 
 public interface CreateZipService {
 

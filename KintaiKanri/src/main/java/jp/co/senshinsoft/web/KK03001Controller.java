@@ -15,24 +15,32 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.co.senshinsoft.auth.GetLoginUserDetails;
 import jp.co.senshinsoft.domain.User;
+import jp.co.senshinsoft.domain.WorkReportDaily;
 import jp.co.senshinsoft.service.CreateZipServiceImpl;
 import jp.co.senshinsoft.service.UserService;
+import jp.co.senshinsoft.service.WorkReportDailyService;
 
 @Controller
 public class KK03001Controller {
 	@Autowired
 	private UserService userService;
 	@Autowired
+	private WorkReportDailyService workReportDailyService;
+	@Autowired
 	private CreateZipServiceImpl createZipService;
 
 	private GetLoginUserDetails userInfo = new GetLoginUserDetails();
 
-	@ModelAttribute(value = "KK03001Form")
+	/**
+	 * 月別一覧画面で使用するフォームを返す
+	 * 
+	 * @return 月別一覧画面フォーム
+	 */
+@ModelAttribute(value = "KK03001Form")
 	public KK03001Form empForm() {
 		return new KK03001Form();
 	}
@@ -74,17 +82,34 @@ public class KK03001Controller {
 	 * @return HttpEntity
 	 */
 	@RequestMapping(value = "/inputWorkReport", params = "admin-export")
-	public HttpEntity downloadZip(KK03001Form KK03001form, KK02001Form KK02001form, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+	public HttpEntity downloadZip(KK03001Form KK03001form, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
 
 		String loginUserName = userInfo.getLoginUser().getSei() + "_" + userInfo.getLoginUser().getMei();
 
-		// 未完成
-		// 自画面遷移してエラーメッセージを出したい
+		// 未完成  自画面遷移してエラーメッセージを出したい
+		// チェックボックス未選択の場合
 		if (StringUtils.isEmpty(KK03001form.getUserId())) {
-//			result.rejectValue("userId", "errors.unselected");
-			redirectAttributes.addAttribute("userId", "errors.unselected");
-//			return "KK03001/employeeList";
+			result.rejectValue("userId", "errors.unselected");
+//			redirectAttributes.addAttribute("userId", "errors.unselected");
 
+		// 選択した社員の勤務報告書が存在しない場合
+		} else {
+			String[] empId = KK03001form.getUserId().split(",");
+			List<WorkReportDaily> wrdList;
+
+			for(String id : empId) {
+				wrdList = workReportDailyService.findEmployeeWorkRecordDaily(id, KK03001form.getYear(), KK03001form.getMonth());
+
+				if (wrdList.size() == 0) {
+					result.rejectValue("userId", "errors.uncreated");
+//					redirectAttributes.addAttribute("userId", "errors.uncreated");
+					break;
+				}
+			}
+			
+		}
+
+		if (result.hasErrors()) {
 			try {
 				URI location = new URI("redirect:http://localhost:8080/employeeList");
 				HttpHeaders headers = new HttpHeaders();
@@ -92,7 +117,7 @@ public class KK03001Controller {
 
 				return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
 
-			} catch (URISyntaxException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
